@@ -13,7 +13,7 @@ from app.extractors.ocr.ocr_processor import ocr_image, detect_promo_keywords
 from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.config.constants import PROMO_KEYWORDS, DATA_DIR
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback, get_google_reviews_for_competitor
 
 logger = setup_logger(__name__, "trail_scraper.log")
 
@@ -99,6 +99,9 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
     if not promo_links:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
+
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
 
     all_promos = []
     seen_image_urls = set()
@@ -293,7 +296,7 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
             # Step 11: Build structured promo dict
             if cleaned_data:
                 service_name = cleaned_data.get("service_name", "tires")
-                promo_description = cleaned_data.get("promo_description", ocr_text[:500])
+                promo_description = cleaned_data.get("promo_description", ocr_text[:500]) or f"{service_name} promotion"  # Ensure never empty
                 category = cleaned_data.get("category", "tires")
                 offer_details = cleaned_data.get("offer_details")
                 if not offer_details:
@@ -310,10 +313,10 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
                     if offer_parts:
                         offer_details = ". ".join(offer_parts) + ". " + ocr_text[:500]
                     else:
-                        offer_details = ocr_text[:1000]
+                        offer_details = ocr_text[:1000] or f"{service_name} rebate details"  # Ensure never empty
             else:
                 service_name = "tires"
-                promo_description = ocr_text[:500]
+                promo_description = ocr_text[:500] or f"{service_name} promotion"  # Ensure never empty
                 category = "tires"
                 offer_parts = []
                 discount_val = extracted_details.get("discount_value")
@@ -328,7 +331,10 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
                 if offer_parts:
                     offer_details = ". ".join(offer_parts) + ". " + ocr_text[:500]
                 else:
-                    offer_details = ocr_text[:1000]
+                    offer_details = ocr_text[:1000] or f"{service_name} rebate details"  # Ensure never empty
+
+            # Ensure ad_text is never empty (required field)
+            ad_text_final = alt_text[:200] if alt_text and len(alt_text.strip()) > 0 else (ocr_text[:200] if ocr_text and len(ocr_text.strip()) > 0 else f"{service_name} promotion")
 
             # Load existing promos for comparison
             output_file = PROMOTIONS_DIR / f"{competitor.get('name', 'trail').lower().replace(' ', '_')}.json"
@@ -345,13 +351,13 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
                 category=category,
                 offer_details=offer_details,
                 ad_title=promotion_title,
-                ad_text=alt_text[:200],
-                google_reviews=None,
+                ad_text=ad_text_final,
+                google_reviews=google_reviews,
                 existing_promo=existing_promo
             )
 
             all_promos.append(promo)
-            logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+            logger.info(f"[OK] Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
 
     logger.info(f"Total unique promotions found: {len(all_promos)}")
     return all_promos

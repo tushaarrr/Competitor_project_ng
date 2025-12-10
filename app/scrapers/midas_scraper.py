@@ -10,7 +10,6 @@ from app.extractors.firecrawl.firecrawl_client import fetch_with_firecrawl
 from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.config.constants import DATA_DIR, PROMO_KEYWORDS
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback
 
 logger = setup_logger(__name__, "midas_scraper.log")
 
@@ -21,6 +20,20 @@ PROMOTIONS_DIR.mkdir(parents=True, exist_ok=True)
 
 def fetch_with_fallback(url: str) -> str:
     """Fetch HTML using Firecrawl (Markdown + HTML mode), fallback to ZenRows/ScraperAPI."""
+    # For rebates page, prefer ZenRows with JS rendering as it may have dynamic content
+    if "rebates" in url.lower():
+        try:
+            from app.config.constants import ZENROWS_API_KEY
+            if ZENROWS_API_KEY:
+                import requests
+                zenrows_url = f"https://api.zenrows.com/v1/?apikey={ZENROWS_API_KEY}&url={url}&js_render=true&wait=3000&premium_proxy=true"
+                response = requests.get(zenrows_url, timeout=45)
+                response.raise_for_status()
+                logger.info("Successfully fetched rebates page with ZenRows (JS rendering)")
+                return response.text
+        except Exception as e:
+            logger.warning(f"ZenRows with JS failed, trying Firecrawl: {e}")
+
     # Try Firecrawl first - request both HTML and Markdown
     firecrawl_result = fetch_with_firecrawl(url, timeout=90)
 
@@ -60,8 +73,8 @@ def fetch_with_fallback(url: str) -> str:
     return ""
 
 
-def extract_promo_blocks(html: str) -> List[Dict]:
-    """Extract promotional text blocks from HTML based on keywords."""
+def extract_promo_blocks(html: str, url: str = "") -> List[Dict]:
+    """Extract promotional text blocks from HTML - Canada rebates only."""
     from bs4 import BeautifulSoup
 
     soup = BeautifulSoup(html, "html.parser")
@@ -73,273 +86,301 @@ def extract_promo_blocks(html: str) -> List[Dict]:
     promo_blocks = []
     seen_texts = set()
 
-    # Expanded keywords to identify promo blocks
-    promo_keywords = [
-        "offer", "save", "discount", "special", "deal", "promotion", "% off", "$",
-        "rebate", "coupon", "limited", "sale", "financing", "credit",
-        "free", "get", "buy", "oil change", "tire", "brake", "rotation",
-        "synthetic", "euro", "lifetime", "warranty", "guarantee",
-        "monthly", "featured", "includes", "expires", "valid"
-    ]
+    # For rebates page, focus on actual rebate offer cards/sections only
+    if "rebates" in url.lower() and "country=ca" in url.lower():
+        logger.info("Extracting Canada rebates from rebates page...")
 
-    # Expanded selectors for promo content - more comprehensive
-    promo_selectors = [
-        # Standard promo selectors
-        "div[class*='promo']",
-        "div[class*='offer']",
-        "div[class*='special']",
-        "div[class*='deal']",
-        "div[class*='rebate']",
-        "div[class*='coupon']",
-        "div[class*='discount']",
-        "section[class*='promo']",
-        "section[class*='offer']",
-        "article[class*='promo']",
-        ".card[class*='promo']",
-        ".offer-box",
-        ".promotion-box",
-        "[class*='rebate']",
-        # Archive/featured sections
-        "[class*='featured']",
-        "[class*='monthly']",
-        "[class*='archive']",
-        # Price-related sections
-        "[class*='price']",
-        "[class*='pricing']",
-        "[class*='cost']",
-        # Service-related sections
-        "[id*='oil']",
-        "[id*='tire']",
-        "[id*='brake']",
-        "[class*='oil']",
-        "[class*='tire']",
-        "[class*='brake']",
-    ]
+        # Method 0: Look for all divs/sections with rebate-related classes or data attributes
+        rebate_containers = soup.find_all(['div', 'section', 'article'],
+                                         class_=re.compile(r'rebate|offer|promo|deal|special', re.IGNORECASE))
+        for container in rebate_containers:
+            text = container.get_text(separator=" ", strip=True)
+            if text and len(text) > 40:
+                # Check for rebate indicators
+                has_amount = bool(re.search(r'\$\d+', text))
+                has_rebate_keyword = bool(re.search(r'rebate|back|save|off|discount', text, re.IGNORECASE))
+                mentions_usa = bool(re.search(r'\bUSA\b(?!.*Canada)|\bUnited States\b(?!.*Canada)', text, re.IGNORECASE))
+                generic_keywords = ["partners with suppliers", "best products at the best value", "filter by country"]
+                is_generic = any(keyword in text.lower() for keyword in generic_keywords)
 
-    # First, try to find elements with promo-related classes
-    for selector in promo_selectors:
-        try:
-            elements = soup.select(selector)
-            for elem in elements:
-                text = elem.get_text(separator=" ", strip=True)
-                if text and len(text) > 30:
-                    # Check if text contains promo keywords
-                    text_lower = text.lower()
-                    if any(keyword.lower() in text_lower for keyword in promo_keywords):
-                        text_hash = hash(text[:200])
+                if (has_amount or has_rebate_keyword) and not mentions_usa and not is_generic:
+                    if 40 < len(text) < 2000:
+                        text_hash = hash(text[:400])
                         if text_hash not in seen_texts:
                             seen_texts.add(text_hash)
                             promo_blocks.append({
                                 "text": text,
-                                "html": str(elem),
-                                "selector": selector
+                                "html": str(container)[:2000],
+                                "selector": "rebate-container-class"
                             })
-                            logger.info(f"Found promo block with selector {selector}: {len(text)} chars")
-        except Exception as e:
-            logger.warning(f"Error with selector {selector}: {e}")
-            continue
+                            logger.info(f"Found rebate via container class: {text[:80]}... ({len(text)} chars)")
 
-    # Also check headings that might contain promo info
-    for heading in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
-        text = heading.get_text(strip=True)
-        if text:
-            text_lower = text.lower()
-            if any(keyword.lower() in text_lower for keyword in promo_keywords):
-                # Get surrounding content (sibling or parent content)
-                parent = heading.find_parent()
-                if parent:
-                    # Get text from parent container
-                    parent_text = parent.get_text(separator=" ", strip=True)
-                    if len(parent_text) > 50:  # Ensure meaningful content
-                        text_hash = hash(parent_text[:200])
+        # Method 1: Search full page text for rebate patterns (more reliable for JS-rendered content)
+        full_text = soup.get_text(separator="\n")
+        lines = [line.strip() for line in full_text.split("\n") if line.strip()]
+
+        rebate_blocks = []
+        current_block = []
+
+        for line in lines:
+            # More flexible patterns - any $ amount with rebate keywords or brand names
+            if re.search(r'\$\d+.*?(?:Back|Rebate|Off|Save)|Get.*?\$\d+|Save.*?\$\d+|Rebate.*?\$\d+|Bridgestone|Firestone|Michelin|Goodyear|Continental|Pirelli|BFGoodrich|Toyo|Nitto|Hankook|Falken|Kumho|Yokohama|Dunlop|General|Cooper|Uniroyal', line, re.IGNORECASE):
+                current_block.append(line)
+            elif current_block:
+                # Check if we have a valid rebate block
+                block_text = " ".join(current_block)
+                if re.search(r'\$\d+', block_text) and len(block_text) > 30:  # Lowered threshold
+                    rebate_blocks.append(block_text)
+                current_block = []
+
+        # Also check for standalone rebate lines (more flexible patterns)
+        for line in lines:
+            # Any line with $ amount and rebate keywords
+            if re.search(r'\$\d+.*?(?:Back|Rebate|Off|Save|Purchase)', line, re.IGNORECASE):
+                if 30 < len(line) < 500:  # Lowered minimum length
+                    rebate_blocks.append(line)
+
+        for block_text in rebate_blocks:
+            # Verify it's Canada-relevant (exclude USA-only)
+            mentions_usa = bool(re.search(r'\bUSA\b(?!.*Canada)|\bUnited States\b(?!.*Canada)', block_text, re.IGNORECASE))
+            # Filter out generic marketing text
+            generic_keywords = [
+                "partners with suppliers", "best products at the best value",
+                "bring the best products", "best value to you", "filter by country"
+            ]
+            is_generic = any(keyword in block_text.lower() for keyword in generic_keywords)
+
+            if not mentions_usa and not is_generic:
+                text_hash = hash(block_text[:400])
+                if text_hash not in seen_texts:
+                    seen_texts.add(text_hash)
+                    promo_blocks.append({
+                        "text": block_text,
+                        "html": "",
+                        "selector": "rebate-text-search"
+                    })
+                    logger.info(f"Found rebate via text search: {block_text[:80]}... ({len(block_text)} chars)")
+
+        # Method 2: Look for rebate cards/containers by class/id attributes
+        rebate_selectors = [
+            '[class*="rebate"]',
+            '[class*="offer"]',
+            '[class*="promo"]',
+            '[id*="rebate"]',
+            '[id*="offer"]',
+            'div[data-rebate]',
+            'section[class*="rebate"]',
+            'article[class*="rebate"]'
+        ]
+
+        for selector in rebate_selectors:
+            try:
+                elements = soup.select(selector)
+                for elem in elements:
+                    text = elem.get_text(separator=" ", strip=True)
+                    if text and len(text) > 50:
+                        # Check if it contains rebate indicators
+                        has_rebate_amount = bool(re.search(r'\$\d+|Get.*?\$\d+.*?Back|up.*?to.*?\$\d+', text, re.IGNORECASE))
+                        has_brand = bool(re.search(r'Bridgestone|Firestone|Michelin|Goodyear|Continental|Pirelli|BFGoodrich|Toyo|Nitto|Hankook|Falken|Kumho|Yokohama|Dunlop|General|Cooper|Uniroyal', text, re.IGNORECASE))
+                        mentions_usa = bool(re.search(r'\bUSA\b(?!.*Canada)|\bUnited States\b(?!.*Canada)', text, re.IGNORECASE))
+
+                        # Filter out generic marketing text
+                        generic_keywords = [
+                            "partners with suppliers", "best products at the best value",
+                            "bring the best products", "best value to you"
+                        ]
+                        is_generic = any(keyword in text.lower() for keyword in generic_keywords)
+
+                        if (has_rebate_amount or has_brand) and not mentions_usa and not is_generic:
+                            if 50 < len(text) < 2000:
+                                text_hash = hash(text[:400])
+                                if text_hash not in seen_texts:
+                                    seen_texts.add(text_hash)
+                                    promo_blocks.append({
+                                        "text": text,
+                                        "html": str(elem)[:2000],
+                                        "selector": f"rebate-container-{selector}"
+                                    })
+                                    logger.info(f"Found rebate via container: {text[:80]}... ({len(text)} chars)")
+            except Exception as e:
+                logger.debug(f"Error with selector {selector}: {e}")
+                continue
+
+        # Method 2b: Look for text nodes containing rebate patterns (less restrictive)
+        all_text_nodes = soup.find_all(string=True)
+        rebate_text_nodes = []
+
+        for text_node in all_text_nodes:
+            text = text_node.strip()
+            # More flexible patterns - any mention of $ amount with rebate keywords
+            if re.search(r'\$\d+.*?(?:Back|Rebate|Off|Save)|Get.*?\$\d+|Save.*?\$\d+|Rebate.*?\$\d+', text, re.IGNORECASE):
+                if len(text) > 15 and len(text) < 500:  # Reasonable length for rebate text
+                    rebate_text_nodes.append(text_node)
+
+        # For each rebate text found, get its parent container
+        for text_node in rebate_text_nodes:
+            parent = text_node.find_parent()
+            if parent:
+                # Traverse up to find the rebate card/section container
+                container = parent
+                for _ in range(5):  # Check up to 5 levels up
+                    if container:
+                        classes = ' '.join(container.get('class', [])) if container.get('class') else ''
+                        # Check if this looks like a rebate card
+                        if any(word in classes.lower() for word in ['rebate', 'offer', 'card', 'promo', 'tile', 'deal', 'special']):
+                            break
+                        container = container.find_parent()
+                    else:
+                        break
+
+                if not container:
+                    container = parent
+
+                rebate_text = container.get_text(separator=" ", strip=True)
+
+                # Less restrictive: just needs rebate amount, no date/form required
+                has_rebate_amount = bool(re.search(r'\$\d+.*?Back|Get.*?\$\d+.*?Back|up.*?to.*?\$\d+.*?Back|\$\d+.*?Rebate|\$\d+.*?Off|\$\d+.*?Save', rebate_text, re.IGNORECASE))
+                mentions_usa = bool(re.search(r'\bUSA\b(?!.*Canada)|\bUnited States\b(?!.*Canada)', rebate_text, re.IGNORECASE))
+
+                if has_rebate_amount and not mentions_usa:
+                    if 50 < len(rebate_text) < 2500:
+                        text_hash = hash(rebate_text[:400])
                         if text_hash not in seen_texts:
                             seen_texts.add(text_hash)
                             promo_blocks.append({
-                                "text": parent_text,
-                                "html": str(parent),
-                                "selector": f"heading-{heading.name}"
+                                "text": rebate_text,
+                                "html": str(container)[:2000],
+                                "selector": "rebate-text-pattern"
                             })
-                            logger.info(f"Found promo block from heading {heading.name}: {len(parent_text)} chars")
+                            logger.info(f"Found rebate offer: {rebate_text[:80]}... ({len(rebate_text)} chars)")
 
-    # Check paragraphs and divs that contain promo keywords
-    for tag in soup.find_all(["p", "div", "section", "article"]):
-        text = tag.get_text(separator=" ", strip=True)
-        if text and len(text) > 50:  # Minimum length
-            text_lower = text.lower()
+        # Method 3: Look for brand names in headings and text (expanded brand list)
+        brand_names = [
+            'Bridgestone', 'Firestone', 'Michelin', 'Goodyear', 'Continental',
+            'Pirelli', 'BFGoodrich', 'Toyo', 'Nitto', 'Hankook', 'Falken',
+            'Kumho', 'Yokohama', 'Dunlop', 'General', 'Cooper', 'Uniroyal'
+        ]
+        for brand in brand_names:
+            # Search in headings
+            headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5'], string=re.compile(brand, re.IGNORECASE))
+            for heading in headings:
+                container = heading.find_parent(['section', 'div', 'article']) or heading.find_parent()
+                if container:
+                    text = container.get_text(separator=" ", strip=True)
+                    # More flexible: any $ amount or rebate keyword
+                    if re.search(r'\$\d+|Rebate|Back|Save|Off', text, re.IGNORECASE):
+                        mentions_usa = bool(re.search(r'\bUSA\b(?!.*Canada)|\bUnited States\b(?!.*Canada)', text, re.IGNORECASE))
+                        if not mentions_usa and 50 < len(text) < 2000:
+                            text_hash = hash(text[:400])
+                            if text_hash not in seen_texts:
+                                seen_texts.add(text_hash)
+                                promo_blocks.append({
+                                    "text": text,
+                                    "html": str(container)[:2000],
+                                    "selector": f"brand-heading-{brand}"
+                                })
+                                logger.info(f"Found rebate via brand heading {brand}: {text[:80]}... ({len(text)} chars)")
 
-            # Check for promo keywords
-            if any(keyword.lower() in text_lower for keyword in promo_keywords):
-                # Skip if it's too long (likely not a specific promo)
-                if len(text) > 2000:
-                    continue
+            # Also search for brand mentions in any text with rebate indicators
+            brand_elements = soup.find_all(string=re.compile(brand, re.IGNORECASE))
+            for brand_text_node in brand_elements:
+                parent = brand_text_node.find_parent()
+                if parent:
+                    container = parent
+                    for _ in range(3):
+                        if container:
+                            container_text = container.get_text(separator=" ", strip=True)
+                            if re.search(r'\$\d+|Rebate|Back|Save', container_text, re.IGNORECASE):
+                                mentions_usa = bool(re.search(r'\bUSA\b(?!.*Canada)', container_text, re.IGNORECASE))
+                                if not mentions_usa and 50 < len(container_text) < 2000:
+                                    text_hash = hash(container_text[:400])
+                                    if text_hash not in seen_texts:
+                                        seen_texts.add(text_hash)
+                                        promo_blocks.append({
+                                            "text": container_text,
+                                            "html": str(container)[:2000],
+                                            "selector": f"brand-text-{brand}"
+                                        })
+                                        logger.info(f"Found rebate via brand text {brand}: {container_text[:80]}... ({len(container_text)} chars)")
+                                break
+                            container = container.find_parent()
+                        else:
+                            break
 
-                # Check if it's not already captured in a parent element
-                is_duplicate = False
-                for existing in promo_blocks:
-                    if text in existing["text"] or existing["text"] in text:
-                        is_duplicate = True
-                        break
+        if promo_blocks:
+            logger.info(f"Extracted {len(promo_blocks)} Canada rebate offers")
+            return promo_blocks
+        else:
+            logger.warning("No rebate offers found on rebates page - may need JavaScript rendering")
 
-                if not is_duplicate:
-                    text_hash = hash(text[:200])
+    # For archive page, use more targeted extraction
+    elif "archive" in url.lower():
+        logger.info("Extracting promotions from archive page...")
+
+        # Look for featured monthly offers or promo sections
+        # Find headings with promo content
+        promo_headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], string=re.compile(
+            r'oil\s+change|tire|brake|buy.*get|free|special|offer|\$\d+', re.IGNORECASE
+        ))
+
+        for heading in promo_headings:
+            heading_text = heading.get_text(strip=True)
+
+            # Get parent container
+            container = heading.find_parent(['section', 'div', 'article'])
+            if not container:
+                container = heading.find_parent()
+
+            if container:
+                text = container.get_text(separator=" ", strip=True)
+
+                # Must have price indicator or promo keyword
+                has_price = bool(re.search(r'\$\d+', text))
+                has_promo = bool(re.search(r'oil\s+change|tire|brake|free|special|offer|buy.*get', text, re.IGNORECASE))
+
+                if (has_price or has_promo) and 50 < len(text) < 3000:
+                    text_hash = hash(text[:300])
                     if text_hash not in seen_texts:
                         seen_texts.add(text_hash)
                         promo_blocks.append({
                             "text": text,
-                            "html": str(tag),
-                            "selector": tag.name
+                            "html": str(container)[:2000],
+                            "selector": f"archive-{heading.name}"
                         })
-                        logger.info(f"Found promo block in {tag.name}: {len(text)} chars")
+                        logger.info(f"Found archive promo: {heading_text[:50]}... ({len(text)} chars)")
 
-    # Enhanced: Look for structured promo cards/sections with prices
-    # These are often in divs with price indicators
-    price_indicators = soup.find_all(string=re.compile(r'\$\d+'))
-    seen_price_containers = set()
-    for price_text in price_indicators:
-        parent = price_text.find_parent()
-        if parent:
-            # Get surrounding context (up to 4 levels up for better coverage)
-            promo_container = None
-            current_parent = parent
-            for level in range(4):
-                if current_parent:
-                    classes = ' '.join(current_parent.get('class', [])) if current_parent.get('class') else ''
-                    id_attr = current_parent.get('id', '') or ''
+    # Remove very similar duplicates using fuzzy matching
+    if len(promo_blocks) > 1:
+        unique_blocks = []
+        for block in promo_blocks:
+            is_duplicate = False
+            for existing in unique_blocks:
+                similarity = fuzz.ratio(block["text"][:300], existing["text"][:300])
+                if similarity > 90:  # Very high threshold for duplicates
+                    is_duplicate = True
+                    logger.debug(f"Skipping duplicate block ({similarity}% similar)")
+                    break
+            if not is_duplicate:
+                unique_blocks.append(block)
 
-                    # Look for promo-related containers or headings nearby
-                    has_promo_class = any(promo_word in classes.lower() for promo_word in ['promo', 'offer', 'special', 'featured', 'card', 'box', 'archive', 'monthly'])
-                    has_heading_nearby = current_parent.find(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) is not None
+        logger.info(f"Extracted {len(unique_blocks)} unique promo blocks (removed {len(promo_blocks) - len(unique_blocks)} duplicates)")
+        return unique_blocks
 
-                    # Check if this container has multiple price points (indicates structured promo)
-                    prices_in_container = len(current_parent.find_all(string=re.compile(r'\$\d+')))
-
-                    if has_promo_class or (has_heading_nearby and prices_in_container >= 1) or prices_in_container >= 2:
-                        promo_container = current_parent
-                        break
-                    current_parent = current_parent.find_parent()
-
-            if promo_container:
-                container_id = id(promo_container)
-                if container_id not in seen_price_containers:
-                    seen_price_containers.add(container_id)
-                    text = promo_container.get_text(separator=" ", strip=True)
-                    if text and len(text) > 30 and len(text) < 5000:  # Increased max length for complex promos
-                        text_hash = hash(text[:300])  # Use longer hash for better uniqueness
-                        if text_hash not in seen_texts:
-                            seen_texts.add(text_hash)
-                            promo_blocks.append({
-                                "text": text,
-                                "html": str(promo_container),
-                                "selector": "price-indicator-container"
-                            })
-                            logger.info(f"Found promo block from price indicator: {len(text)} chars ({prices_in_container} prices)")
-
-    # Enhanced: Look for "Buy X Get Y" patterns and large promo headings
-    large_headings = soup.find_all(["h1", "h2", "h3"])
-    for heading in large_headings:
-        heading_text = heading.get_text(strip=True)
-        heading_lower = heading_text.lower()
-
-        # Check for promo patterns in large headings
-        has_buy_get = bool(re.search(r'buy\s+\d+\s+(?:tire|get)', heading_lower, re.IGNORECASE))
-        has_free = "free" in heading_lower
-        has_price = bool(re.search(r'\$\d+', heading_text))
-        has_lifetime = "lifetime" in heading_lower
-        has_promo_words = any(word in heading_lower for word in ['oil', 'tire', 'brake', 'change', 'rotation', 'special', 'offer'])
-
-        if has_buy_get or (has_price and has_promo_words) or (has_free and has_promo_words) or has_lifetime:
-            # Get the entire section containing this heading
-            parent = heading.find_parent(["section", "div", "article"])
-            if not parent:
-                parent = heading.find_parent()
-
-            if parent:
-                # Get all siblings after the heading
-                section_text = heading_text
-                for sibling in heading.find_next_siblings():
-                    sibling_text = sibling.get_text(separator=" ", strip=True)
-                    if sibling_text and len(sibling_text) < 500:  # Don't include huge blocks
-                        section_text += " " + sibling_text
-
-                # Also get parent text
-                parent_text = parent.get_text(separator=" ", strip=True)
-
-                # Use the more complete text (but not too long)
-                final_text = parent_text if len(parent_text) < 3000 and len(parent_text) > len(section_text) else section_text
-
-                if len(final_text) > 50:
-                    text_hash = hash(final_text[:300])
-                    if text_hash not in seen_texts:
-                        seen_texts.add(text_hash)
-                        promo_blocks.append({
-                            "text": final_text,
-                            "html": str(parent),
-                            "selector": "large-heading-promo"
-                        })
-                        logger.info(f"Found promo block from large heading: {heading_text[:50]}... ({len(final_text)} chars)")
-
-    # If still no blocks found, try extracting from main content areas
-    if len(promo_blocks) < 3:
-        logger.info("Few promo blocks found, trying main content areas...")
-        main_content = soup.find("main") or soup.find("article") or soup.find("body")
-        if main_content:
-            text = main_content.get_text(separator=" ", strip=True)
-            # Split by sentences or paragraphs
-            sentences = re.split(r'(?<=[.!?])\s+|(?<=\n)\s*', text)
-            current_block = []
-            for sentence in sentences:
-                sentence_lower = sentence.lower().strip()
-                if len(sentence_lower) < 10:
-                    continue
-
-                # Check for promo indicators
-                keyword_count = sum(1 for keyword in promo_keywords if keyword.lower() in sentence_lower)
-                has_price = bool(re.search(r'\$\d+', sentence))
-                has_percent = bool(re.search(r'\d+\s*%', sentence))
-
-                if keyword_count >= 1 or has_price or has_percent:
-                    current_block.append(sentence.strip())
-                elif current_block and len(current_block) >= 1:  # Lower threshold
-                    # Save block when we find promo content
-                    block_text = " ".join(current_block)
-                    if len(block_text) > 30:
-                        # Check if similar block already exists
-                        is_duplicate = False
-                        for existing in promo_blocks:
-                            if fuzz.ratio(block_text[:100], existing["text"][:100]) > 85:
-                                is_duplicate = True
-                                break
-
-                        if not is_duplicate:
-                            promo_blocks.append({
-                                "text": block_text,
-                                "html": "",
-                                "selector": "main-content-split"
-                            })
-                            logger.info(f"Found promo block from main content: {len(block_text)} chars")
-                    current_block = []
-
-    # Remove very similar duplicates
-    unique_blocks = []
-    for block in promo_blocks:
-        is_duplicate = False
-        for existing in unique_blocks:
-            similarity = fuzz.ratio(block["text"][:200], existing["text"][:200])
-            if similarity > 85:
-                is_duplicate = True
-                break
-        if not is_duplicate:
-            unique_blocks.append(block)
-
-    logger.info(f"Extracted {len(unique_blocks)} unique promo blocks")
-    return unique_blocks
+    logger.info(f"Extracted {len(promo_blocks)} promo blocks")
+    return promo_blocks
 
 
 def extract_discount_value(text: str) -> Optional[str]:
     """Extract discount value from text."""
     text_lower = text.lower()
 
-    # Try dollar amount first
+    # Try dollar amount first (rebate amounts)
+    dollar_match = re.search(r'\$(\d+(?:\.\d+)?)\s+Back|\$(\d+(?:\.\d+)?)\s+back|Get\s+(?:up\s+to\s+)?\$(\d+(?:\.\d+)?)\s+Back', text, re.IGNORECASE)
+    if dollar_match:
+        amount = dollar_match.group(1) or dollar_match.group(2) or dollar_match.group(3)
+        return f"${amount} back"
+
+    # Try regular dollar amount
     dollar_match = re.search(r'\$(\d+(?:\.\d+)?)', text)
     if dollar_match:
         return f"${dollar_match.group(1)}"
@@ -375,6 +416,9 @@ def extract_coupon_code(text: str) -> Optional[str]:
 def extract_expiry_date(text: str) -> Optional[str]:
     """Extract expiry date from text."""
     date_patterns = [
+        r'Postmark.*?Date[:\s]+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})',
+        r'Submission.*?Date[:\s]+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})',
+        r'Offer\s+Valid[:\s]+([^–-]+?)(?:\s+–\s+|\s+-\s+)(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})',
         r'(?:expires?|valid until|until|ends?)[:\s]+([A-Za-z]+\s+\d{1,2}[,\s]+\d{4})',
         r'(?:expires?|valid until|until|ends?)[:\s]+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})',
         r'(?:expires?|valid)[:\s]*(\d{1,2}\s+[A-Za-z]+\s+\d{4})',
@@ -383,7 +427,7 @@ def extract_expiry_date(text: str) -> Optional[str]:
     for pattern in date_patterns:
         match = re.search(pattern, text, re.IGNORECASE)
         if match:
-            return match.group(1)
+            return match.group(1) if match.lastindex == 1 else f"{match.group(1)} - {match.group(2)}"
 
     return None
 
@@ -393,9 +437,9 @@ def map_service_category(text: str) -> str:
     text_lower = text.lower()
 
     service_keywords = {
+        "tires": ["tire", "tires", "wheel", "wheels", "alignment", "bridgestone", "firestone", "michelin", "goodyear"],
         "oil change": ["oil", "lube", "oil change"],
         "brakes": ["brake", "brakes", "brake pad", "brake service"],
-        "tires": ["tire", "tires", "wheel", "wheels", "alignment"],
         "battery": ["battery", "batteries"],
         "exhaust": ["exhaust", "muffler"],
         "transmission": ["transmission", "trans"],
@@ -410,6 +454,75 @@ def map_service_category(text: str) -> str:
     return "other"
 
 
+def extract_brand_name(text: str) -> Optional[str]:
+    """Extract tire brand name from text."""
+    text_lower = text.lower()
+    brands = [
+        "michelin", "bridgestone", "firestone", "goodyear", "continental",
+        "pirelli", "bfgoodrich", "toyo", "nitto", "hankook", "falken",
+        "kumho", "yokohama", "dunlop", "general", "cooper", "uniroyal"
+    ]
+
+    for brand in brands:
+        if brand in text_lower:
+            return brand.title()
+    return None
+
+
+def are_promos_duplicate(promo1: Dict, promo2: Dict) -> bool:
+    """Check if two promotions are duplicates - considers discount amount and brand."""
+    discount1 = promo1.get("discount_value", "")
+    discount2 = promo2.get("discount_value", "")
+
+    # Extract brand names from promo text/description
+    promo1_text = (promo1.get("promo_description", "") + " " +
+                   promo1.get("ad_text", "") + " " +
+                   promo1.get("offer_details", "")).lower()
+    promo2_text = (promo2.get("promo_description", "") + " " +
+                   promo2.get("ad_text", "") + " " +
+                   promo2.get("offer_details", "")).lower()
+
+    brand1 = extract_brand_name(promo1_text)
+    brand2 = extract_brand_name(promo2_text)
+
+    # If different discount amounts, they are NOT duplicates
+    if discount1 and discount2 and discount1 != discount2:
+        return False
+
+    # If different brands, they are NOT duplicates
+    if brand1 and brand2 and brand1 != brand2:
+        return False
+
+    # If one has a brand and the other doesn't, they might be different
+    if (brand1 and not brand2) or (brand2 and not brand1):
+        # Check if the text is very similar (might be same rebate with/without brand mention)
+        title1 = promo1.get("promotion_title", "").lower()
+        title2 = promo2.get("promotion_title", "").lower()
+        similarity = fuzz.ratio(title1[:200], title2[:200])
+        if similarity < 95:  # Not very similar, likely different
+            return False
+
+    # Same discount AND same brand (or both no brand) - check if text is very similar
+    title1 = promo1.get("promotion_title", "").lower()
+    title2 = promo2.get("promotion_title", "").lower()
+    desc1 = promo1.get("promo_description", "").lower()
+    desc2 = promo2.get("promo_description", "").lower()
+
+    # Very high title similarity (95%+) AND same discount = likely duplicate
+    title_similarity = fuzz.ratio(title1[:200], title2[:200])
+    desc_similarity = fuzz.ratio(desc1[:300], desc2[:300])
+
+    if title_similarity >= 95 and desc_similarity >= 90:
+        return True
+
+    # If same discount and very high description similarity
+    if discount1 and discount2 and discount1 == discount2:
+        if desc_similarity >= 90:
+            return True
+
+    return False
+
+
 def process_midas_promotions(competitor: Dict) -> List[Dict]:
     """Process Midas promotions using text-based HTML extraction."""
     logger.info(f"Processing promotions for {competitor.get('name')}")
@@ -420,7 +533,6 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
         return []
 
     all_promos = []
-    seen_promos = set()
 
     for promo_url in promo_links:
         logger.info(f"Fetching {promo_url}")
@@ -432,8 +544,8 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
             logger.error(f"Failed to fetch HTML from {promo_url}")
             continue
 
-        # Step 2: Extract promo blocks
-        promo_blocks = extract_promo_blocks(html)
+        # Step 2: Extract promo blocks (pass URL for context)
+        promo_blocks = extract_promo_blocks(html, promo_url)
 
         if not promo_blocks:
             logger.warning(f"No promo blocks found on {promo_url}")
@@ -443,8 +555,8 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
         for block in promo_blocks:
             text = block["text"]
 
-            # Skip if too short or likely not a promo
-            if len(text) < 30:
+            # Skip if too short
+            if len(text) < 50:
                 continue
 
             logger.info(f"Processing promo block: {len(text)} chars")
@@ -454,121 +566,144 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
                 context = f"Midas promotion from {promo_url}. Block selector: {block.get('selector', 'unknown')}"
                 cleaned_data = clean_promo_text_with_llm(text, context)
 
+                # Handle case where LLM returns a list instead of dict
+                if isinstance(cleaned_data, list):
+                    if len(cleaned_data) > 0 and isinstance(cleaned_data[0], dict):
+                        cleaned_data = cleaned_data[0]
+                    else:
+                        cleaned_data = None
+
                 # Extract basic details from text
                 discount_value = extract_discount_value(text)
                 coupon_code = extract_coupon_code(text)
                 expiry_date = extract_expiry_date(text)
                 service_category = map_service_category(text)
 
+                # Extract brand name from text for better service_name
+                brand_name = extract_brand_name(text)
+
                 # Build promotion using LLM cleaned data if available
-                if cleaned_data:
-                    service_name = cleaned_data.get("service_name", service_category)
-                    promo_description = cleaned_data.get("promo_description", text[:500])
-                    category = cleaned_data.get("category", service_category)
-                    offer_details = cleaned_data.get("offer_details")
+                if cleaned_data and isinstance(cleaned_data, dict):
+                    # Build service name with brand if available
+                    base_service_name = cleaned_data.get("service_name") or service_category
+                    if brand_name and brand_name.lower() not in base_service_name.lower():
+                        final_service_name = f"{brand_name} {base_service_name}"
+                    else:
+                        final_service_name = base_service_name
 
-                    # Build offer_details if LLM didn't provide it
-                    if not offer_details:
-                        offer_parts = []
-                        discount_val = cleaned_data.get("discount_value") or discount_value
-                        coupon_code_val = cleaned_data.get("coupon_code") or coupon_code
-                        expiry_date_val = cleaned_data.get("expiry_date") or expiry_date
-                        if discount_val:
-                            offer_parts.append(f"Discount: {discount_val}")
-                        if coupon_code_val:
-                            offer_parts.append(f"Code: {coupon_code_val}")
-                        if expiry_date_val:
-                            offer_parts.append(f"Expires: {expiry_date_val}")
-                        if offer_parts:
-                            offer_details = ". ".join(offer_parts) + ". " + text[:500]
-                        else:
-                            offer_details = text[:1000]
-
-                    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+                    promotion_title = final_service_name or (cleaned_data.get("promo_description") or "").split("\n")[0].strip()[:100] if cleaned_data.get("promo_description") else None
                     if not promotion_title:
                         lines = [l.strip() for l in text.split("\n") if l.strip() and len(l.strip()) > 5]
                         promotion_title = lines[0][:100] if lines else "Midas Promotion"
+
+                    promo_description = cleaned_data.get("promo_description") or text[:500]
+                    offer_details = cleaned_data.get("promo_description") or text[:1000]
+                    discount_value = cleaned_data.get("discount_value") or discount_value
+                    coupon_code = cleaned_data.get("coupon_code") or coupon_code
+                    expiry_date = cleaned_data.get("expiry_date") or expiry_date
+
+                    if cleaned_data.get("service_name"):
+                        service_category = map_service_category(cleaned_data.get("service_name"))
                 else:
                     # Fallback to direct text extraction
-                    service_name = service_category
-                    promo_description = text[:500]
-                    category = service_category
-                    offer_parts = []
-                    if discount_value:
-                        offer_parts.append(f"Discount: {discount_value}")
-                    if coupon_code:
-                        offer_parts.append(f"Code: {coupon_code}")
-                    if expiry_date:
-                        offer_parts.append(f"Expires: {expiry_date}")
-                    if offer_parts:
-                        offer_details = ". ".join(offer_parts) + ". " + text[:500]
+                    # Build service name with brand if available
+                    base_service_name = service_category
+                    if brand_name and brand_name.lower() not in base_service_name.lower():
+                        final_service_name = f"{brand_name} {base_service_name}"
                     else:
-                        offer_details = text[:1000]
+                        final_service_name = base_service_name
+
                     lines = [l.strip() for l in text.split("\n") if l.strip() and len(l.strip()) > 5]
-                    promotion_title = lines[0][:100] if lines else "Midas Promotion"
+                    promotion_title = final_service_name or (lines[0][:100] if lines else "Midas Promotion")
+                    promo_description = text[:500]
+                    offer_details = text[:1000]
 
-                # Create promo hash for deduplication
-                promo_hash = hash(
-                    (service_name[:100] + str(offer_details[:100])).lower()
-                )
-                if promo_hash in seen_promos:
-                    logger.info(f"Skipping duplicate promo: {service_name[:50]}")
-                    continue
-                seen_promos.add(promo_hash)
+                # Calculate confidence score
+                confidence = 0.7
+                if cleaned_data:
+                    confidence = 0.9
+                if discount_value:
+                    confidence += 0.05
+                if coupon_code:
+                    confidence += 0.05
+                if expiry_date:
+                    confidence += 0.05
+                confidence = min(confidence, 1.0)
 
-                # Load existing promos for comparison
-                output_file = PROMOTIONS_DIR / f"{competitor.get('name', 'midas').lower().replace(' ', '_')}.json"
-                existing_promos = load_existing_promos(output_file)
-                promo_key = f"{promo_url}::{service_name}"
-                existing_promo = existing_promos.get(promo_key)
-
-                # Build standardized promo object
-                promo = build_standard_promo(
-                    competitor=competitor,
-                    promo_url=promo_url,
-                    service_name=service_name,
-                    promo_description=promo_description,
-                    category=category,
-                    offer_details=offer_details,
-                    ad_title=promotion_title,
-                    ad_text=text[:500],
-                    google_reviews=None,
-                    existing_promo=existing_promo
-                )
+                promo = {
+                    "website": competitor.get("domain", ""),
+                    "page_url": promo_url,
+                    "business_name": competitor.get("name", ""),
+                    "google_reviews": None,
+                    "service_name": final_service_name,
+                    "promo_description": promo_description,
+                    "category": service_category,
+                    "contact": competitor.get("address", ""),
+                    "location": competitor.get("address", ""),
+                    "offer_details": offer_details,
+                    "ad_title": promotion_title,
+                    "ad_text": text[:500],
+                    "new_or_updated": "new",
+                    "date_scraped": datetime.now().isoformat(),
+                    "discount_value": discount_value,
+                    "coupon_code": coupon_code,
+                    "expiry_date": expiry_date,
+                    "promotion_title": promotion_title,
+                    "image_url": None,
+                    "service_category": service_category,
+                    "source": "midas_html",
+                    "confidence": {
+                        "overall": confidence,
+                        "fields": {
+                            "promotion_title": 0.8 if cleaned_data else 0.6,
+                            "discount_value": 0.9 if discount_value else 0.0,
+                            "coupon_code": 0.9 if coupon_code else 0.0,
+                            "expiry_date": 0.8 if expiry_date else 0.0,
+                            "service_category": 0.8
+                        }
+                    }
+                }
 
                 all_promos.append(promo)
-                logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+                logger.info(f"[OK] Added promo: {promotion_title[:50]} - {discount_value or 'N/A'}")
 
             except Exception as e:
                 logger.error(f"Error processing promo block: {e}", exc_info=True)
                 continue
 
-    logger.info(f"Total promotions found: {len(all_promos)}")
-    return all_promos
+    # Final deduplication pass
+    logger.info(f"Found {len(all_promos)} promotions before deduplication")
+    deduplicated = []
+    for promo in all_promos:
+        is_duplicate = False
+        for existing in deduplicated:
+            if are_promos_duplicate(promo, existing):
+                logger.info(f"Removed duplicate: {promo.get('promotion_title')[:50]} (similar to {existing.get('promotion_title')[:50]})")
+                is_duplicate = True
+                break
+        if not is_duplicate:
+            deduplicated.append(promo)
+
+    logger.info(f"Total unique promotions found: {len(deduplicated)}")
+    return deduplicated
 
 
 def scrape_midas(competitor: Dict) -> Dict:
     """Main entry point for Midas scraper."""
-    from app.utils.extraction_flow import unified_extraction_flow, format_for_google_sheets
-
     try:
-        # Use unified extraction flow
-        promos = unified_extraction_flow(competitor, process_midas_promotions)
-
-        # Format for Google Sheets
-        formatted_promos = [format_for_google_sheets(promo) for promo in promos]
+        promos = process_midas_promotions(competitor)
 
         # Save results
         output_file = PROMOTIONS_DIR / f"{competitor.get('name', 'midas').lower().replace(' ', '_')}.json"
         result = {
             "competitor": competitor.get("name"),
             "scraped_at": datetime.now().isoformat(),
-            "promotions": formatted_promos,
-            "count": len(formatted_promos)
+            "promotions": promos,
+            "count": len(promos)
         }
 
         output_file.write_text(json.dumps(result, indent=2, default=str))
-        logger.info(f"Saved {len(formatted_promos)} promotions to {output_file}")
+        logger.info(f"Saved {len(promos)} promotions to {output_file}")
 
         return result
 
@@ -599,9 +734,8 @@ if __name__ == "__main__":
 
     result = scrape_midas(midas)
     print(f"\n✅ Scraping complete!")
-    print(f"   Found {result.get('count', 0)} promotions")
-    print(f"   Saved to: data/promotions/")
+    print(f" Found {result.get('count', 0)} promotions")
+    print(f" Saved to: data/promotions/")
     print(f"\n📊 Summary:")
     for promo in result.get("promotions", []):
-        print(f"   • {promo.get('promotion_title', 'N/A')}: {promo.get('discount_value', 'N/A')}")
-
+        print(f" • {promo.get('promotion_title', 'N/A')}: {promo.get('discount_value', 'N/A')}")

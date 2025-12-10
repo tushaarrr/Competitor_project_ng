@@ -141,6 +141,18 @@ def unified_extraction_flow(
 
         # Firecrawl didn't find valid promotions - check why
         logger.warning(f"Firecrawl extraction found {len(promos)} promotions, but none are valid")
+        # Debug: Log what fields are missing
+        if promos:
+            required_fields = ["service_name", "promo_description", "offer_details", "ad_title", "ad_text"]
+            for i, promo in enumerate(promos[:2]):  # Check first 2
+                missing = [f for f in required_fields if not promo.get(f) or not str(promo.get(f)).strip()]
+                if missing:
+                    logger.warning(f"Promo {i+1} missing fields: {missing}")
+                    logger.warning(f"  service_name: '{promo.get('service_name')}'")
+                    logger.warning(f"  promo_description: '{promo.get('promo_description')[:50] if promo.get('promo_description') else 'None'}...'")
+                    logger.warning(f"  offer_details: '{promo.get('offer_details')[:50] if promo.get('offer_details') else 'None'}...'")
+                    logger.warning(f"  ad_title: '{promo.get('ad_title')}'")
+                    logger.warning(f"  ad_text: '{promo.get('ad_text')[:50] if promo.get('ad_text') else 'None'}...'")
 
         # Check if website has promo section
         has_promo_section = check_firecrawl_for_promo_section(competitor)

@@ -14,7 +14,7 @@ from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.extractors.pdf.pdf_extractor import download_pdf, extract_text_from_pdf
 from app.config.constants import PROMO_KEYWORDS, DATA_DIR
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, get_google_reviews_for_competitor
 from app.extractors.serpapi.business_overview_extractor import extract_promo_from_ai_overview
 
 logger = setup_logger(__name__, "speedy_scraper.log")
@@ -52,6 +52,9 @@ def process_speedy_promotions(competitor: Dict) -> List[Dict]:
     if not promo_links:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
+
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
 
     all_promos = []
     seen_pdf_urls = set()
@@ -97,9 +100,11 @@ def process_speedy_promotions(competitor: Dict) -> List[Dict]:
             img_path = None
             pdf_path = None
 
-            if not normalized_img_url or image_url.startswith("data:"):
-                # Image is a placeholder/data URI → use PDF extraction as fallback
-                logger.info(f"Image is placeholder/data URI, extracting text from PDF instead: {pdf_url[:80]}...")
+            # Check if image_url is actually the PDF URL (meaning no image was found)
+            if (not normalized_img_url or image_url.startswith("data:") or
+                image_url == pdf_url or image_url.endswith(".pdf")):
+                # Image is a placeholder/data URI or PDF URL → use PDF extraction as fallback
+                logger.info(f"Image is placeholder/data URI/PDF URL, extracting text from PDF instead: {pdf_url[:80]}...")
                 pdf_path = download_pdf(pdf_url)
                 if pdf_path:
                     logger.info(f"PDF downloaded successfully, extracting text from {pdf_path.name}...")
@@ -228,9 +233,17 @@ def process_speedy_promotions(competitor: Dict) -> List[Dict]:
             # Store for future comparisons
             seen_ocr_hashes[ocr_hash] = ocr_text
 
-            # Step 5: Check if it's promo-related
-            if not detect_promo_keywords(ocr_text, PROMO_KEYWORDS):
-                logger.info(f"Content doesn't contain promo keywords: {image_url or pdf_url}")
+            # Step 5: Check if it's promo-related - be more lenient
+            is_promo = detect_promo_keywords(ocr_text, PROMO_KEYWORDS)
+
+            # Also check for discount patterns, service keywords, or common promo phrases
+            import re
+            has_discount = bool(re.search(r'\$(\d+)|(\d+)%|free|save', ocr_text, re.IGNORECASE))
+            has_service_keyword = any(kw in ocr_text.lower() for kw in ["oil", "brake", "tire", "battery", "service", "change", "inspection"])
+            has_promo_phrase = any(phrase in ocr_text.lower() for phrase in ["off", "rebate", "coupon", "special", "limited time", "promo"])
+
+            if not is_promo and not (has_discount or has_service_keyword or has_promo_phrase):
+                logger.info(f"Content doesn't contain promo keywords or relevant data: {image_url or pdf_url}")
                 if img_path:
                     img_path.unlink()
                 if pdf_path:
@@ -305,7 +318,7 @@ def process_speedy_promotions(competitor: Dict) -> List[Dict]:
 
             # Step 7: Build standardized promo object
             service_name = cleaned_data.get("service_name", "other")
-            promo_description = cleaned_data.get("promo_description", ocr_text[:500])
+            promo_description = cleaned_data.get("promo_description", ocr_text[:500]) or f"{service_name} promotion"  # Ensure never empty
             category = cleaned_data.get("category", cleaned_data.get("service_name", "other"))
 
             # Build offer_details from LLM or extracted values
@@ -324,10 +337,19 @@ def process_speedy_promotions(competitor: Dict) -> List[Dict]:
                 if offer_parts:
                     offer_details = ". ".join(offer_parts) + ". " + ocr_text[:500]
                 else:
-                    offer_details = ocr_text[:1000]
+                    offer_details = ocr_text[:1000] or f"{service_name} rebate details"  # Ensure never empty
+            else:
+                # Ensure offer_details is never empty even if it exists but is invalid
+                if not offer_details.strip():
+                    offer_details = ocr_text[:1000] or f"{service_name} rebate details"
 
-            ad_title = link_data.get("alt_text", cleaned_data.get("service_name", ""))
-            ad_text = link_data.get("context", "")[:200]
+            # Ensure ad_title is never empty (required field)
+            alt_text = link_data.get("alt_text", "")
+            ad_title = alt_text if alt_text and len(alt_text.strip()) > 0 else (cleaned_data.get("service_name", "") if cleaned_data.get("service_name") else service_name) or "Speedy Auto Service Promotion"
+
+            # Ensure ad_text is never empty (required field)
+            context_text = link_data.get("context", "")
+            ad_text_final = context_text[:200] if context_text and len(context_text.strip()) > 0 else (ocr_text[:200] if ocr_text and len(ocr_text.strip()) > 0 else f"{service_name} promotion")
 
             # Load existing promos for comparison
             output_file = PROMOTIONS_DIR / f"{competitor.get('name', 'speedy').lower().replace(' ', '_')}.json"
@@ -343,13 +365,13 @@ def process_speedy_promotions(competitor: Dict) -> List[Dict]:
                 category=category,
                 offer_details=offer_details,
                 ad_title=ad_title,
-                ad_text=ad_text,
-                google_reviews=None,
+                ad_text=ad_text_final,
+                google_reviews=google_reviews,
                 existing_promo=existing_promo
             )
 
             all_promos.append(promo)
-            logger.info(f"✓ Added promo: {promo.get('service_name')} - {promo.get('new_or_updated', 'NEW')}")
+            logger.info(f"[OK] Added promo: {promo.get('service_name')} - {promo.get('new_or_updated', 'NEW')}")
 
     logger.info(f"Total unique promotions found: {len(all_promos)}")
     return all_promos
@@ -406,6 +428,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     result = scrape_speedy(speedy)
-    print(f"\n✓ Scraping complete!")
+    print(f"\n[OK] Scraping complete!")
     print(f"  Found {result.get('count', 0)} promotions")
     print(f"  Saved to: {PROMOTIONS_DIR}")

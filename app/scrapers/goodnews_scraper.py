@@ -10,7 +10,7 @@ from app.extractors.firecrawl.firecrawl_client import fetch_with_firecrawl
 from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.config.constants import DATA_DIR
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, get_google_reviews_for_competitor
 from app.extractors.serpapi.business_overview_extractor import extract_promo_from_ai_overview
 
 logger = setup_logger(__name__, "goodnews_scraper.log")
@@ -502,6 +502,9 @@ def process_goodnews_promotions(competitor: Dict) -> List[Dict]:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
 
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
+
     all_promos = []
     processed_chunks = set()  # Track processed chunks to prevent duplicates
 
@@ -716,12 +719,12 @@ def process_goodnews_promotions(competitor: Dict) -> List[Dict]:
                 offer_details=offer_details,
                 ad_title=promotion_title,
                 ad_text=chunk[:500],
-                google_reviews=None,
+                google_reviews=google_reviews,
                 existing_promo=existing_promo
             )
 
             all_promos.append(promo)
-            logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+            logger.info(f"[OK] Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
 
     # Deduplicate by 70%+ title word overlap
     logger.info(f"Found {len(all_promos)} promotions before deduplication")

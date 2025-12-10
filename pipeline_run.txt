@@ -1,0 +1,1193 @@
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\google\api_core\_python_version_support.py:266: FutureWarning: You are using a Python version (3.10.0) which Google will stop supporting in new releases of google.api_core once it reaches its end of life (2026-10-04). Please upgrade to the latest Python version, or at least Python 3.11, to continue receiving updates for google.api_core past that date.
+  warnings.warn(message, FutureWarning)
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "json" shadows an attribute in parent "BaseModel"; 
+  warnings.warn(
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "schema" shadows an attribute in parent "Format"; 
+  warnings.warn(
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "json" shadows an attribute in parent "Document"; 
+  warnings.warn(
+
+============================================================
+🎯 Competitor Intelligence Dashboard - Full Pipeline
+============================================================
+
+📊 STEP 1: Running All Competitor Scrapers
+============================================================
+
+============================================================
+🚀 Starting All Competitor Scrapers
+============================================================
+
+
+📋 Processing: Good News Auto
+------------------------------------------------------------
+2025-12-10 17:04:25,890 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Good News Auto
+2025-12-10 17:04:25,890 - app.scrapers.goodnews_scraper - INFO - Processing promotions for Good News Auto
+2025-12-10 17:04:25,890 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Good News Auto 6932 76 Ave NW, Edmonton, AB T6B 2R2, Canada Edmonton Canada
+2025-12-10 17:04:25,945 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Good News Auto 6932 76 Ave NW, Edmonton, AB T6B 2R2, Canada
+2025-12-10 17:04:25,945 - app.utils.promo_builder - INFO - Found Google Reviews for Good News Auto: 4.5
+2025-12-10 17:04:25,945 - app.scrapers.goodnews_scraper - INFO - Fetching https://www.goodnewsauto.ca/our-services
+2025-12-10 17:04:25,947 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.goodnewsauto.ca/our-services with Firecrawl (direct API)
+2025-12-10 17:04:28,375 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 165924 chars, 68 images
+2025-12-10 17:04:28,375 - app.scrapers.goodnews_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:04:28,444 - app.scrapers.goodnews_scraper - INFO - Found 'What's happening?' heading: What's happening?
+2025-12-10 17:04:28,444 - app.scrapers.goodnews_scraper - INFO - Found text from parent section: 446 chars
+2025-12-10 17:04:28,451 - app.scrapers.goodnews_scraper - INFO - Extracted 1 unique text chunks from 'What's happening?' section (446 total chars)
+2025-12-10 17:04:28,451 - app.scrapers.goodnews_scraper - INFO - Extracted 446 characters from 'What's happening?' section
+2025-12-10 17:04:28,452 - app.scrapers.goodnews_scraper - INFO - Created 7 text chunks
+2025-12-10 17:04:28,452 - app.scrapers.goodnews_scraper - INFO - Final chunk count: 7 chunks to process
+2025-12-10 17:04:28,453 - app.scrapers.goodnews_scraper - INFO - Processing chunk 1/7 (63 chars)
+2025-12-10 17:04:33,814 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo:  - NEW
+2025-12-10 17:04:33,815 - app.scrapers.goodnews_scraper - INFO - Processing chunk 2/7 (63 chars)
+2025-12-10 17:04:38,820 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: vehicle inspection - UPDATED
+2025-12-10 17:04:38,821 - app.scrapers.goodnews_scraper - INFO - Processing chunk 3/7 (63 chars)
+2025-12-10 17:04:45,424 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo:  - NEW
+2025-12-10 17:04:45,425 - app.scrapers.goodnews_scraper - INFO - Processing chunk 4/7 (62 chars)
+2025-12-10 17:04:49,956 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: winter tires - SAME
+2025-12-10 17:04:49,956 - app.scrapers.goodnews_scraper - INFO - Processing chunk 5/7 (61 chars)
+2025-12-10 17:04:55,319 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: suspension repair - UPDATED
+2025-12-10 17:04:55,319 - app.scrapers.goodnews_scraper - INFO - Processing chunk 6/7 (63 chars)
+2025-12-10 17:04:59,590 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: inspection - UPDATED
+2025-12-10 17:04:59,590 - app.scrapers.goodnews_scraper - INFO - Processing chunk 7/7 (67 chars)
+2025-12-10 17:05:03,982 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: brake repair - SAME
+2025-12-10 17:05:03,982 - app.scrapers.goodnews_scraper - INFO - Found 7 promotions before deduplication
+2025-12-10 17:05:03,983 - app.scrapers.goodnews_scraper - INFO - Total unique promotions found: 7
+2025-12-10 17:05:03,983 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 7 valid promotions
+2025-12-10 17:05:03,986 - app.scrapers.goodnews_scraper - INFO - Saved 7 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\good_news_auto.json
+✅ Good News Auto: Found 7 promotion(s)
+
+📋 Processing: Midas
+------------------------------------------------------------
+2025-12-10 17:05:03,987 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Midas
+2025-12-10 17:05:03,987 - app.scrapers.midas_scraper - INFO - Processing promotions for Midas
+2025-12-10 17:05:03,987 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Midas 3408 99 St NW, Edmonton, AB T6E 5X5, Canada Edmonton Canada
+2025-12-10 17:05:05,102 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Midas 3408 99 St NW, Edmonton, AB T6E 5X5, Canada
+2025-12-10 17:05:05,103 - app.utils.promo_builder - INFO - Found Google Reviews for Midas: 4.2
+2025-12-10 17:05:05,103 - app.scrapers.midas_scraper - INFO - Fetching https://www.midas.com/rebates
+2025-12-10 17:05:05,113 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.midas.com/rebates with Firecrawl (direct API)
+2025-12-10 17:05:07,525 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 159395 chars, 3 images
+2025-12-10 17:05:07,526 - app.scrapers.midas_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:05:07,602 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 128 chars
+2025-12-10 17:05:07,603 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 89 chars
+2025-12-10 17:05:07,603 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 427 chars
+2025-12-10 17:05:07,603 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 39 chars
+2025-12-10 17:05:07,603 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 208 chars
+2025-12-10 17:05:07,603 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 103 chars
+2025-12-10 17:05:07,604 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 172 chars
+2025-12-10 17:05:07,604 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 67 chars
+2025-12-10 17:05:07,666 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 803 chars
+2025-12-10 17:05:07,666 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 81 chars
+2025-12-10 17:05:07,666 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 40 chars
+2025-12-10 17:05:07,666 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 58 chars
+2025-12-10 17:05:07,666 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 40 chars
+2025-12-10 17:05:07,667 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 137 chars
+2025-12-10 17:05:07,735 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='oil']: 106 chars
+2025-12-10 17:05:07,741 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 199 chars
+2025-12-10 17:05:07,742 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 267 chars
+2025-12-10 17:05:07,742 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 57 chars
+2025-12-10 17:05:07,742 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 56 chars
+2025-12-10 17:05:07,746 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 247 chars
+2025-12-10 17:05:07,747 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 62 chars
+2025-12-10 17:05:07,755 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='brake']: 112 chars
+2025-12-10 17:05:07,798 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 702 chars
+2025-12-10 17:05:07,798 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 259 chars
+2025-12-10 17:05:07,800 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 285 chars
+2025-12-10 17:05:07,800 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 100 chars
+2025-12-10 17:05:07,801 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 464 chars
+2025-12-10 17:05:07,802 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 484 chars
+2025-12-10 17:05:07,802 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 116 chars
+2025-12-10 17:05:07,809 - app.scrapers.midas_scraper - INFO - Found promo block in div: 211 chars
+2025-12-10 17:05:07,811 - app.scrapers.midas_scraper - INFO - Found promo block in div: 306 chars
+2025-12-10 17:05:07,815 - app.scrapers.midas_scraper - INFO - Found promo block in section: 118 chars
+2025-12-10 17:05:07,815 - app.scrapers.midas_scraper - INFO - Found promo block in section: 112 chars
+2025-12-10 17:05:07,815 - app.scrapers.midas_scraper - INFO - Found promo block in section: 82 chars
+2025-12-10 17:05:07,816 - app.scrapers.midas_scraper - INFO - Found promo block in div: 282 chars
+2025-12-10 17:05:07,819 - app.scrapers.midas_scraper - INFO - Found promo block from price indicator: 427 chars (2 prices)
+2025-12-10 17:05:07,827 - app.scrapers.midas_scraper - INFO - Extracted 27 unique promo blocks
+2025-12-10 17:05:07,827 - app.scrapers.midas_scraper - INFO - Processing promo block: 128 chars
+2025-12-10 17:05:13,007 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:05:13,010 - app.scrapers.midas_scraper - INFO - Processing promo block: 89 chars
+2025-12-10 17:05:17,244 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 490, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:05:17,245 - app.scrapers.midas_scraper - INFO - Processing promo block: 427 chars
+2025-12-10 17:05:23,275 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:05:23,275 - app.scrapers.midas_scraper - INFO - Processing promo block: 39 chars
+2025-12-10 17:05:27,283 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 490, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:05:27,283 - app.scrapers.midas_scraper - INFO - Processing promo block: 208 chars
+2025-12-10 17:05:32,215 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire purchase rebate - UPDATED
+2025-12-10 17:05:32,215 - app.scrapers.midas_scraper - INFO - Processing promo block: 103 chars
+2025-12-10 17:05:36,920 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire purchase - UPDATED
+2025-12-10 17:05:36,921 - app.scrapers.midas_scraper - INFO - Processing promo block: 172 chars
+2025-12-10 17:05:42,525 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire purchase rebate - UPDATED
+2025-12-10 17:05:42,526 - app.scrapers.midas_scraper - INFO - Processing promo block: 67 chars
+2025-12-10 17:05:47,343 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire purchase - UPDATED
+2025-12-10 17:05:47,343 - app.scrapers.midas_scraper - INFO - Processing promo block: 803 chars
+2025-12-10 17:05:52,812 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:05:52,812 - app.scrapers.midas_scraper - INFO - Processing promo block: 40 chars
+2025-12-10 17:05:56,924 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 490, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:05:56,924 - app.scrapers.midas_scraper - INFO - Processing promo block: 137 chars
+2025-12-10 17:06:01,154 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'lower'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 521, in process_midas_promotions
+    if existing_service == service_name.lower():
+AttributeError: 'NoneType' object has no attribute 'lower'
+2025-12-10 17:06:01,154 - app.scrapers.midas_scraper - INFO - Processing promo block: 106 chars
+2025-12-10 17:06:06,400 - app.scrapers.midas_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:06:06,400 - app.scrapers.midas_scraper - INFO - Processing promo block: 199 chars
+2025-12-10 17:06:11,026 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire services - UPDATED
+2025-12-10 17:06:11,026 - app.scrapers.midas_scraper - INFO - Processing promo block: 267 chars
+2025-12-10 17:06:15,675 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:06:15,675 - app.scrapers.midas_scraper - INFO - Processing promo block: 57 chars
+2025-12-10 17:06:21,249 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire - NEW
+2025-12-10 17:06:21,249 - app.scrapers.midas_scraper - INFO - Processing promo block: 56 chars
+2025-12-10 17:06:25,261 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:06:25,262 - app.scrapers.midas_scraper - INFO - Processing promo block: 62 chars
+2025-12-10 17:06:29,049 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire maintenance - UPDATED
+2025-12-10 17:06:29,049 - app.scrapers.midas_scraper - INFO - Processing promo block: 112 chars
+2025-12-10 17:06:33,805 - app.scrapers.midas_scraper - INFO - [OK] Added promo: brake service - UPDATED
+2025-12-10 17:06:33,805 - app.scrapers.midas_scraper - INFO - Processing promo block: 702 chars
+2025-12-10 17:06:37,850 - app.scrapers.midas_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:06:37,850 - app.scrapers.midas_scraper - INFO - Processing promo block: 285 chars
+2025-12-10 17:06:41,798 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 490, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:06:41,799 - app.scrapers.midas_scraper - INFO - Processing promo block: 100 chars
+2025-12-10 17:06:45,829 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'lower'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 521, in process_midas_promotions
+    if existing_service == service_name.lower():
+AttributeError: 'NoneType' object has no attribute 'lower'
+2025-12-10 17:06:45,830 - app.scrapers.midas_scraper - INFO - Processing promo block: 464 chars
+2025-12-10 17:06:49,518 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 490, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:06:49,519 - app.scrapers.midas_scraper - INFO - Processing promo block: 116 chars
+2025-12-10 17:06:53,385 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - SAME
+2025-12-10 17:06:53,386 - app.scrapers.midas_scraper - INFO - Processing promo block: 211 chars
+2025-12-10 17:06:55,664 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:06:55,664 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:06:55,666 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:06:55,667 - app.scrapers.midas_scraper - INFO - Processing promo block: 306 chars
+2025-12-10 17:06:57,919 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:06:57,919 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:06:57,922 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:06:57,922 - app.scrapers.midas_scraper - INFO - Processing promo block: 112 chars
+2025-12-10 17:07:02,812 - app.scrapers.midas_scraper - INFO - [OK] Added promo: parts and tire guarantee - UPDATED
+2025-12-10 17:07:02,812 - app.scrapers.midas_scraper - INFO - Processing promo block: 82 chars
+2025-12-10 17:07:05,000 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:05,000 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:05,003 - app.scrapers.midas_scraper - INFO - [OK] Added promo: other - NEW
+2025-12-10 17:07:05,004 - app.scrapers.midas_scraper - INFO - Fetching https://www.midascanada.com/archive
+2025-12-10 17:07:05,010 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.midascanada.com/archive with Firecrawl (direct API)
+2025-12-10 17:07:07,487 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 139343 chars, 26 images
+2025-12-10 17:07:07,487 - app.scrapers.midas_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:07:07,810 - app.scrapers.midas_scraper - INFO - Found promo block from heading h6: 123 chars
+2025-12-10 17:07:07,811 - app.scrapers.midas_scraper - INFO - Found promo block from heading h6: 135 chars
+2025-12-10 17:07:07,811 - app.scrapers.midas_scraper - INFO - Found promo block from heading h6: 122 chars
+2025-12-10 17:07:07,811 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 100 chars
+2025-12-10 17:07:07,812 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 98 chars
+2025-12-10 17:07:07,812 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 89 chars
+2025-12-10 17:07:07,812 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 129 chars
+2025-12-10 17:07:07,830 - app.scrapers.midas_scraper - INFO - Found promo block in section: 70 chars
+2025-12-10 17:07:07,833 - app.scrapers.midas_scraper - INFO - Found promo block in div: 100 chars
+2025-12-10 17:07:07,837 - app.scrapers.midas_scraper - INFO - Found promo block in div: 628 chars
+2025-12-10 17:07:07,839 - app.scrapers.midas_scraper - INFO - Found promo block in section: 866 chars
+2025-12-10 17:07:07,842 - app.scrapers.midas_scraper - INFO - Found promo block in section: 1238 chars
+2025-12-10 17:07:07,844 - app.scrapers.midas_scraper - INFO - Found promo block in div: 552 chars
+2025-12-10 17:07:07,845 - app.scrapers.midas_scraper - INFO - Found promo block in div: 808 chars
+2025-12-10 17:07:07,846 - app.scrapers.midas_scraper - INFO - Found promo block in div: 164 chars
+2025-12-10 17:07:07,846 - app.scrapers.midas_scraper - INFO - Found promo block in div: 240 chars
+2025-12-10 17:07:07,848 - app.scrapers.midas_scraper - INFO - Found promo block in section: 1143 chars
+2025-12-10 17:07:07,851 - app.scrapers.midas_scraper - INFO - Found promo block in section: 310 chars
+2025-12-10 17:07:07,869 - app.scrapers.midas_scraper - INFO - Extracted 17 unique promo blocks
+2025-12-10 17:07:07,869 - app.scrapers.midas_scraper - INFO - Processing promo block: 123 chars
+2025-12-10 17:07:09,891 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:09,891 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:09,893 - app.scrapers.midas_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:07:09,893 - app.scrapers.midas_scraper - INFO - Processing promo block: 135 chars
+2025-12-10 17:07:11,996 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:11,997 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:11,999 - app.scrapers.midas_scraper - INFO - [OK] Added promo: brakes - NEW
+2025-12-10 17:07:11,999 - app.scrapers.midas_scraper - INFO - Processing promo block: 100 chars
+2025-12-10 17:07:14,192 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:14,195 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:14,195 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:14,195 - app.scrapers.midas_scraper - INFO - Processing promo block: 98 chars
+2025-12-10 17:07:16,313 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:16,313 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:16,316 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:16,316 - app.scrapers.midas_scraper - INFO - Processing promo block: 89 chars
+2025-12-10 17:07:18,243 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:18,243 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:18,247 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:18,248 - app.scrapers.midas_scraper - INFO - Processing promo block: 129 chars
+2025-12-10 17:07:20,254 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:20,254 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:20,258 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:20,258 - app.scrapers.midas_scraper - INFO - Processing promo block: 70 chars
+2025-12-10 17:07:23,204 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:23,205 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:23,205 - app.scrapers.midas_scraper - INFO - [OK] Added promo: other - NEW
+2025-12-10 17:07:23,205 - app.scrapers.midas_scraper - INFO - Processing promo block: 100 chars
+2025-12-10 17:07:25,189 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:25,189 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:25,192 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:25,192 - app.scrapers.midas_scraper - INFO - Processing promo block: 628 chars
+2025-12-10 17:07:27,118 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:27,118 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:27,121 - app.scrapers.midas_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:07:27,121 - app.scrapers.midas_scraper - INFO - Processing promo block: 866 chars
+2025-12-10 17:07:29,056 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:29,056 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:29,059 - app.scrapers.midas_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:07:29,059 - app.scrapers.midas_scraper - INFO - Processing promo block: 1238 chars
+2025-12-10 17:07:31,220 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:31,221 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:31,224 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:31,224 - app.scrapers.midas_scraper - INFO - Processing promo block: 552 chars
+2025-12-10 17:07:33,370 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:33,370 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:33,372 - app.scrapers.midas_scraper - INFO - [OK] Added promo: brakes - NEW
+2025-12-10 17:07:33,372 - app.scrapers.midas_scraper - INFO - Processing promo block: 808 chars
+2025-12-10 17:07:35,404 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:35,404 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:35,409 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:35,410 - app.scrapers.midas_scraper - INFO - Processing promo block: 164 chars
+2025-12-10 17:07:37,395 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:37,395 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:37,398 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:37,398 - app.scrapers.midas_scraper - INFO - Processing promo block: 240 chars
+2025-12-10 17:07:39,473 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:39,474 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:39,477 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:07:39,477 - app.scrapers.midas_scraper - INFO - Processing promo block: 1143 chars
+2025-12-10 17:07:41,462 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:41,462 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:41,465 - app.scrapers.midas_scraper - INFO - [OK] Added promo: brakes - NEW
+2025-12-10 17:07:41,465 - app.scrapers.midas_scraper - INFO - Processing promo block: 310 chars
+2025-12-10 17:07:43,519 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:07:43,519 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:07:43,522 - app.scrapers.midas_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:07:43,522 - app.scrapers.midas_scraper - INFO - Total promotions found: 37
+2025-12-10 17:07:43,522 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 37 valid promotions
+2025-12-10 17:07:43,526 - app.scrapers.midas_scraper - INFO - Saved 37 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\midas.json
+✅ Midas: Found 37 promotion(s)
+
+📋 Processing: Kal Tire
+------------------------------------------------------------
+2025-12-10 17:07:43,528 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Kal Tire
+2025-12-10 17:07:43,528 - app.scrapers.kal_scraper - INFO - Processing promotions for Kal Tire
+2025-12-10 17:07:43,528 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Kal Tire 2030 101 St NW, Edmonton, AB T6N 1J2, Canada Edmonton Canada
+2025-12-10 17:07:43,663 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Kal Tire 2030 101 St NW, Edmonton, AB T6N 1J2, Canada
+2025-12-10 17:07:43,664 - app.utils.promo_builder - INFO - Found Google Reviews for Kal Tire: 4.1
+2025-12-10 17:07:45,589 - app.scrapers.kal_scraper - INFO - Loading page: https://www.kaltire.com/en/promotions/
+2025-12-10 17:08:00,665 - app.scrapers.kal_scraper - INFO - Found 4 tab elements
+2025-12-10 17:08:00,676 - app.scrapers.kal_scraper - INFO - Found tabs navigation, will click through each tab
+2025-12-10 17:08:00,703 - app.scrapers.kal_scraper - INFO - Found tab: Tires
+2025-12-10 17:08:00,710 - app.scrapers.kal_scraper - INFO - Found tab: Wheels
+2025-12-10 17:08:00,720 - app.scrapers.kal_scraper - INFO - Found tab: Services
+2025-12-10 17:08:00,720 - app.scrapers.kal_scraper - INFO - Clicking tab: Tires
+2025-12-10 17:08:03,814 - app.scrapers.kal_scraper - INFO - Successfully clicked tab 'Tires'
+2025-12-10 17:08:03,848 - app.scrapers.kal_scraper - INFO - Found 10 promo cards in Tires tab
+2025-12-10 17:08:03,848 - app.scrapers.kal_scraper - INFO - Processing card 1/10 from Tires
+2025-12-10 17:08:05,874 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:05,874 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:05,876 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:05,876 - app.scrapers.kal_scraper - INFO - Processing card 2/10 from Tires
+2025-12-10 17:08:07,891 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:07,891 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:07,895 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:07,895 - app.scrapers.kal_scraper - INFO - Processing card 3/10 from Tires
+2025-12-10 17:08:10,038 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:10,038 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:10,039 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:10,040 - app.scrapers.kal_scraper - INFO - Processing card 4/10 from Tires
+2025-12-10 17:08:12,067 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:12,067 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:12,069 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:12,069 - app.scrapers.kal_scraper - INFO - Processing card 5/10 from Tires
+2025-12-10 17:08:14,135 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:14,135 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:14,136 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:14,136 - app.scrapers.kal_scraper - INFO - Processing card 6/10 from Tires
+2025-12-10 17:08:15,980 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:15,980 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:15,982 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:15,983 - app.scrapers.kal_scraper - INFO - Processing card 7/10 from Tires
+2025-12-10 17:08:17,938 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:17,938 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:17,939 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:17,939 - app.scrapers.kal_scraper - INFO - Processing card 8/10 from Tires
+2025-12-10 17:08:19,902 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:19,902 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:19,904 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:19,904 - app.scrapers.kal_scraper - INFO - Processing card 9/10 from Tires
+2025-12-10 17:08:21,922 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:21,924 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:21,925 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:21,925 - app.scrapers.kal_scraper - INFO - Processing card 10/10 from Tires
+2025-12-10 17:08:23,903 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:23,903 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:23,905 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:23,905 - app.scrapers.kal_scraper - INFO - Clicking tab: Wheels
+2025-12-10 17:08:27,040 - app.scrapers.kal_scraper - INFO - Successfully clicked tab 'Wheels'
+2025-12-10 17:08:27,090 - app.scrapers.kal_scraper - INFO - Found 1 promo cards in Wheels tab
+2025-12-10 17:08:27,090 - app.scrapers.kal_scraper - INFO - Processing card 1/1 from Wheels
+2025-12-10 17:08:29,045 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:29,045 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:29,047 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:29,047 - app.scrapers.kal_scraper - INFO - Clicking tab: Services
+2025-12-10 17:08:32,181 - app.scrapers.kal_scraper - INFO - Successfully clicked tab 'Services'
+2025-12-10 17:08:32,232 - app.scrapers.kal_scraper - INFO - Found 1 promo cards in Services tab
+2025-12-10 17:08:32,232 - app.scrapers.kal_scraper - INFO - Processing card 1/1 from Services
+2025-12-10 17:08:35,339 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:35,339 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:35,340 - app.scrapers.kal_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:08:35,425 - app.scrapers.kal_scraper - INFO - Found 12 promotions before deduplication
+2025-12-10 17:08:35,425 - app.scrapers.kal_scraper - INFO - Total unique promotions found: 12
+2025-12-10 17:08:35,426 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 12 valid promotions
+2025-12-10 17:08:35,427 - app.scrapers.kal_scraper - INFO - Saved 12 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\kal_tire.json
+✅ Kal Tire: Found 12 promotion(s)
+
+📋 Processing: Jiffy Lube
+------------------------------------------------------------
+2025-12-10 17:08:35,427 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Jiffy Lube
+2025-12-10 17:08:35,427 - app.scrapers.jiffy_scraper - INFO - Processing promotions for Jiffy Lube
+2025-12-10 17:08:35,427 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Jiffy Lube 2121 101 St NW, Edmonton, AB T6N 0A2, Canada Edmonton Canada
+2025-12-10 17:08:35,484 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Jiffy Lube 2121 101 St NW, Edmonton, AB T6N 0A2, Canada
+2025-12-10 17:08:35,485 - app.utils.promo_builder - INFO - Found Google Reviews for Jiffy Lube: 4.4
+2025-12-10 17:08:35,485 - app.scrapers.jiffy_scraper - INFO - Fetching https://www.jiffylubeservice.ca/coupons
+2025-12-10 17:08:35,494 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.jiffylubeservice.ca/coupons with Firecrawl (direct API)
+2025-12-10 17:08:37,327 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 28081 chars, 20 images
+2025-12-10 17:08:37,327 - app.scrapers.jiffy_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:08:37,355 - app.scrapers.jiffy_scraper - INFO - Extracted 3 promo sections from HTML
+2025-12-10 17:08:40,367 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:40,367 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:40,367 - app.scrapers.jiffy_scraper - INFO - [OK] Added promo: oil change - NEW
+2025-12-10 17:08:43,350 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:43,350 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:43,352 - app.scrapers.jiffy_scraper - INFO - [OK] Added promo: oil change - NEW
+2025-12-10 17:08:45,274 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:08:45,274 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:08:45,277 - app.scrapers.jiffy_scraper - INFO - [OK] Added promo: oil change - NEW
+2025-12-10 17:08:45,277 - app.scrapers.jiffy_scraper - INFO - Found 3 promotions before deduplication
+2025-12-10 17:08:45,277 - app.scrapers.jiffy_scraper - INFO - Grouped 3 promos by discount+code, kept best
+2025-12-10 17:08:45,277 - app.scrapers.jiffy_scraper - INFO - Total unique promotions found: 1
+2025-12-10 17:08:45,278 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 1 valid promotions
+2025-12-10 17:08:45,279 - app.scrapers.jiffy_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\jiffy_lube.json
+✅ Jiffy Lube: Found 1 promotion(s)
+
+📋 Processing: Fountain Tire
+------------------------------------------------------------
+2025-12-10 17:08:45,279 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Fountain Tire
+2025-12-10 17:08:45,279 - app.scrapers.fountain_scraper - INFO - Processing promotions for Fountain Tire
+2025-12-10 17:08:45,280 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Fountain Tire 3303 97 St NW, Edmonton, AB T6N 1B7, Canada Edmonton Canada
+2025-12-10 17:08:45,373 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Fountain Tire 3303 97 St NW, Edmonton, AB T6N 1B7, Canada
+2025-12-10 17:08:45,373 - app.utils.promo_builder - INFO - Found Google Reviews for Fountain Tire: 4.7
+2025-12-10 17:08:45,375 - app.scrapers.fountain_scraper - INFO - Processing URL: https://www.fountaintire.com/promotions/
+2025-12-10 17:08:45,375 - app.scrapers.fountain_scraper - INFO - Processing https://www.fountaintire.com/promotions/ (text + OCR mode)
+2025-12-10 17:08:45,380 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.fountaintire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:08:48,343 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 450229 chars, 21 images
+2025-12-10 17:08:48,344 - app.scrapers.fountain_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:08:48,819 - app.scrapers.fountain_scraper - INFO - Extracted 3 promo sections from HTML
+2025-12-10 17:08:49,058 - app.scrapers.fountain_scraper - INFO - Found 16 images for OCR processing
+2025-12-10 17:08:49,059 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/media/lmgifatz/12343670_2025_ft_fallpromo_3_web_promo_desktop-mobile_399x250_en.png
+2025-12-10 17:08:50,928 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/media/2625/rebate.png
+2025-12-10 17:08:52,578 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/media/0gglmme2/promotions-page-tile-399x250.png
+2025-12-10 17:08:54,172 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/images/close.svg
+2025-12-10 17:08:55,465 - app.extractors.ocr.ocr_processor - WARNING - Vision API error: Bad image data.
+2025-12-10 17:08:55,465 - app.extractors.ocr.ocr_processor - INFO - Google Vision failed, using Tesseract fallback for close.svg
+2025-12-10 17:08:55,571 - app.extractors.ocr.ocr_processor - ERROR - Tesseract OCR error: cannot identify image file 'C:\\Users\\nandi\\Downloads\\competitorproject-main\\competitorproject-main\\data\\images\\close.svg'
+2025-12-10 17:08:55,572 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/images/FT_CartImagery_Empty_Cart.png
+2025-12-10 17:09:00,205 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:00,205 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:00,207 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:09:02,166 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:02,167 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:02,168 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:09:04,130 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:04,130 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:04,131 - app.scrapers.fountain_scraper - INFO - Skipping very short text: Deals at Fountain Tire
+2025-12-10 17:09:04,131 - app.scrapers.fountain_scraper - INFO - Processing URL: https://www.fountaintire.com/promotions/tire-rebates/
+2025-12-10 17:09:04,132 - app.scrapers.fountain_scraper - INFO - Processing https://www.fountaintire.com/promotions/tire-rebates/ (text-only mode)
+2025-12-10 17:09:04,137 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.fountaintire.com/promotions/tire-rebates/ with Firecrawl (direct API)
+2025-12-10 17:09:07,184 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 453879 chars, 23 images
+2025-12-10 17:09:07,185 - app.scrapers.fountain_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:09:07,668 - app.scrapers.fountain_scraper - INFO - Extracted 9 promo sections from HTML
+2025-12-10 17:09:09,586 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:09,587 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:09,588 - app.scrapers.fountain_scraper - INFO - Skipping intro text: Put some money back in your pocket by claiming your rebate from the following tire manufacturers: GO
+2025-12-10 17:09:11,522 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:11,522 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:11,524 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:13,522 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:13,523 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:13,524 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:15,505 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:15,506 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:15,507 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:17,482 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:17,482 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:17,483 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:19,330 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:19,330 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:19,332 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:21,279 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:21,281 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:21,281 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:23,422 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:23,422 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:23,425 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:25,405 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:25,405 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:25,408 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:25,408 - app.scrapers.fountain_scraper - INFO - Processing URL: https://www.fountaintire.com/promotions/financing/
+2025-12-10 17:09:25,408 - app.scrapers.fountain_scraper - INFO - Processing https://www.fountaintire.com/promotions/financing/ (text-only mode)
+2025-12-10 17:09:25,417 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.fountaintire.com/promotions/financing/ with Firecrawl (direct API)
+2025-12-10 17:09:28,355 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 461489 chars, 20 images
+2025-12-10 17:09:28,355 - app.scrapers.fountain_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:09:28,864 - app.scrapers.fountain_scraper - INFO - Extracted 3 promo sections from HTML
+2025-12-10 17:09:31,169 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:31,169 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:31,171 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:33,629 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:33,629 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:33,632 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:35,596 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:35,597 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:35,599 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:35,599 - app.scrapers.fountain_scraper - INFO - Found 13 promotions before grouping, 13 after grouping rebates
+2025-12-10 17:09:35,599 - app.scrapers.fountain_scraper - INFO - Total unique promotions found: 13
+2025-12-10 17:09:35,600 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 13 valid promotions
+2025-12-10 17:09:35,602 - app.scrapers.fountain_scraper - INFO - Saved 13 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\fountain_tire.json
+✅ Fountain Tire: Found 13 promotion(s)
+
+📋 Processing: Speedy Auto Service
+------------------------------------------------------------
+2025-12-10 17:09:35,603 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Speedy Auto Service
+2025-12-10 17:09:35,603 - app.scrapers.speedy_scraper - INFO - Processing promotions for Speedy Auto Service
+2025-12-10 17:09:35,603 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Speedy Auto Service 4521 Gateway Blvd NW, Edmonton, AB T6H 5C3, Canada Edmonton Canada
+2025-12-10 17:09:35,648 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Speedy Auto Service 4521 Gateway Blvd NW, Edmonton, AB T6H 5C3, Canada
+2025-12-10 17:09:35,648 - app.utils.promo_builder - INFO - Found Google Reviews for Speedy Auto Service: 4.5
+2025-12-10 17:09:35,648 - app.scrapers.speedy_scraper - INFO - Fetching https://www.speedy.com/en-ca/promotions/
+2025-12-10 17:09:35,653 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.speedy.com/en-ca/promotions/ with Firecrawl (direct API)
+2025-12-10 17:09:37,589 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 64972 chars, 9 images
+2025-12-10 17:09:37,622 - app.extractors.html_parser - INFO - Found 4 PDF links with images
+2025-12-10 17:09:37,622 - app.scrapers.speedy_scraper - INFO - Found 4 PDF links with images
+2025-12-10 17:09:37,622 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_Brake.pdf
+2025-12-10 17:09:37,624 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:09:37,871 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_Brake-1024x410.png...
+2025-12-10 17:09:38,395 - app.scrapers.speedy_scraper - INFO - OCR extracted 358 characters
+2025-12-10 17:09:40,426 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:40,427 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:40,427 - app.scrapers.speedy_scraper - WARNING - LLM cleaning failed, using raw OCR text with basic extraction
+2025-12-10 17:09:40,429 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: brakes - NEW
+2025-12-10 17:09:40,429 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_Battery.pdf
+2025-12-10 17:09:40,430 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:09:40,616 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_Battery-1024x410.png...
+2025-12-10 17:09:41,033 - app.scrapers.speedy_scraper - INFO - OCR extracted 374 characters
+2025-12-10 17:09:42,943 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:42,943 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:42,944 - app.scrapers.speedy_scraper - WARNING - LLM cleaning failed, using raw OCR text with basic extraction
+2025-12-10 17:09:42,945 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: battery - NEW
+2025-12-10 17:09:42,945 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_Exhaust.pdf
+2025-12-10 17:09:42,945 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:09:43,046 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_Exhaust-1024x410.png...
+2025-12-10 17:09:43,435 - app.scrapers.speedy_scraper - INFO - OCR extracted 360 characters
+2025-12-10 17:09:45,326 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:45,326 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:45,326 - app.scrapers.speedy_scraper - WARNING - LLM cleaning failed, using raw OCR text with basic extraction
+2025-12-10 17:09:45,327 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: exhaust - NEW
+2025-12-10 17:09:45,327 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_50.pdf
+2025-12-10 17:09:45,328 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:09:45,414 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_50-1024x410.png...
+2025-12-10 17:09:45,825 - app.scrapers.speedy_scraper - INFO - OCR extracted 365 characters
+2025-12-10 17:09:47,655 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:47,655 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:47,656 - app.scrapers.speedy_scraper - WARNING - LLM cleaning failed, using raw OCR text with basic extraction
+2025-12-10 17:09:47,657 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: brakes - NEW
+2025-12-10 17:09:47,657 - app.scrapers.speedy_scraper - INFO - Total unique promotions found: 4
+2025-12-10 17:09:47,657 - app.utils.extraction_flow - WARNING - Firecrawl extraction found 4 promotions, but none are valid
+2025-12-10 17:09:47,657 - app.utils.extraction_flow - INFO - Checking Speedy Auto Service for promo section: https://www.speedy.com/en-ca/promotions/
+2025-12-10 17:09:47,662 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.speedy.com/en-ca/promotions/ with Firecrawl (direct API)
+2025-12-10 17:09:49,545 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 64972 chars, 9 images
+2025-12-10 17:09:49,545 - app.utils.extraction_flow - INFO - Found promo section indicators in https://www.speedy.com/en-ca/promotions/
+2025-12-10 17:09:49,545 - app.utils.extraction_flow - INFO - Promo section exists but no valid promotions extracted, using AI Overview fallback
+2025-12-10 17:09:49,545 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Speedy Auto Service auto service promotions discounts Edmonton Canada
+2025-12-10 17:09:49,634 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Speedy Auto Service auto service promotions discounts
+2025-12-10 17:09:49,635 - app.extractors.serpapi.business_overview_extractor - INFO - Generated fallback promo from AI Overview for Speedy Auto Service
+2025-12-10 17:09:49,635 - app.utils.extraction_flow - INFO - AI Overview fallback successful for Speedy Auto Service
+2025-12-10 17:09:49,635 - app.scrapers.speedy_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\speedy_auto_service.json
+✅ Speedy Auto Service: Found 1 promotion(s)
+
+📋 Processing: Trail Tire Auto Centres
+------------------------------------------------------------
+2025-12-10 17:09:49,636 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Trail Tire Auto Centres
+2025-12-10 17:09:49,636 - app.scrapers.trail_scraper - INFO - Processing promotions for Trail Tire Auto Centres
+2025-12-10 17:09:49,636 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Trail Tire Auto Centres 4717 99 St NW, Edmonton, AB T6E 4Y1, Canada Edmonton Canada
+2025-12-10 17:09:49,677 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Trail Tire Auto Centres 4717 99 St NW, Edmonton, AB T6E 4Y1, Canada
+2025-12-10 17:09:49,677 - app.utils.promo_builder - INFO - Found Google Reviews for Trail Tire Auto Centres: 4.6
+2025-12-10 17:09:49,677 - app.scrapers.trail_scraper - INFO - Fetching https://trailtire.com/promotions/
+2025-12-10 17:09:49,681 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://trailtire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:09:51,885 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 88292 chars, 12 images
+2025-12-10 17:09:51,916 - app.scrapers.trail_scraper - INFO - Found 8 banner images
+2025-12-10 17:09:51,916 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/promotions/...
+2025-12-10 17:09:53,440 - app.extractors.images.image_downloader - WARNING - URL https://trailtire.com/promotions/ doesn't appear to be an image (content-type: text/html; charset=utf-8)
+2025-12-10 17:09:53,441 - app.scrapers.trail_scraper - WARNING - Failed to download image: https://trailtire.com/promotions/
+2025-12-10 17:09:53,441 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/03/5560_Trail-Tire-Rolling-Rebates...
+2025-12-10 17:09:56,158 - app.scrapers.trail_scraper - INFO - Running OCR on 5560_Trail-Tire-Rolling-Rebates_1500x375_2025-09-16_V1.png...
+2025-12-10 17:09:58,704 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:09:58,705 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:09:58,707 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:09:58,708 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/December-21-2025.png...
+2025-12-10 17:10:01,665 - app.scrapers.trail_scraper - INFO - Running OCR on December-21-2025.png...
+2025-12-10 17:10:05,482 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:05,483 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:05,485 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:10:05,486 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/Kumho-Fall-Rebate.png...
+2025-12-10 17:10:05,530 - app.extractors.images.image_downloader - ERROR - Error downloading image https://trailtire.com/wp-content/uploads/2025/08/Kumho-Fall-Rebate.png: HTTPSConnectionPool(host='trailtire.com', port=443): Max retries exceeded with url: /wp-content/uploads/2025/08/Kumho-Fall-Rebate.png (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x00000289CA78B970>: Failed to establish a new connection: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted'))
+2025-12-10 17:10:05,530 - app.scrapers.trail_scraper - WARNING - Failed to download image: https://trailtire.com/wp-content/uploads/2025/08/Kumho-Fall-Rebate.png
+2025-12-10 17:10:05,532 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/5560_Trail-Tire-Toyo-Tire-Rebat...
+2025-12-10 17:10:09,227 - app.scrapers.trail_scraper - INFO - Running OCR on 5560_Trail-Tire-Toyo-Tire-Rebates_2000x630_2025-09-16_V1.png...
+2025-12-10 17:10:12,563 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:12,563 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:12,565 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:10:12,566 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/Michelin-Rebate.png...
+2025-12-10 17:10:16,886 - app.scrapers.trail_scraper - INFO - Running OCR on Michelin-Rebate.png...
+2025-12-10 17:10:21,428 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:21,428 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:21,430 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:10:21,430 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/BFG-Rebate.png...
+2025-12-10 17:10:25,228 - app.scrapers.trail_scraper - INFO - Running OCR on BFG-Rebate.png...
+2025-12-10 17:10:29,479 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:29,480 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:29,482 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:10:29,482 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/Uniroyal-Rebate.png...
+2025-12-10 17:10:32,689 - app.scrapers.trail_scraper - INFO - Running OCR on Uniroyal-Rebate.png...
+2025-12-10 17:10:35,523 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:35,524 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:35,526 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:10:35,526 - app.scrapers.trail_scraper - INFO - Total unique promotions found: 6
+2025-12-10 17:10:35,526 - app.utils.extraction_flow - WARNING - Firecrawl extraction found 6 promotions, but none are valid
+2025-12-10 17:10:35,526 - app.utils.extraction_flow - INFO - Checking Trail Tire Auto Centres for promo section: https://trailtire.com/promotions/
+2025-12-10 17:10:35,532 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://trailtire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:10:37,610 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 88292 chars, 12 images
+2025-12-10 17:10:37,611 - app.utils.extraction_flow - INFO - Found promo section indicators in https://trailtire.com/promotions/
+2025-12-10 17:10:37,611 - app.utils.extraction_flow - INFO - Promo section exists but no valid promotions extracted, using AI Overview fallback
+2025-12-10 17:10:37,611 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Trail Tire Auto Centres auto service promotions discounts Edmonton Canada
+2025-12-10 17:10:37,660 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Trail Tire Auto Centres auto service promotions discounts
+2025-12-10 17:10:37,661 - app.extractors.serpapi.business_overview_extractor - INFO - Generated fallback promo from AI Overview for Trail Tire Auto Centres
+2025-12-10 17:10:37,661 - app.utils.extraction_flow - INFO - AI Overview fallback successful for Trail Tire Auto Centres
+2025-12-10 17:10:37,662 - app.scrapers.trail_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\trail_tire_auto_centres.json
+✅ Trail Tire Auto Centres: Found 1 promotion(s)
+
+📋 Processing: Integra Tire Auto Centre
+------------------------------------------------------------
+2025-12-10 17:10:37,662 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Integra Tire Auto Centre
+2025-12-10 17:10:37,662 - app.scrapers.integra_scraper - INFO - Processing promotions for Integra Tire Auto Centre
+2025-12-10 17:10:37,662 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Integra Tire Auto Centre 5035 99 St NW, Edmonton, AB T6E 4Y1, Canada Edmonton Canada
+2025-12-10 17:10:37,706 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Integra Tire Auto Centre 5035 99 St NW, Edmonton, AB T6E 4Y1, Canada
+2025-12-10 17:10:37,706 - app.utils.promo_builder - INFO - Found Google Reviews for Integra Tire Auto Centre: 4.7
+2025-12-10 17:10:37,706 - app.scrapers.integra_scraper - INFO - Fetching https://integratire.com/promotions/
+2025-12-10 17:10:37,708 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://integratire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:10:39,403 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 29589 chars, 17 images
+2025-12-10 17:10:39,418 - app.extractors.html_parser - INFO - Found 16 images using selector 'img.single-rebate'
+2025-12-10 17:10:39,418 - app.scrapers.integra_scraper - INFO - Found 16 rebate images
+2025-12-10 17:10:39,420 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009788-ofn-continental.webp...
+2025-12-10 17:10:40,606 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009788-ofn-continental.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:10:40,889 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009788-ofn-continental.webp...
+2025-12-10 17:10:43,224 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:43,224 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:43,226 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Continental Tire Rebate - NEW
+2025-12-10 17:10:43,226 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009751-ofn-michelin.webp...
+2025-12-10 17:10:44,058 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009751-ofn-michelin.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:10:44,335 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009751-ofn-michelin.webp...
+2025-12-10 17:10:46,640 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:46,640 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:46,643 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Michelin Tire Rebate - NEW
+2025-12-10 17:10:46,643 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009725-ofn-bfgoodrich.webp...
+2025-12-10 17:10:47,519 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009725-ofn-bfgoodrich.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:10:47,805 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009725-ofn-bfgoodrich.webp...
+2025-12-10 17:10:50,198 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:50,198 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:50,199 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Bfgoodrich Tire Rebate - NEW
+2025-12-10 17:10:50,199 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009692-ofn-falken.webp...
+2025-12-10 17:10:51,010 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009692-ofn-falken.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:10:51,282 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009692-ofn-falken.webp...
+2025-12-10 17:10:53,558 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:53,559 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:53,561 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Falken Tire Rebate - NEW
+2025-12-10 17:10:53,561 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009679-ofn-firestone.webp...
+2025-12-10 17:10:54,440 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009679-ofn-firestone.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:10:54,713 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009679-ofn-firestone.webp...
+2025-12-10 17:10:56,999 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:10:57,000 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:10:57,002 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Firestone Tire Rebate - NEW
+2025-12-10 17:10:57,002 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009652-ofn-general_tire.webp...
+2025-12-10 17:10:57,844 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009652-ofn-general_tire.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:10:58,143 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009652-ofn-general_tire.webp...
+2025-12-10 17:11:00,366 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:00,366 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:00,368 - app.scrapers.integra_scraper - INFO - [OK] Added promo: General Tire Rebate - NEW
+2025-12-10 17:11:00,370 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009632-ofn-goodyear.webp...
+2025-12-10 17:11:01,303 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009632-ofn-goodyear.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:01,600 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009632-ofn-goodyear.webp...
+2025-12-10 17:11:01,999 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Goodyear' from image URL: https://media.auto1cloud.com/uploads/st-1764009632-ofn-goodyear.webp
+2025-12-10 17:11:03,958 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:03,958 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:03,960 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Goodyear Tire Rebate - NEW
+2025-12-10 17:11:03,960 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009538-ofn-hankook.webp...
+2025-12-10 17:11:04,811 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009538-ofn-hankook.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:05,099 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009538-ofn-hankook.webp...
+2025-12-10 17:11:05,441 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Hankook' from image URL: https://media.auto1cloud.com/uploads/st-1764009538-ofn-hankook.webp
+2025-12-10 17:11:07,356 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:07,356 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:07,360 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Hankook Tire Rebate - NEW
+2025-12-10 17:11:07,360 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009522-ofn-hercules.webp...
+2025-12-10 17:11:08,228 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009522-ofn-hercules.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:08,511 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009522-ofn-hercules.webp...
+2025-12-10 17:11:08,883 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Hercules' from image URL: https://media.auto1cloud.com/uploads/st-1764009522-ofn-hercules.webp
+2025-12-10 17:11:10,824 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:10,825 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:10,825 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Hercules Tire Rebate - NEW
+2025-12-10 17:11:10,825 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009497-ofn-kumho.webp...
+2025-12-10 17:11:11,686 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009497-ofn-kumho.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:11,987 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009497-ofn-kumho.webp...
+2025-12-10 17:11:14,365 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:14,365 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:14,366 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Kumho Tire Rebate - NEW
+2025-12-10 17:11:14,367 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009485-ofn-laufenn.webp...
+2025-12-10 17:11:15,239 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009485-ofn-laufenn.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:15,525 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009485-ofn-laufenn.webp...
+2025-12-10 17:11:16,021 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Laufenn' from image URL: https://media.auto1cloud.com/uploads/st-1764009485-ofn-laufenn.webp
+2025-12-10 17:11:18,004 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:18,004 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:18,006 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Laufenn Tire Rebate - NEW
+2025-12-10 17:11:18,006 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009459-ofn-nexen.webp...
+2025-12-10 17:11:18,850 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009459-ofn-nexen.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:19,136 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009459-ofn-nexen.webp...
+2025-12-10 17:11:19,506 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Nexen' from image URL: https://media.auto1cloud.com/uploads/st-1764009459-ofn-nexen.webp
+2025-12-10 17:11:21,339 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:21,339 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:21,340 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Nexen Tire Rebate - NEW
+2025-12-10 17:11:21,341 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009447-ofn-pirelli.webp...
+2025-12-10 17:11:22,248 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009447-ofn-pirelli.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:22,540 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009447-ofn-pirelli.webp...
+2025-12-10 17:11:22,990 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Pirelli' from image URL: https://media.auto1cloud.com/uploads/st-1764009447-ofn-pirelli.webp
+2025-12-10 17:11:24,824 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:24,824 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:24,826 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Pirelli Tire Rebate - NEW
+2025-12-10 17:11:24,827 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009429-ofn-toyo.webp...
+2025-12-10 17:11:25,680 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009429-ofn-toyo.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:26,236 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009429-ofn-toyo.webp...
+2025-12-10 17:11:28,512 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:28,512 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:28,513 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Toyo Tire Rebate - NEW
+2025-12-10 17:11:28,513 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009398-ofn-uniroyal.webp...
+2025-12-10 17:11:29,379 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009398-ofn-uniroyal.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:29,925 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009398-ofn-uniroyal.webp...
+2025-12-10 17:11:32,182 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:32,183 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:32,184 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Uniroyal Tire Rebate - NEW
+2025-12-10 17:11:32,184 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009375-ofn-yokohoma.webp...
+2025-12-10 17:11:32,961 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009375-ofn-yokohoma.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:11:33,225 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009375-ofn-yokohoma.webp...
+2025-12-10 17:11:35,463 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:35,463 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:35,463 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Yokohama Tire Rebate - NEW
+2025-12-10 17:11:35,463 - app.scrapers.integra_scraper - INFO - Total unique promotions found: 16
+2025-12-10 17:11:35,464 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 16 valid promotions
+2025-12-10 17:11:35,465 - app.scrapers.integra_scraper - INFO - Saved 16 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\integra_tire_auto_centre.json
+✅ Integra Tire Auto Centre: Found 16 promotion(s)
+
+📋 Processing: Valvoline Express Care
+------------------------------------------------------------
+2025-12-10 17:11:35,466 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Valvoline Express Care
+2025-12-10 17:11:35,466 - app.scrapers.valvoline_scraper - INFO - Processing promotions for Valvoline Express Care
+2025-12-10 17:11:35,467 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Valvoline Express Care 9516 51 Ave NW, Edmonton, AB T6E 5A6, Canada Edmonton Canada
+2025-12-10 17:11:35,504 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Valvoline Express Care 9516 51 Ave NW, Edmonton, AB T6E 5A6, Canada
+2025-12-10 17:11:35,504 - app.utils.promo_builder - INFO - Found Google Reviews for Valvoline Express Care: 4.9
+2025-12-10 17:11:35,504 - app.scrapers.valvoline_scraper - INFO - Fetching http://valvolineedmonton.ca/ with Playwright to detect dynamic popups
+2025-12-10 17:11:35,504 - app.scrapers.valvoline_scraper - INFO - Fetching http://valvolineedmonton.ca/ with Firecrawl
+2025-12-10 17:11:35,504 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching http://valvolineedmonton.ca/ with Firecrawl (direct API)
+2025-12-10 17:11:37,727 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 71880 chars, 7 images
+2025-12-10 17:11:37,752 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-body
+2025-12-10 17:11:37,752 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-body
+2025-12-10 17:11:37,752 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-form
+2025-12-10 17:11:37,752 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-form
+2025-12-10 17:11:37,778 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: img[src*='hostedimages']
+2025-12-10 17:11:37,782 - app.scrapers.valvoline_scraper - INFO - Found 5 AWeber popup(s)
+2025-12-10 17:11:37,784 - app.scrapers.valvoline_scraper - INFO - Extracted 0 images from popup
+2025-12-10 17:11:37,784 - app.scrapers.valvoline_scraper - INFO - No images found in popup
+2025-12-10 17:11:37,784 - app.scrapers.valvoline_scraper - INFO - Found image in popup: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:11:37,784 - app.scrapers.valvoline_scraper - INFO - Extracted 1 images from popup
+2025-12-10 17:11:37,784 - app.scrapers.valvoline_scraper - INFO - Processing image: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:11:38,831 - app.scrapers.valvoline_scraper - INFO - OCR text (first 200 chars): V
+EXPRESS CARE QUICKLUBE
+Valvoline
+9516 51 Ave NW, Edmonton, AB | 780.503.3093
+SAVE UP TO $100 ON YOUR VISIT
+Why Choose Valvoline?
+• Free Topup Fluids
+• Tire Pressure Check
+• Battery Inspection
+⚫ Air/
+2025-12-10 17:11:40,998 - app.extractors.ocr.llm_cleaner - ERROR - Perplexity API error 401: <html>
+<head><title>401 Authorization Required</title></head>
+<body>
+<center><h1>401 Authorization Required</h1></center>
+<hr><center>openresty/1.27.4</center>
+<script>(function(){function c(){va
+2025-12-10 17:11:40,999 - app.extractors.ocr.llm_cleaner - ERROR - Error cleaning text with LLM: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions
+2025-12-10 17:11:41,000 - app.scrapers.valvoline_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:11:41,001 - app.scrapers.valvoline_scraper - INFO - Extracted 0 images from popup
+2025-12-10 17:11:41,001 - app.scrapers.valvoline_scraper - INFO - No images found in popup
+2025-12-10 17:11:41,001 - app.scrapers.valvoline_scraper - INFO - Found image in popup: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:11:41,001 - app.scrapers.valvoline_scraper - INFO - Extracted 1 images from popup
+2025-12-10 17:11:41,001 - app.scrapers.valvoline_scraper - INFO - Skipping duplicate image: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:11:41,002 - app.scrapers.valvoline_scraper - INFO - Found image in popup: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:11:41,002 - app.scrapers.valvoline_scraper - INFO - Extracted 1 images from popup
+2025-12-10 17:11:41,002 - app.scrapers.valvoline_scraper - INFO - Skipping duplicate image: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:11:41,002 - app.scrapers.valvoline_scraper - INFO - Total promotions found: 1
+2025-12-10 17:11:41,002 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 1 valid promotions
+2025-12-10 17:11:41,004 - app.scrapers.valvoline_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\valvoline_express_care.json
+✅ Valvoline Express Care: Found 1 promotion(s)
+
+📋 Processing: Mr. Lube
+------------------------------------------------------------
+2025-12-10 17:11:41,005 - app.utils.extraction_flow - INFO - MR LUBE detected: Using AI Overview as primary method (skipping Firecrawl)
+2025-12-10 17:11:41,005 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Mr. Lube auto service promotions discounts Edmonton Canada
+2025-12-10 17:11:41,070 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Mr. Lube auto service promotions discounts
+2025-12-10 17:11:41,071 - app.extractors.serpapi.business_overview_extractor - INFO - Generated fallback promo from AI Overview for Mr. Lube
+2025-12-10 17:11:41,073 - app.scrapers.mrlube_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\mr_lube.json
+✅ Mr. Lube: Found 1 promotion(s)
+
+============================================================
+📈 SCRAPING SUMMARY
+============================================================
+   Competitors processed: 10
+   Successful: 10
+   Total promotions: 90
+============================================================
+
+📝 STEP 2: Merging and Writing to Google Sheets
+============================================================
+2025-12-10 17:11:41,091 - app.utils.sheets_merger - INFO - Loaded 13 promotions from fountain_tire.json
+2025-12-10 17:11:41,106 - app.utils.sheets_merger - INFO - Loaded 7 promotions from good_news_auto.json
+2025-12-10 17:11:41,106 - app.utils.sheets_merger - INFO - Loaded 16 promotions from integra_tire_auto_centre.json
+2025-12-10 17:11:41,115 - app.utils.sheets_merger - INFO - Loaded 1 promotions from jiffy_lube.json
+2025-12-10 17:11:41,115 - app.utils.sheets_merger - INFO - Loaded 12 promotions from kal_tire.json
+2025-12-10 17:11:41,131 - app.utils.sheets_merger - INFO - Loaded 119 promotions from merged_promotions.json
+2025-12-10 17:11:41,142 - app.utils.sheets_merger - INFO - Loaded 37 promotions from midas.json
+2025-12-10 17:11:41,153 - app.utils.sheets_merger - INFO - Loaded 1 promotions from mr_lube.json
+2025-12-10 17:11:41,163 - app.utils.sheets_merger - INFO - Loaded 1 promotions from speedy_auto_service.json
+2025-12-10 17:11:41,172 - app.utils.sheets_merger - INFO - Loaded 1 promotions from trail_tire_auto_centres.json
+2025-12-10 17:11:41,179 - app.utils.sheets_merger - INFO - Loaded 1 promotions from valvoline_express_care.json
+2025-12-10 17:11:41,179 - app.utils.sheets_merger - INFO - Total promotions loaded: 209
+2025-12-10 17:11:41,210 - app.utils.sheets_merger - INFO - Deduplicated: 209 -> 168 promotions
+2025-12-10 17:11:44,245 - app.utils.sheets_writer - INFO - Wrote 168 rows to Google Sheets
+2025-12-10 17:11:46,065 - app.utils.sheets_writer - INFO - Applied dashboard formatting to sheet
+2025-12-10 17:11:46,084 - app.utils.sheets_merger - INFO - Saved merged data to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\merged_promotions.json
+
+✅ SUCCESS! All promotions merged and written to Google Sheets
+   Check your Google Sheet for the updated dashboard.
+
+============================================================
+✨ Pipeline Complete!
+============================================================
+

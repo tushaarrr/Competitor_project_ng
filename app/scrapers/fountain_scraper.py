@@ -13,7 +13,7 @@ from app.extractors.ocr.ocr_processor import ocr_image
 from app.extractors.html_parser import find_images_by_css_selector
 from app.config.constants import DATA_DIR
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback, get_google_reviews_for_competitor
 
 logger = setup_logger(__name__, "fountain_scraper.log")
 
@@ -351,8 +351,155 @@ def normalize_title(title: str) -> str:
     return normalized
 
 
+def normalize_text_for_dedup(text: str) -> str:
+    """
+    Normalize text for Fountain Tire deduplication.
+
+    Rules:
+    - lowercase everything
+    - remove extra spaces and line breaks
+    - remove duplicate phrases like "learn more", "see details", etc.
+    - collapse multiple spaces into one
+    """
+    if not text:
+        return ""
+
+    # Lowercase
+    normalized = text.lower()
+
+    # Remove common duplicate phrases
+    duplicate_phrases = [
+        "learn more", "see details", "view details", "click here", "read more",
+        "find out more", "get started", "shop now", "buy now", "apply now",
+        "view offer", "see offer", "view promotion", "see promotion"
+    ]
+    for phrase in duplicate_phrases:
+        # Remove phrase and any surrounding punctuation/spaces
+        normalized = re.sub(rf'\b{re.escape(phrase)}\b[.,;:!?\s]*', ' ', normalized, flags=re.IGNORECASE)
+
+    # Remove line breaks and normalize whitespace
+    normalized = normalized.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+
+    # Collapse multiple spaces into one
+    normalized = re.sub(r'\s+', ' ', normalized)
+
+    # Remove leading/trailing spaces
+    normalized = normalized.strip()
+
+    return normalized
+
+
+def extract_brand_name_from_text(text: str) -> Optional[str]:
+    """Extract tire brand name from text for Fountain Tire deduplication."""
+    if not text:
+        return None
+
+    text_lower = text.lower()
+    brands = [
+        "michelin", "bridgestone", "goodyear", "continental", "pirelli",
+        "bfgoodrich", "toyo", "nitto", "hankook", "falken", "kumho",
+        "yokohama", "dunlop", "firestone", "general", "cooper", "uniroyal",
+        "mastercraft", "hercules", "nexen", "laufenn"
+    ]
+
+    for brand in brands:
+        if brand in text_lower:
+            return brand.title()
+    return None
+
+
+def are_fountain_promos_duplicate(promo1: Dict, promo2: Dict) -> bool:
+    """
+    Check if two Fountain Tire promotions are duplicates.
+
+    Deduplication rules:
+    1. Normalize text (lowercase, remove extra spaces, remove duplicate phrases)
+    2. Use composite key: service_name_clean + promo_description_clean + offer_details_clean
+    3. If match on key, they are duplicates
+    4. Also treat as duplicate if:
+       - Same discount value AND same brand
+       - Same ad_title + ad_text combination
+       - Same promo from multiple Fountain Tire URLs
+    """
+    # Normalize all text fields
+    service1_clean = normalize_text_for_dedup(promo1.get("service_name", ""))
+    service2_clean = normalize_text_for_dedup(promo2.get("service_name", ""))
+
+    desc1_clean = normalize_text_for_dedup(promo1.get("promo_description", ""))
+    desc2_clean = normalize_text_for_dedup(promo2.get("promo_description", ""))
+
+    offer1_clean = normalize_text_for_dedup(promo1.get("offer_details", ""))
+    offer2_clean = normalize_text_for_dedup(promo2.get("offer_details", ""))
+
+    # Rule 2: Composite key match
+    key1 = service1_clean + desc1_clean + offer1_clean
+    key2 = service2_clean + desc2_clean + offer2_clean
+
+    if key1 and key2 and key1 == key2:
+        return True
+
+    # Rule 4a: Same discount value AND same brand
+    discount1 = promo1.get("discount_value", "")
+    discount2 = promo2.get("discount_value", "")
+
+    if discount1 and discount2 and discount1 == discount2:
+        # Extract brand names
+        promo1_text = (promo1.get("service_name", "") + " " +
+                      promo1.get("promo_description", "") + " " +
+                      promo1.get("offer_details", "")).lower()
+        promo2_text = (promo2.get("service_name", "") + " " +
+                      promo2.get("promo_description", "") + " " +
+                      promo2.get("offer_details", "")).lower()
+
+        brand1 = extract_brand_name_from_text(promo1_text)
+        brand2 = extract_brand_name_from_text(promo2_text)
+
+        if brand1 and brand2 and brand1 == brand2:
+            return True
+
+    # Rule 4b: Same ad_title + ad_text combination
+    ad_title1_clean = normalize_text_for_dedup(promo1.get("ad_title", ""))
+    ad_title2_clean = normalize_text_for_dedup(promo2.get("ad_title", ""))
+
+    ad_text1_clean = normalize_text_for_dedup(promo1.get("ad_text", ""))
+    ad_text2_clean = normalize_text_for_dedup(promo2.get("ad_text", ""))
+
+    if ad_title1_clean and ad_title2_clean and ad_text1_clean and ad_text2_clean:
+        if ad_title1_clean == ad_title2_clean and ad_text1_clean == ad_text2_clean:
+            return True
+
+    # Rule 4c: Same promo from multiple Fountain Tire URLs (check if content is very similar)
+    # This is already covered by the composite key, but we can add extra check for URL variations
+    page_url1 = promo1.get("page_url", "")
+    page_url2 = promo2.get("page_url", "")
+
+    # If from different Fountain Tire URLs but content is very similar
+    if page_url1 != page_url2 and "fountaintire.com" in page_url1 and "fountaintire.com" in page_url2:
+        # Check if service, description, and offer are very similar (95%+)
+        service_sim = fuzz.ratio(service1_clean, service2_clean) if service1_clean and service2_clean else 0
+        desc_sim = fuzz.ratio(desc1_clean, desc2_clean) if desc1_clean and desc2_clean else 0
+        offer_sim = fuzz.ratio(offer1_clean, offer2_clean) if offer1_clean and offer2_clean else 0
+
+        if service_sim >= 95 and desc_sim >= 95 and offer_sim >= 95:
+            return True
+
+    return False
+
+
 def are_promos_duplicate(promo1: Dict, promo2: Dict) -> bool:
-    """Check if two promotions are duplicates based on title + image URL."""
+    """Check if two promotions are duplicates - uses Fountain Tire-specific logic for Fountain Tire only."""
+    # Only apply Fountain Tire rules to Fountain Tire promotions
+    business1 = promo1.get("business_name", "").lower()
+    business2 = promo2.get("business_name", "").lower()
+
+    is_fountain1 = "fountain" in business1 and "tire" in business1
+    is_fountain2 = "fountain" in business2 and "tire" in business2
+
+    # If both are Fountain Tire, use specialized deduplication
+    if is_fountain1 and is_fountain2:
+        return are_fountain_promos_duplicate(promo1, promo2)
+
+    # For non-Fountain Tire or mixed, use original logic (title + image URL)
     title1 = normalize_title(promo1.get("promotion_title", ""))
     title2 = normalize_title(promo2.get("promotion_title", ""))
 
@@ -385,6 +532,9 @@ def process_fountain_promotions(competitor: Dict) -> List[Dict]:
     if not promo_links:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
+
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
 
     all_promos = []
 
@@ -497,12 +647,12 @@ def process_fountain_promotions(competitor: Dict) -> List[Dict]:
                 offer_details=offer_details,
                 ad_title=promotion_title,
                 ad_text=section_text[:500],
-                google_reviews=None,
+                google_reviews=google_reviews,
                 existing_promo=existing_promo
             )
 
             all_promos.append(promo)
-            logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+            logger.info(f"[OK] Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
 
     # Group rebate manufacturer links together if from same page (tire-rebates only)
     rebate_promos = {}
@@ -538,25 +688,41 @@ def process_fountain_promotions(competitor: Dict) -> List[Dict]:
     # Combine with other promos (keep main promotions and financing separate)
     all_promos_merged = other_promos + merged_rebate_promos
 
-    # Deduplicate by title + image URL
+    # Deduplicate using Fountain Tire-specific rules
     logger.info(f"Found {len(all_promos)} promotions before grouping, {len(all_promos_merged)} after grouping rebates")
 
     deduplicated = []
-    seen = []
+    seen_keys = set()  # Track composite keys for Fountain Tire deduplication
+    seen_promos = []  # Track seen promotions for comparison
 
     for promo in all_promos_merged:
         is_duplicate = False
-        for seen_promo in seen:
+
+        # Build composite key for Fountain Tire deduplication
+        service_clean = normalize_text_for_dedup(promo.get("service_name", ""))
+        desc_clean = normalize_text_for_dedup(promo.get("promo_description", ""))
+        offer_clean = normalize_text_for_dedup(promo.get("offer_details", ""))
+        composite_key = service_clean + desc_clean + offer_clean
+
+        # Check against seen promotions using Fountain Tire-specific rules
+        for seen_promo in seen_promos:
             if are_promos_duplicate(promo, seen_promo):
-                logger.info(f"Removed duplicate: {promo.get('promotion_title')[:50]} (matches {seen_promo.get('promotion_title')[:50]})")
+                logger.info(f"Removed duplicate Fountain Tire promo: {promo.get('service_name', 'N/A')[:50]} (matches {seen_promo.get('service_name', 'N/A')[:50]})")
                 is_duplicate = True
                 break
 
+        # Also check composite key (for exact matches)
+        if composite_key and composite_key in seen_keys:
+            logger.info(f"Removed duplicate Fountain Tire promo (composite key match): {promo.get('service_name', 'N/A')[:50]}")
+            is_duplicate = True
+
         if not is_duplicate:
             deduplicated.append(promo)
-            seen.append(promo)
+            seen_promos.append(promo)
+            if composite_key:
+                seen_keys.add(composite_key)
 
-    logger.info(f"Total unique promotions found: {len(deduplicated)}")
+    logger.info(f"Total unique Fountain Tire promotions found: {len(deduplicated)}")
     return deduplicated
 
 

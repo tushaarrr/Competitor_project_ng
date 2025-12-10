@@ -11,7 +11,7 @@ from app.extractors.ocr.ocr_processor import ocr_image
 from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.config.constants import DATA_DIR, PROMO_KEYWORDS
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback, get_google_reviews_for_competitor
 
 logger = setup_logger(__name__, "valvoline_scraper.log")
 
@@ -288,6 +288,9 @@ def process_valvoline_promotions(competitor: Dict) -> List[Dict]:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
 
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
+
     all_promos = []
     seen_image_urls = set()
 
@@ -480,12 +483,12 @@ def process_valvoline_promotions(competitor: Dict) -> List[Dict]:
                         offer_details=offer_details,
                         ad_title=promotion_title,
                         ad_text=ocr_text[:500],
-                        google_reviews=None,
+                        google_reviews=google_reviews,
                         existing_promo=existing_promo
                     )
 
                     all_promos.append(promo)
-                    logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+                    logger.info(f"[OK] Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
 
                 except Exception as e:
                     logger.error(f"Error processing image {img_url}: {e}", exc_info=True)

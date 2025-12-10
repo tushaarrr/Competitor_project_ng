@@ -140,7 +140,10 @@ def format_category(category: str) -> str:
         "alignment": "Alignment",
         "financing": "Financing",
         "inspection": "Inspection",
-        "service": "Auto Service"
+        "service": "General Service",
+        "general": "General Service",
+        "auto service": "General Service",
+        "seasonal": "General Service"
     }
 
     for key, value in category_map.items():
@@ -350,13 +353,75 @@ def ensure_sheet_exists(service, spreadsheet_id: str, sheet_name: str) -> bool:
         return False
 
 
+def group_and_sort_promos(promos: List[Dict]) -> List[Dict]:
+    """
+    Group promotions by business_name in specific order, then sort within each group.
+
+    Order:
+    1. Fountain Tire
+    2. Good News Auto
+    3. Midas
+    4. Kal Tire
+    5. Jiffy Lube
+    6. Speedy Auto Service
+    7. Trail Tire Auto Centres
+    8. Integra Tire Auto Centre
+    9. Valvoline Express Care
+    10. Mr. Lube
+
+    Within each group, sort by service_name, then offer_details.
+    """
+    # Define business order (case-insensitive matching)
+    business_order = [
+        "Fountain Tire",
+        "Good News Auto",
+        "Midas",
+        "Kal Tire",
+        "Jiffy Lube",
+        "Speedy Auto Service",
+        "Trail Tire Auto Centres",
+        "Integra Tire Auto Centre",
+        "Valvoline Express Care",
+        "Mr. Lube"
+    ]
+
+    # Create a mapping for order lookup
+    def get_business_order(business_name: str) -> int:
+        business_lower = business_name.lower()
+        for idx, ordered_business in enumerate(business_order):
+            if ordered_business.lower() in business_lower or business_lower in ordered_business.lower():
+                return idx
+        return 999  # Unknown businesses go to end
+
+    # Group by business_name
+    grouped = {}
+    for promo in promos:
+        business_name = promo.get("business_name", "").strip()
+        if business_name not in grouped:
+            grouped[business_name] = []
+        grouped[business_name].append(promo)
+
+    # Sort groups by order, then sort within each group
+    sorted_promos = []
+    for business_name in sorted(grouped.keys(), key=get_business_order):
+        group_promos = grouped[business_name]
+        # Sort within group: service_name, then offer_details
+        group_promos.sort(key=lambda p: (
+            p.get("service_name", "").lower(),
+            p.get("offer_details", "").lower()
+        ))
+        sorted_promos.extend(group_promos)
+
+    return sorted_promos
+
+
 def write_to_sheets(
     spreadsheet_id: str,
     all_promos: List[Dict],
     sheet_name: str = "Promotions"
 ) -> bool:
     """
-    Write all promotions to Google Sheets with formatting.
+    Write all promotions to Google Sheets with grouping, sorting, and formatting.
 
     Args:
         spreadsheet_id: Google Sheets ID
@@ -379,12 +444,15 @@ def write_to_sheets(
         # Clean all promos
         cleaned_promos = [clean_promo_for_sheets(promo) for promo in all_promos]
 
+        # Group and sort promotions
+        sorted_promos = group_and_sort_promos(cleaned_promos)
+
         # Prepare header row
         headers = COLUMN_ORDER
 
         # Prepare data rows (in column order)
         rows = []
-        for promo in cleaned_promos:
+        for promo in sorted_promos:
             row = [promo.get(col, "") for col in COLUMN_ORDER]
             rows.append(row)
 
@@ -415,10 +483,10 @@ def write_to_sheets(
             body=body
         ).execute()
 
-        logger.info(f"Wrote {len(rows)} rows to Google Sheets")
+        logger.info(f"Wrote {len(rows)} rows to Google Sheets (grouped and sorted)")
 
         # Apply formatting
-        apply_sheet_formatting(service, spreadsheet_id, sheet_name, len(all_rows))
+        apply_sheet_formatting(service, spreadsheet_id, sheet_name, len(all_rows), sorted_promos)
 
         return True
 
@@ -430,20 +498,98 @@ def write_to_sheets(
         return False
 
 
+def hex_to_rgb(hex_color: str) -> Dict[str, float]:
+    """Convert hex color to RGB dict for Google Sheets API."""
+    hex_color = hex_color.lstrip('#')
+    return {
+        'red': int(hex_color[0:2], 16) / 255.0,
+        'green': int(hex_color[2:4], 16) / 255.0,
+        'blue': int(hex_color[4:6], 16) / 255.0
+    }
+
+
+def get_company_background_color(business_name: str) -> Optional[str]:
+    """Get company-specific background color for business_name column."""
+    business_lower = business_name.lower()
+    company_colors = {
+        "fountain tire": "#E1F5FE",
+        "good news auto": "#F3E5F5",
+        "midas": "#FFF3E0",
+        "kal tire": "#E0F2F1",
+        "jiffy lube": "#FDE0DC",
+        "speedy auto": "#FFFDE7",
+        "trail tire": "#EDE7F6",
+        "integra tire": "#E8F5E9",
+        "valvoline": "#E0F7FA",
+        "mr. lube": "#E3F2FD"
+    }
+
+    for company, color in company_colors.items():
+        if company in business_lower:
+            return color
+    return None
+
+
+def get_category_color(category: str) -> Optional[Dict[str, any]]:
+    """Get category color formatting."""
+    category_lower = category.lower()
+    category_colors = {
+        "tires": "#2196F3",
+        "oil change": "#FF9800",
+        "brakes": "#EF5350",
+        "alignment": "#AB47BC",
+        "general service": "#009688",
+        "financing": "#795548"
+    }
+
+    for cat_key, color in category_colors.items():
+        if cat_key in category_lower:
+            return {
+                'backgroundColor': hex_to_rgb(color),
+                'textFormat': {
+                    'foregroundColor': {'red': 1.0, 'green': 1.0, 'blue': 1.0},
+                    'bold': True
+                }
+            }
+    return None
+
+
+def get_status_color(status: str) -> Optional[Dict[str, any]]:
+    """Get new_or_updated badge color."""
+    status_upper = status.upper()
+    status_colors = {
+        "NEW": "#43A047",
+        "UPDATED": "#FB8C00",
+        "SAME": "#9E9E9E"
+    }
+
+    if status_upper in status_colors:
+        return {
+            'backgroundColor': hex_to_rgb(status_colors[status_upper]),
+            'textFormat': {
+                'foregroundColor': {'red': 1.0, 'green': 1.0, 'blue': 1.0},
+                'bold': True
+            }
+        }
+    return None
+
+
 def apply_sheet_formatting(
     service,
     spreadsheet_id: str,
     sheet_name: str,
-    num_rows: int
+    num_rows: int,
+    sorted_promos: List[Dict]
 ):
     """
-    Apply dashboard-style formatting to the sheet.
+    Apply colorful dashboard-style formatting with Times New Roman font.
 
     Args:
         service: Google Sheets API service
         spreadsheet_id: Spreadsheet ID
         sheet_name: Sheet name
         num_rows: Number of data rows (including header)
+        sorted_promos: List of sorted promo dicts (for row-specific formatting)
     """
     try:
         sheet_id = get_sheet_id(service, spreadsheet_id, sheet_name)
@@ -453,7 +599,12 @@ def apply_sheet_formatting(
 
         requests = []
 
-        # 1. Format header row (bold, darker background)
+        # Column indices
+        business_name_col = COLUMN_ORDER.index("business_name")
+        category_col = COLUMN_ORDER.index("category")
+        new_or_updated_col = COLUMN_ORDER.index("new_or_updated")
+
+        # 1. Format header row (bold, dark background, white text, Times New Roman, size 12)
         requests.append({
             'repeatCell': {
                 'range': {
@@ -463,48 +614,139 @@ def apply_sheet_formatting(
                 },
                 'cell': {
                     'userEnteredFormat': {
-                        'backgroundColor': {'red': 0.2, 'green': 0.2, 'blue': 0.2},
+                        'backgroundColor': hex_to_rgb("#1F1F1F"),
                         'textFormat': {
                             'foregroundColor': {'red': 1.0, 'green': 1.0, 'blue': 1.0},
-                            'fontSize': 11,
-                            'bold': True
+                            'fontSize': 12,
+                            'bold': True,
+                            'fontFamily': 'Times New Roman'
                         },
                         'horizontalAlignment': 'LEFT',
-                        'verticalAlignment': 'MIDDLE'
+                        'verticalAlignment': 'MIDDLE',
+                        'wrapStrategy': 'WRAP'
                     }
                 },
-                'fields': 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)'
+                'fields': 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,wrapStrategy)'
             }
         })
 
-        # 2. Format data rows (alternating colors, left-aligned, vertically centered)
-        for row_idx in range(1, num_rows):
-            # Alternate row colors (light gray for even rows)
-            bg_color = {'red': 0.95, 'green': 0.95, 'blue': 0.95} if row_idx % 2 == 0 else {'red': 1.0, 'green': 1.0, 'blue': 1.0}
+        # 2. Freeze header row
+        requests.append({
+            'updateSheetProperties': {
+                'properties': {
+                    'sheetId': sheet_id,
+                    'gridProperties': {
+                        'frozenRowCount': 1
+                    }
+                },
+                'fields': 'gridProperties.frozenRowCount'
+            }
+        })
 
+        # 3. Format data rows with Times New Roman, alternating colors, and specific formatting
+        for row_idx in range(1, num_rows):
+            promo_idx = row_idx - 1
+            if promo_idx < len(sorted_promos):
+                promo = sorted_promos[promo_idx]
+                business_name = promo.get("business_name", "")
+                category = promo.get("category", "")
+                new_or_updated = promo.get("new_or_updated", "NEW")
+            else:
+                business_name = ""
+                category = ""
+                new_or_updated = "NEW"
+
+            # Base row formatting: Times New Roman, alternating colors, wrap text
+            is_even = row_idx % 2 == 0
+            base_bg = {'red': 0.956, 'green': 0.956, 'blue': 0.956} if is_even else {'red': 1.0, 'green': 1.0, 'blue': 1.0}
+
+            # Format entire row with base style
             requests.append({
                 'repeatCell': {
                     'range': {
                         'sheetId': sheet_id,
                         'startRowIndex': row_idx,
-                        'endRowIndex': row_idx + 1
+                        'endRowIndex': row_idx + 1,
+                        'startColumnIndex': 0,
+                        'endColumnIndex': len(COLUMN_ORDER)
                     },
                     'cell': {
                         'userEnteredFormat': {
-                            'backgroundColor': bg_color,
+                            'backgroundColor': base_bg,
                             'textFormat': {
+                                'foregroundColor': hex_to_rgb("#222222"),
                                 'fontSize': 10,
-                                'fontFamily': 'Roboto'
+                                'fontFamily': 'Times New Roman'
                             },
                             'horizontalAlignment': 'LEFT',
-                            'verticalAlignment': 'MIDDLE'
+                            'verticalAlignment': 'MIDDLE',
+                            'wrapStrategy': 'WRAP'
                         }
                     },
-                    'fields': 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment)'
+                    'fields': 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,wrapStrategy)'
                 }
             })
 
-        # 3. Auto-resize columns
+            # 4. Apply company background color to business_name column
+            company_bg = get_company_background_color(business_name)
+            if company_bg:
+                requests.append({
+                    'repeatCell': {
+                        'range': {
+                            'sheetId': sheet_id,
+                            'startRowIndex': row_idx,
+                            'endRowIndex': row_idx + 1,
+                            'startColumnIndex': business_name_col,
+                            'endColumnIndex': business_name_col + 1
+                        },
+                        'cell': {
+                            'userEnteredFormat': {
+                                'backgroundColor': hex_to_rgb(company_bg)
+                            }
+                        },
+                        'fields': 'userEnteredFormat.backgroundColor'
+                    }
+                })
+
+            # 5. Apply category color tag
+            category_format = get_category_color(category)
+            if category_format:
+                requests.append({
+                    'repeatCell': {
+                        'range': {
+                            'sheetId': sheet_id,
+                            'startRowIndex': row_idx,
+                            'endRowIndex': row_idx + 1,
+                            'startColumnIndex': category_col,
+                            'endColumnIndex': category_col + 1
+                        },
+                        'cell': {
+                            'userEnteredFormat': category_format
+                        },
+                        'fields': 'userEnteredFormat(backgroundColor,textFormat)'
+                    }
+                })
+
+            # 6. Apply new_or_updated badge color
+            status_format = get_status_color(new_or_updated)
+            if status_format:
+                requests.append({
+                    'repeatCell': {
+                        'range': {
+                            'sheetId': sheet_id,
+                            'startRowIndex': row_idx,
+                            'endRowIndex': row_idx + 1,
+                            'startColumnIndex': new_or_updated_col,
+                            'endColumnIndex': new_or_updated_col + 1
+                        },
+                        'cell': {
+                            'userEnteredFormat': status_format
+                        },
+                        'fields': 'userEnteredFormat(backgroundColor,textFormat)'
+                    }
+                })
+
+        # 7. Auto-resize columns
         requests.append({
             'autoResizeDimensions': {
                 'dimensions': {
@@ -523,10 +765,10 @@ def apply_sheet_formatting(
             body=body
         ).execute()
 
-        logger.info("Applied dashboard formatting to sheet")
+        logger.info("Applied colorful dashboard formatting with Times New Roman to sheet")
 
     except Exception as e:
-        logger.warning(f"Error applying formatting: {e}")
+        logger.warning(f"Error applying formatting: {e}", exc_info=True)
 
 
 def get_sheet_id(service, spreadsheet_id: str, sheet_name: str) -> Optional[int]:
@@ -540,4 +782,125 @@ def get_sheet_id(service, spreadsheet_id: str, sheet_name: str) -> Optional[int]
     except Exception as e:
         logger.error(f"Error getting sheet ID: {e}")
         return None
+
+
+def remove_rows_by_business_name(
+    spreadsheet_id: str,
+    business_name: str,
+    sheet_name: str = "Promotions"
+) -> bool:
+    """
+    Remove all rows for a specific business from Google Sheets.
+
+    Args:
+        spreadsheet_id: Google Sheets ID
+        business_name: Business name to filter (case-insensitive)
+        sheet_name: Name of the sheet tab
+
+    Returns:
+        True if successful, False otherwise
+    """
+    service = get_sheets_service()
+    if not service:
+        return False
+
+    try:
+        # Ensure sheet exists
+        if not ensure_sheet_exists(service, spreadsheet_id, sheet_name):
+            logger.error(f"Could not access sheet: {sheet_name}")
+            return False
+
+        # Read all existing data
+        range_name = f"{sheet_name}!A1:Z1000"
+        result = service.spreadsheets().values().get(
+            spreadsheetId=spreadsheet_id,
+            range=range_name
+        ).execute()
+
+        rows = result.get('values', [])
+        if not rows:
+            logger.info(f"No data found in sheet to remove")
+            return True
+
+        # First row is header
+        headers = rows[0] if rows else []
+        if not headers:
+            logger.warning("No header row found")
+            return False
+
+        # Find business_name column index
+        business_name_col_idx = None
+        for idx, header in enumerate(headers):
+            if header.lower() == "business_name":
+                business_name_col_idx = idx
+                break
+
+        if business_name_col_idx is None:
+            logger.error("business_name column not found in sheet")
+            return False
+
+        # Filter out rows matching business_name (case-insensitive)
+        filtered_rows = [headers]  # Keep header
+        removed_count = 0
+
+        for row in rows[1:]:  # Skip header
+            if len(row) > business_name_col_idx:
+                row_business_name = str(row[business_name_col_idx]).strip().lower()
+                if row_business_name != business_name.lower():
+                    # Pad row to match header length
+                    while len(row) < len(headers):
+                        row.append("")
+                    filtered_rows.append(row)
+                else:
+                    removed_count += 1
+            else:
+                # Row too short, keep it
+                while len(row) < len(headers):
+                    row.append("")
+                filtered_rows.append(row)
+
+        # Write back filtered data
+        body = {'values': filtered_rows}
+
+        # Clear the sheet first
+        try:
+            service.spreadsheets().values().clear(
+                spreadsheetId=spreadsheet_id,
+                range=f"{sheet_name}!A1:Z1000"
+            ).execute()
+        except Exception as e:
+            logger.warning(f"Could not clear sheet: {e}")
+
+        # Write filtered data
+        result = service.spreadsheets().values().update(
+            spreadsheetId=spreadsheet_id,
+            range=f"{sheet_name}!A1",
+            valueInputOption='USER_ENTERED',
+            body=body
+        ).execute()
+
+        logger.info(f"Removed {removed_count} rows for business '{business_name}'")
+
+        # Re-read filtered data to get promo dicts for formatting
+        filtered_promos = []
+        if len(filtered_rows) > 1:  # Has header + data
+            headers = filtered_rows[0]
+            for row in filtered_rows[1:]:
+                promo = {}
+                for idx, header in enumerate(headers):
+                    if idx < len(row):
+                        promo[header] = row[idx]
+                filtered_promos.append(promo)
+
+        # Apply formatting (pass empty list if no promos to avoid errors)
+        apply_sheet_formatting(service, spreadsheet_id, sheet_name, len(filtered_rows), filtered_promos)
+
+        return True
+
+    except HttpError as e:
+        logger.error(f"Google Sheets API error: {e}")
+        return False
+    except Exception as e:
+        logger.error(f"Error removing rows from Google Sheets: {e}", exc_info=True)
+        return False
 

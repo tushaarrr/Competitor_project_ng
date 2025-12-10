@@ -1,0 +1,574 @@
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\google\api_core\_python_version_support.py:266: FutureWarning: You are using a Python version (3.10.0) which Google will stop supporting in new releases of google.api_core once it reaches its end of life (2026-10-04). Please upgrade to the latest Python version, or at least Python 3.11, to continue receiving updates for google.api_core past that date.
+  warnings.warn(message, FutureWarning)
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "json" shadows an attribute in parent "BaseModel"; 
+  warnings.warn(
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "schema" shadows an attribute in parent "Format"; 
+  warnings.warn(
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "json" shadows an attribute in parent "Document"; 
+  warnings.warn(
+
+============================================================
+🎯 Competitor Intelligence Dashboard - Full Pipeline
+============================================================
+
+📊 STEP 1: Running All Competitor Scrapers
+============================================================
+
+============================================================
+🚀 Starting All Competitor Scrapers
+============================================================
+
+
+📋 Processing: Good News Auto
+------------------------------------------------------------
+2025-12-10 17:31:38,837 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Good News Auto
+2025-12-10 17:31:38,837 - app.scrapers.goodnews_scraper - INFO - Processing promotions for Good News Auto
+2025-12-10 17:31:38,837 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Good News Auto 6932 76 Ave NW, Edmonton, AB T6B 2R2, Canada Edmonton Canada
+2025-12-10 17:31:38,952 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Good News Auto 6932 76 Ave NW, Edmonton, AB T6B 2R2, Canada
+2025-12-10 17:31:38,952 - app.utils.promo_builder - INFO - Found Google Reviews for Good News Auto: 4.5
+2025-12-10 17:31:38,952 - app.scrapers.goodnews_scraper - INFO - Fetching https://www.goodnewsauto.ca/our-services
+2025-12-10 17:31:38,960 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.goodnewsauto.ca/our-services with Firecrawl (direct API)
+2025-12-10 17:31:41,810 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 165924 chars, 68 images
+2025-12-10 17:31:41,811 - app.scrapers.goodnews_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:31:41,975 - app.scrapers.goodnews_scraper - INFO - Found 'What's happening?' heading: What's happening?
+2025-12-10 17:31:41,975 - app.scrapers.goodnews_scraper - INFO - Found text from parent section: 446 chars
+2025-12-10 17:31:41,998 - app.scrapers.goodnews_scraper - INFO - Extracted 1 unique text chunks from 'What's happening?' section (446 total chars)
+2025-12-10 17:31:41,998 - app.scrapers.goodnews_scraper - INFO - Extracted 446 characters from 'What's happening?' section
+2025-12-10 17:31:42,000 - app.scrapers.goodnews_scraper - INFO - Created 7 text chunks
+2025-12-10 17:31:42,000 - app.scrapers.goodnews_scraper - INFO - Final chunk count: 7 chunks to process
+2025-12-10 17:31:42,002 - app.scrapers.goodnews_scraper - INFO - Processing chunk 1/7 (63 chars)
+2025-12-10 17:31:46,062 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo:  - NEW
+2025-12-10 17:31:46,071 - app.scrapers.goodnews_scraper - INFO - Processing chunk 2/7 (63 chars)
+2025-12-10 17:31:50,560 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: Fall/Winter Vehicle Inspections - NEW
+2025-12-10 17:31:50,561 - app.scrapers.goodnews_scraper - INFO - Processing chunk 3/7 (63 chars)
+2025-12-10 17:31:54,588 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: comprehensive inspection - NEW
+2025-12-10 17:31:54,589 - app.scrapers.goodnews_scraper - INFO - Processing chunk 4/7 (62 chars)
+2025-12-10 17:31:58,416 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: Winter Tire Sale - NEW
+2025-12-10 17:31:58,416 - app.scrapers.goodnews_scraper - INFO - Processing chunk 5/7 (61 chars)
+2025-12-10 17:32:02,925 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: suspension repair - UPDATED
+2025-12-10 17:32:02,925 - app.scrapers.goodnews_scraper - INFO - Processing chunk 6/7 (63 chars)
+2025-12-10 17:32:06,975 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: inspection - UPDATED
+2025-12-10 17:32:06,975 - app.scrapers.goodnews_scraper - INFO - Processing chunk 7/7 (67 chars)
+2025-12-10 17:32:11,791 - app.scrapers.goodnews_scraper - INFO - [OK] Added promo: brake repair - UPDATED
+2025-12-10 17:32:11,792 - app.scrapers.goodnews_scraper - INFO - Found 7 promotions before deduplication
+2025-12-10 17:32:11,792 - app.scrapers.goodnews_scraper - INFO - Total unique promotions found: 7
+2025-12-10 17:32:11,792 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 7 valid promotions
+2025-12-10 17:32:11,795 - app.scrapers.goodnews_scraper - INFO - Saved 7 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\good_news_auto.json
+✅ Good News Auto: Found 7 promotion(s)
+
+📋 Processing: Midas
+------------------------------------------------------------
+2025-12-10 17:32:11,796 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Midas
+2025-12-10 17:32:11,796 - app.scrapers.midas_scraper - INFO - Processing promotions for Midas
+2025-12-10 17:32:11,797 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Midas 3408 99 St NW, Edmonton, AB T6E 5X5, Canada Edmonton Canada
+2025-12-10 17:32:11,865 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Midas 3408 99 St NW, Edmonton, AB T6E 5X5, Canada
+2025-12-10 17:32:11,865 - app.utils.promo_builder - INFO - Found Google Reviews for Midas: 4.2
+2025-12-10 17:32:11,866 - app.scrapers.midas_scraper - INFO - Fetching Canadian rebates from: https://www.midas.com/rebates?country=ca
+2025-12-10 17:32:11,871 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.midas.com/rebates?country=ca with Firecrawl (direct API)
+2025-12-10 17:32:14,137 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 159468 chars, 3 images
+2025-12-10 17:32:14,137 - app.scrapers.midas_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:32:14,269 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 128 chars
+2025-12-10 17:32:14,269 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 89 chars
+2025-12-10 17:32:14,271 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 427 chars
+2025-12-10 17:32:14,271 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 39 chars
+2025-12-10 17:32:14,271 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 208 chars
+2025-12-10 17:32:14,271 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 103 chars
+2025-12-10 17:32:14,271 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 172 chars
+2025-12-10 17:32:14,272 - app.scrapers.midas_scraper - INFO - Found promo block with selector div[class*='rebate']: 67 chars
+2025-12-10 17:32:14,402 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 803 chars
+2025-12-10 17:32:14,402 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 81 chars
+2025-12-10 17:32:14,402 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 40 chars
+2025-12-10 17:32:14,402 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 58 chars
+2025-12-10 17:32:14,402 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 40 chars
+2025-12-10 17:32:14,403 - app.scrapers.midas_scraper - INFO - Found promo block with selector [class*='rebate']: 137 chars
+2025-12-10 17:32:14,534 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='oil']: 106 chars
+2025-12-10 17:32:14,549 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 199 chars
+2025-12-10 17:32:14,550 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 267 chars
+2025-12-10 17:32:14,550 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 57 chars
+2025-12-10 17:32:14,551 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 56 chars
+2025-12-10 17:32:14,560 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 247 chars
+2025-12-10 17:32:14,561 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 62 chars
+2025-12-10 17:32:14,577 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='brake']: 112 chars
+2025-12-10 17:32:14,665 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 702 chars
+2025-12-10 17:32:14,667 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 259 chars
+2025-12-10 17:32:14,668 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 285 chars
+2025-12-10 17:32:14,668 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 100 chars
+2025-12-10 17:32:14,669 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 464 chars
+2025-12-10 17:32:14,671 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 484 chars
+2025-12-10 17:32:14,671 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 116 chars
+2025-12-10 17:32:14,700 - app.scrapers.midas_scraper - INFO - Found promo block in div: 204 chars
+2025-12-10 17:32:14,704 - app.scrapers.midas_scraper - INFO - Found promo block in div: 282 chars
+2025-12-10 17:32:14,711 - app.scrapers.midas_scraper - INFO - Found promo block in section: 112 chars
+2025-12-10 17:32:14,712 - app.scrapers.midas_scraper - INFO - Found promo block in section: 82 chars
+2025-12-10 17:32:14,719 - app.scrapers.midas_scraper - INFO - Found promo block from price indicator: 427 chars (2 prices)
+2025-12-10 17:32:14,747 - app.scrapers.midas_scraper - INFO - Extracted 27 unique promo blocks
+2025-12-10 17:32:14,748 - app.scrapers.midas_scraper - INFO - Found 27 promo blocks, limiting to most specific ones
+2025-12-10 17:32:14,748 - app.scrapers.midas_scraper - INFO - Limited to 10 promo blocks
+2025-12-10 17:32:14,748 - app.scrapers.midas_scraper - INFO - Processing promo block: 39 chars
+2025-12-10 17:32:18,510 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 563, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:32:18,511 - app.scrapers.midas_scraper - INFO - Processing promo block: 40 chars
+2025-12-10 17:32:23,107 - app.scrapers.midas_scraper - ERROR - Error processing promo block: 'NoneType' object has no attribute 'split'
+Traceback (most recent call last):
+  File "C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\app\scrapers\midas_scraper.py", line 563, in process_midas_promotions
+    promotion_title = service_name or promo_description.split("\n")[0].strip()[:100]
+AttributeError: 'NoneType' object has no attribute 'split'
+2025-12-10 17:32:23,107 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): All-Terrain Tires Snow Tires Electric Vehicle (EV) Tires...
+2025-12-10 17:32:23,108 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): By Vehicle By Tire Brand Limited Lifetime Tire Guarantee™...
+2025-12-10 17:32:23,108 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Shop by Vehicle Shop by Brand Tire Maintenance Wheel Alignment...
+2025-12-10 17:32:23,108 - app.scrapers.midas_scraper - INFO - Processing promo block: 67 chars
+2025-12-10 17:32:27,535 - app.scrapers.midas_scraper - INFO - [OK] Added promo: tire purchase - NEW
+2025-12-10 17:32:27,536 - app.scrapers.midas_scraper - INFO - Processing promo block: 82 chars
+2025-12-10 17:32:33,284 - app.scrapers.midas_scraper - INFO - [OK] Added promo: financing and deals - NEW
+2025-12-10 17:32:33,284 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Filter By Category All Categories for United States Tires All Categories for Canada Tires...
+2025-12-10 17:32:33,284 - app.scrapers.midas_scraper - INFO - Processing promo block: 100 chars
+2025-12-10 17:32:37,665 - app.scrapers.midas_scraper - INFO - [OK] Added promo:  - NEW
+2025-12-10 17:32:37,667 - app.scrapers.midas_scraper - INFO - Processing promo block: 103 chars
+2025-12-10 17:32:42,079 - app.scrapers.midas_scraper - INFO - Skipping duplicate promo: tire purchase (desc: 75%, offer: 81%, title: 100%)
+2025-12-10 17:32:42,079 - app.scrapers.midas_scraper - INFO - Fetching Canadian rebates from: https://www.midas.com/about-midas/midas-credit-card-service-financing?country=ca
+2025-12-10 17:32:42,084 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.midas.com/about-midas/midas-credit-card-service-financing?country=ca with Firecrawl (direct API)
+2025-12-10 17:32:44,438 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 158734 chars, 5 images
+2025-12-10 17:32:44,438 - app.scrapers.midas_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:32:44,725 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='oil']: 106 chars
+2025-12-10 17:32:44,743 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 199 chars
+2025-12-10 17:32:44,744 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 267 chars
+2025-12-10 17:32:44,744 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 57 chars
+2025-12-10 17:32:44,744 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 56 chars
+2025-12-10 17:32:44,752 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 247 chars
+2025-12-10 17:32:44,753 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='tire']: 62 chars
+2025-12-10 17:32:44,772 - app.scrapers.midas_scraper - INFO - Found promo block with selector [id*='brake']: 112 chars
+2025-12-10 17:32:44,858 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 702 chars
+2025-12-10 17:32:44,861 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 259 chars
+2025-12-10 17:32:44,864 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 285 chars
+2025-12-10 17:32:44,866 - app.scrapers.midas_scraper - INFO - Found promo block from heading h1: 91 chars
+2025-12-10 17:32:44,867 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 439 chars
+2025-12-10 17:32:44,869 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 464 chars
+2025-12-10 17:32:44,870 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 484 chars
+2025-12-10 17:32:44,870 - app.scrapers.midas_scraper - INFO - Found promo block from heading h2: 116 chars
+2025-12-10 17:32:44,892 - app.scrapers.midas_scraper - INFO - Found promo block in div: 204 chars
+2025-12-10 17:32:44,897 - app.scrapers.midas_scraper - INFO - Found promo block in div: 282 chars
+2025-12-10 17:32:44,903 - app.scrapers.midas_scraper - INFO - Found promo block in section: 112 chars
+2025-12-10 17:32:44,905 - app.scrapers.midas_scraper - INFO - Found promo block in section: 82 chars
+2025-12-10 17:32:44,910 - app.scrapers.midas_scraper - INFO - Found promo block from price indicator: 947 chars (1 prices)
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Extracted 18 unique promo blocks
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Found 18 promo blocks, limiting to most specific ones
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Limited to 10 promo blocks
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): All-Terrain Tires Snow Tires Electric Vehicle (EV) Tires...
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): By Vehicle By Tire Brand Limited Lifetime Tire Guarantee™...
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Shop by Vehicle Shop by Brand Tire Maintenance Wheel Alignment...
+2025-12-10 17:32:44,925 - app.scrapers.midas_scraper - INFO - Processing promo block: 82 chars
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - [OK] Added promo: Midas credit card financing - NEW
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): MIDAS CREDIT CARD No money out of pocket for the tires & services you need today. APPLY NOW...
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Oil Change Service Synthetic Oil Synthetic Vs. Conventional Oil High Mileage Oil Engine Oil Leak Dia...
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Brakes & Brakes Repair Brake Fluid Brake Rotor Replacement Brake Inspection Anti-Lock Brake System (...
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Golden Guarantees™ Limited Lifetime Parts Guarantee™ Limited Lifetime Tire Guarantee™ Closer Look Ve...
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): These tires are parked in your cart! Review your tires quote and schedule installation at Midas Go t...
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Skipping promo block (no promo indicators): Wheel Alignment Tire Maintenance Tire Rotation Tire Pressure Monitoring System (TPMS) Service Tire B...
+2025-12-10 17:32:49,798 - app.scrapers.midas_scraper - INFO - Total promotions found: 4
+2025-12-10 17:32:49,799 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 4 valid promotions
+2025-12-10 17:32:49,799 - app.scrapers.midas_scraper - INFO - Saved 4 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\midas.json
+✅ Midas: Found 4 promotion(s)
+
+📋 Processing: Kal Tire
+------------------------------------------------------------
+2025-12-10 17:32:49,799 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Kal Tire
+2025-12-10 17:32:49,799 - app.scrapers.kal_scraper - INFO - Processing promotions for Kal Tire
+2025-12-10 17:32:49,799 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Kal Tire 2030 101 St NW, Edmonton, AB T6N 1J2, Canada Edmonton Canada
+2025-12-10 17:32:49,860 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Kal Tire 2030 101 St NW, Edmonton, AB T6N 1J2, Canada
+2025-12-10 17:32:49,860 - app.utils.promo_builder - INFO - Found Google Reviews for Kal Tire: 4.1
+2025-12-10 17:32:53,195 - app.scrapers.kal_scraper - INFO - Loading page: https://www.kaltire.com/en/promotions/
+2025-12-10 17:33:10,480 - app.scrapers.kal_scraper - INFO - Found 4 tab elements
+2025-12-10 17:33:10,498 - app.scrapers.kal_scraper - INFO - Found tabs navigation, will click through each tab
+2025-12-10 17:33:10,531 - app.scrapers.kal_scraper - INFO - Found tab: Tires
+2025-12-10 17:33:10,546 - app.scrapers.kal_scraper - INFO - Found tab: Wheels
+2025-12-10 17:33:10,554 - app.scrapers.kal_scraper - INFO - Found tab: Services
+2025-12-10 17:33:10,554 - app.scrapers.kal_scraper - INFO - Clicking tab: Tires
+2025-12-10 17:33:13,706 - app.scrapers.kal_scraper - INFO - Successfully clicked tab 'Tires'
+2025-12-10 17:33:13,729 - app.scrapers.kal_scraper - INFO - Found 10 promo cards in Tires tab
+2025-12-10 17:33:13,729 - app.scrapers.kal_scraper - INFO - Processing card 1/10 from Tires
+2025-12-10 17:33:18,150 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Nitto tire set - NEW
+2025-12-10 17:33:18,150 - app.scrapers.kal_scraper - INFO - Processing card 2/10 from Tires
+2025-12-10 17:33:22,884 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Nokian tire purchase - NEW
+2025-12-10 17:33:22,885 - app.scrapers.kal_scraper - INFO - Processing card 3/10 from Tires
+2025-12-10 17:33:27,800 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Nordman tires - NEW
+2025-12-10 17:33:27,800 - app.scrapers.kal_scraper - INFO - Processing card 4/10 from Tires
+2025-12-10 17:33:32,528 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Predator tires - NEW
+2025-12-10 17:33:32,528 - app.scrapers.kal_scraper - INFO - Processing card 5/10 from Tires
+2025-12-10 17:33:38,520 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Sumitomo tires - NEW
+2025-12-10 17:33:38,520 - app.scrapers.kal_scraper - INFO - Processing card 6/10 from Tires
+2025-12-10 17:33:43,991 - app.scrapers.kal_scraper - INFO - [OK] Added promo: BFGoodrich tires - NEW
+2025-12-10 17:33:43,991 - app.scrapers.kal_scraper - INFO - Processing card 7/10 from Tires
+2025-12-10 17:33:48,970 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Michelin tires - NEW
+2025-12-10 17:33:48,970 - app.scrapers.kal_scraper - INFO - Processing card 8/10 from Tires
+2025-12-10 17:33:53,652 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Uniroyal tires - NEW
+2025-12-10 17:33:53,653 - app.scrapers.kal_scraper - INFO - Processing card 9/10 from Tires
+2025-12-10 17:34:01,314 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Yokohama tire rebate - NEW
+2025-12-10 17:34:01,314 - app.scrapers.kal_scraper - INFO - Processing card 10/10 from Tires
+2025-12-10 17:34:06,713 - app.scrapers.kal_scraper - INFO - [OK] Added promo: Toyo tires - NEW
+2025-12-10 17:34:06,713 - app.scrapers.kal_scraper - INFO - Clicking tab: Wheels
+2025-12-10 17:34:10,057 - app.scrapers.kal_scraper - INFO - Successfully clicked tab 'Wheels'
+2025-12-10 17:34:10,156 - app.scrapers.kal_scraper - INFO - Found 1 promo cards in Wheels tab
+2025-12-10 17:34:10,156 - app.scrapers.kal_scraper - INFO - Processing card 1/1 from Wheels
+2025-12-10 17:34:15,590 - app.scrapers.kal_scraper - INFO - [OK] Added promo: wheel purchase - NEW
+2025-12-10 17:34:15,590 - app.scrapers.kal_scraper - INFO - Clicking tab: Services
+2025-12-10 17:34:19,136 - app.scrapers.kal_scraper - INFO - Successfully clicked tab 'Services'
+2025-12-10 17:34:19,194 - app.scrapers.kal_scraper - INFO - Found 1 promo cards in Services tab
+2025-12-10 17:34:19,194 - app.scrapers.kal_scraper - INFO - Processing card 1/1 from Services
+2025-12-10 17:34:24,716 - app.scrapers.kal_scraper - INFO - [OK] Added promo: wiper blades - NEW
+2025-12-10 17:34:26,043 - app.scrapers.kal_scraper - INFO - Found 12 promotions before deduplication
+2025-12-10 17:34:26,043 - app.scrapers.kal_scraper - INFO - Total unique promotions found: 12
+2025-12-10 17:34:26,044 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 12 valid promotions
+2025-12-10 17:34:26,046 - app.scrapers.kal_scraper - INFO - Saved 12 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\kal_tire.json
+✅ Kal Tire: Found 12 promotion(s)
+
+📋 Processing: Jiffy Lube
+------------------------------------------------------------
+2025-12-10 17:34:26,048 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Jiffy Lube
+2025-12-10 17:34:26,048 - app.scrapers.jiffy_scraper - INFO - Processing promotions for Jiffy Lube
+2025-12-10 17:34:26,048 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Jiffy Lube 2121 101 St NW, Edmonton, AB T6N 0A2, Canada Edmonton Canada
+2025-12-10 17:34:26,160 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Jiffy Lube 2121 101 St NW, Edmonton, AB T6N 0A2, Canada
+2025-12-10 17:34:26,162 - app.utils.promo_builder - INFO - Found Google Reviews for Jiffy Lube: 4.4
+2025-12-10 17:34:26,162 - app.scrapers.jiffy_scraper - INFO - Fetching https://www.jiffylubeservice.ca/coupons
+2025-12-10 17:34:26,174 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.jiffylubeservice.ca/coupons with Firecrawl (direct API)
+2025-12-10 17:34:28,044 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 28081 chars, 20 images
+2025-12-10 17:34:28,046 - app.scrapers.jiffy_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:34:28,104 - app.scrapers.jiffy_scraper - INFO - Extracted 3 promo sections from HTML
+2025-12-10 17:34:34,532 - app.scrapers.jiffy_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:34:39,189 - app.scrapers.jiffy_scraper - INFO - [OK] Added promo: motor oil change - NEW
+2025-12-10 17:34:43,859 - app.scrapers.jiffy_scraper - INFO - [OK] Added promo: Pennzoil Synthetic Oil Change - NEW
+2025-12-10 17:34:43,859 - app.scrapers.jiffy_scraper - INFO - Found 3 promotions before deduplication
+2025-12-10 17:34:43,860 - app.scrapers.jiffy_scraper - INFO - Grouped 3 promos by discount+code, kept best
+2025-12-10 17:34:43,860 - app.scrapers.jiffy_scraper - INFO - Total unique promotions found: 1
+2025-12-10 17:34:43,860 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 1 valid promotions
+2025-12-10 17:34:43,861 - app.scrapers.jiffy_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\jiffy_lube.json
+✅ Jiffy Lube: Found 1 promotion(s)
+
+📋 Processing: Fountain Tire
+------------------------------------------------------------
+2025-12-10 17:34:43,862 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Fountain Tire
+2025-12-10 17:34:43,862 - app.scrapers.fountain_scraper - INFO - Processing promotions for Fountain Tire
+2025-12-10 17:34:43,863 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Fountain Tire 3303 97 St NW, Edmonton, AB T6N 1B7, Canada Edmonton Canada
+2025-12-10 17:34:43,926 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Fountain Tire 3303 97 St NW, Edmonton, AB T6N 1B7, Canada
+2025-12-10 17:34:43,927 - app.utils.promo_builder - INFO - Found Google Reviews for Fountain Tire: 4.7
+2025-12-10 17:34:43,927 - app.scrapers.fountain_scraper - INFO - Processing URL: https://www.fountaintire.com/promotions/
+2025-12-10 17:34:43,927 - app.scrapers.fountain_scraper - INFO - Processing https://www.fountaintire.com/promotions/ (text + OCR mode)
+2025-12-10 17:34:43,931 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.fountaintire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:34:47,539 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 450229 chars, 21 images
+2025-12-10 17:34:47,540 - app.scrapers.fountain_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:34:49,761 - app.scrapers.fountain_scraper - INFO - Extracted 3 promo sections from HTML
+2025-12-10 17:34:50,707 - app.scrapers.fountain_scraper - INFO - Found 16 images for OCR processing
+2025-12-10 17:34:50,707 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/media/lmgifatz/12343670_2025_ft_fallpromo_3_web_promo_desktop-mobile_399x250_en.png
+2025-12-10 17:34:51,865 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/media/2625/rebate.png
+2025-12-10 17:34:52,737 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/media/0gglmme2/promotions-page-tile-399x250.png
+2025-12-10 17:34:53,481 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/images/close.svg
+2025-12-10 17:34:54,148 - app.extractors.ocr.ocr_processor - WARNING - Vision API error: Bad image data.
+2025-12-10 17:34:54,149 - app.extractors.ocr.ocr_processor - INFO - Google Vision failed, using Tesseract fallback for close.svg
+2025-12-10 17:34:54,487 - app.extractors.ocr.ocr_processor - ERROR - Tesseract OCR error: cannot identify image file 'C:\\Users\\nandi\\Downloads\\competitorproject-main\\competitorproject-main\\data\\images\\close.svg'
+2025-12-10 17:34:54,496 - app.scrapers.fountain_scraper - INFO - Running OCR on image: https://www.fountaintire.com/images/FT_CartImagery_Empty_Cart.png
+2025-12-10 17:35:00,830 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire sale - NEW
+2025-12-10 17:35:05,320 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tires - UPDATED
+2025-12-10 17:35:09,219 - app.scrapers.fountain_scraper - INFO - Skipping very short text: Deals at Fountain Tire
+2025-12-10 17:35:09,220 - app.scrapers.fountain_scraper - INFO - Processing URL: https://www.fountaintire.com/promotions/tire-rebates/
+2025-12-10 17:35:09,220 - app.scrapers.fountain_scraper - INFO - Processing https://www.fountaintire.com/promotions/tire-rebates/ (text-only mode)
+2025-12-10 17:35:09,222 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.fountaintire.com/promotions/tire-rebates/ with Firecrawl (direct API)
+2025-12-10 17:35:12,902 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 453879 chars, 23 images
+2025-12-10 17:35:12,903 - app.scrapers.fountain_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:35:13,867 - app.scrapers.fountain_scraper - INFO - Extracted 9 promo sections from HTML
+2025-12-10 17:35:19,105 - app.scrapers.fountain_scraper - INFO - Skipping intro text: Put some money back in your pocket by claiming your rebate from the following tire manufacturers: GO
+2025-12-10 17:35:24,951 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:29,382 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:33,567 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:38,015 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:42,696 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:47,255 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:51,835 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:56,332 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:35:56,333 - app.scrapers.fountain_scraper - INFO - Processing URL: https://www.fountaintire.com/promotions/financing/
+2025-12-10 17:35:56,333 - app.scrapers.fountain_scraper - INFO - Processing https://www.fountaintire.com/promotions/financing/ (text-only mode)
+2025-12-10 17:35:56,339 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.fountaintire.com/promotions/financing/ with Firecrawl (direct API)
+2025-12-10 17:35:59,347 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 461489 chars, 20 images
+2025-12-10 17:35:59,350 - app.scrapers.fountain_scraper - INFO - Successfully fetched with Firecrawl
+2025-12-10 17:36:00,136 - app.scrapers.fountain_scraper - INFO - Extracted 3 promo sections from HTML
+2025-12-10 17:36:06,284 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: financing plan - NEW
+2025-12-10 17:36:12,145 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: Tire and Vehicle Maintenance Financing - NEW
+2025-12-10 17:36:18,086 - app.scrapers.fountain_scraper - INFO - [OK] Added promo: financing plan - NEW
+2025-12-10 17:36:18,086 - app.scrapers.fountain_scraper - INFO - Found 13 promotions before grouping, 13 after grouping rebates
+2025-12-10 17:36:18,086 - app.scrapers.fountain_scraper - INFO - Total unique promotions found: 13
+2025-12-10 17:36:18,087 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 13 valid promotions
+2025-12-10 17:36:18,088 - app.scrapers.fountain_scraper - INFO - Saved 13 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\fountain_tire.json
+✅ Fountain Tire: Found 13 promotion(s)
+
+📋 Processing: Speedy Auto Service
+------------------------------------------------------------
+2025-12-10 17:36:18,088 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Speedy Auto Service
+2025-12-10 17:36:18,089 - app.scrapers.speedy_scraper - INFO - Processing promotions for Speedy Auto Service
+2025-12-10 17:36:18,089 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Speedy Auto Service 4521 Gateway Blvd NW, Edmonton, AB T6H 5C3, Canada Edmonton Canada
+2025-12-10 17:36:18,160 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Speedy Auto Service 4521 Gateway Blvd NW, Edmonton, AB T6H 5C3, Canada
+2025-12-10 17:36:18,160 - app.utils.promo_builder - INFO - Found Google Reviews for Speedy Auto Service: 4.5
+2025-12-10 17:36:18,160 - app.scrapers.speedy_scraper - INFO - Fetching https://www.speedy.com/en-ca/promotions/
+2025-12-10 17:36:18,163 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.speedy.com/en-ca/promotions/ with Firecrawl (direct API)
+2025-12-10 17:36:20,114 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 64972 chars, 9 images
+2025-12-10 17:36:20,169 - app.extractors.html_parser - INFO - Found 4 PDF links with images
+2025-12-10 17:36:20,170 - app.scrapers.speedy_scraper - INFO - Found 4 PDF links with images
+2025-12-10 17:36:20,170 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_Brake.pdf
+2025-12-10 17:36:20,170 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:36:20,469 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_Brake-1024x410.png...
+2025-12-10 17:36:21,003 - app.scrapers.speedy_scraper - INFO - OCR extracted 358 characters
+2025-12-10 17:36:25,530 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: brake inspection - NEW
+2025-12-10 17:36:25,530 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_Battery.pdf
+2025-12-10 17:36:25,530 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:36:25,603 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_Battery-1024x410.png...
+2025-12-10 17:36:26,021 - app.scrapers.speedy_scraper - INFO - OCR extracted 374 characters
+2025-12-10 17:36:30,318 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: battery test with oil change - NEW
+2025-12-10 17:36:30,320 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_Exhaust.pdf
+2025-12-10 17:36:30,320 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:36:30,404 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_Exhaust-1024x410.png...
+2025-12-10 17:36:31,101 - app.scrapers.speedy_scraper - INFO - OCR extracted 360 characters
+2025-12-10 17:36:35,785 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: exhaust inspection - NEW
+2025-12-10 17:36:35,785 - app.scrapers.speedy_scraper - INFO - Processing: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_202501_Web_50.pdf
+2025-12-10 17:36:35,786 - app.scrapers.speedy_scraper - INFO - Downloading image: https://www.speedy.com/wp-content/uploads/2025/01/SPEEDY_CAEN_OnlineCoupons_2025...
+2025-12-10 17:36:35,887 - app.scrapers.speedy_scraper - INFO - Running OCR on SPEEDY_CAEN_OnlineCoupons_202501_Web_50-1024x410.png...
+2025-12-10 17:36:36,552 - app.scrapers.speedy_scraper - INFO - OCR extracted 365 characters
+2025-12-10 17:36:42,147 - app.scrapers.speedy_scraper - INFO - [OK] Added promo: brake service - NEW
+2025-12-10 17:36:42,147 - app.scrapers.speedy_scraper - INFO - Total unique promotions found: 4
+2025-12-10 17:36:42,147 - app.utils.extraction_flow - WARNING - Firecrawl extraction found 4 promotions, but none are valid
+2025-12-10 17:36:42,147 - app.utils.extraction_flow - INFO - Checking Speedy Auto Service for promo section: https://www.speedy.com/en-ca/promotions/
+2025-12-10 17:36:42,150 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://www.speedy.com/en-ca/promotions/ with Firecrawl (direct API)
+2025-12-10 17:36:44,037 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 64972 chars, 9 images
+2025-12-10 17:36:44,038 - app.utils.extraction_flow - INFO - Found promo section indicators in https://www.speedy.com/en-ca/promotions/
+2025-12-10 17:36:44,038 - app.utils.extraction_flow - INFO - Promo section exists but no valid promotions extracted, using AI Overview fallback
+2025-12-10 17:36:44,038 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Speedy Auto Service auto service promotions discounts Edmonton Canada
+2025-12-10 17:36:44,104 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Speedy Auto Service auto service promotions discounts
+2025-12-10 17:36:44,105 - app.extractors.serpapi.business_overview_extractor - INFO - Generated fallback promo from AI Overview for Speedy Auto Service
+2025-12-10 17:36:44,105 - app.utils.extraction_flow - INFO - AI Overview fallback successful for Speedy Auto Service
+2025-12-10 17:36:44,108 - app.scrapers.speedy_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\speedy_auto_service.json
+✅ Speedy Auto Service: Found 1 promotion(s)
+
+📋 Processing: Trail Tire Auto Centres
+------------------------------------------------------------
+2025-12-10 17:36:44,110 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Trail Tire Auto Centres
+2025-12-10 17:36:44,110 - app.scrapers.trail_scraper - INFO - Processing promotions for Trail Tire Auto Centres
+2025-12-10 17:36:44,110 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Trail Tire Auto Centres 4717 99 St NW, Edmonton, AB T6E 4Y1, Canada Edmonton Canada
+2025-12-10 17:36:44,170 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Trail Tire Auto Centres 4717 99 St NW, Edmonton, AB T6E 4Y1, Canada
+2025-12-10 17:36:44,170 - app.utils.promo_builder - INFO - Found Google Reviews for Trail Tire Auto Centres: 4.6
+2025-12-10 17:36:44,171 - app.scrapers.trail_scraper - INFO - Fetching https://trailtire.com/promotions/
+2025-12-10 17:36:44,177 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://trailtire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:36:46,350 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 88292 chars, 12 images
+2025-12-10 17:36:46,491 - app.scrapers.trail_scraper - INFO - Found 8 banner images
+2025-12-10 17:36:46,491 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/promotions/...
+2025-12-10 17:36:48,565 - app.extractors.images.image_downloader - WARNING - URL https://trailtire.com/promotions/ doesn't appear to be an image (content-type: text/html; charset=utf-8)
+2025-12-10 17:36:48,565 - app.scrapers.trail_scraper - WARNING - Failed to download image: https://trailtire.com/promotions/
+2025-12-10 17:36:48,565 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/03/5560_Trail-Tire-Rolling-Rebates...
+2025-12-10 17:36:50,896 - app.scrapers.trail_scraper - INFO - Running OCR on 5560_Trail-Tire-Rolling-Rebates_1500x375_2025-09-16_V1.png...
+2025-12-10 17:36:55,391 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tire rebate - NEW
+2025-12-10 17:36:55,391 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/December-21-2025.png...
+2025-12-10 17:36:58,611 - app.scrapers.trail_scraper - INFO - Running OCR on December-21-2025.png...
+2025-12-10 17:37:05,341 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tire purchase - NEW
+2025-12-10 17:37:05,341 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/Kumho-Fall-Rebate.png...
+2025-12-10 17:37:09,473 - app.scrapers.trail_scraper - INFO - Running OCR on Kumho-Fall-Rebate.png...
+2025-12-10 17:37:17,471 - app.scrapers.trail_scraper - INFO - [OK] Added promo: Kumho tire purchase - NEW
+2025-12-10 17:37:17,472 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/5560_Trail-Tire-Toyo-Tire-Rebat...
+2025-12-10 17:37:22,980 - app.scrapers.trail_scraper - INFO - Running OCR on 5560_Trail-Tire-Toyo-Tire-Rebates_2000x630_2025-09-16_V1.png...
+2025-12-10 17:37:28,676 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tires - NEW
+2025-12-10 17:37:28,676 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/Michelin-Rebate.png...
+2025-12-10 17:37:33,972 - app.scrapers.trail_scraper - INFO - Running OCR on Michelin-Rebate.png...
+2025-12-10 17:37:41,705 - app.scrapers.trail_scraper - INFO - [OK] Added promo: tire service - NEW
+2025-12-10 17:37:41,705 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/BFG-Rebate.png...
+2025-12-10 17:37:42,027 - app.extractors.images.image_downloader - ERROR - Error downloading image https://trailtire.com/wp-content/uploads/2025/08/BFG-Rebate.png: HTTPSConnectionPool(host='trailtire.com', port=443): Max retries exceeded with url: /wp-content/uploads/2025/08/BFG-Rebate.png (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x0000024B8B7CBD30>: Failed to establish a new connection: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted'))
+2025-12-10 17:37:42,027 - app.scrapers.trail_scraper - WARNING - Failed to download image: https://trailtire.com/wp-content/uploads/2025/08/BFG-Rebate.png
+2025-12-10 17:37:42,027 - app.scrapers.trail_scraper - INFO - Downloading image: https://trailtire.com/wp-content/uploads/2025/08/Uniroyal-Rebate.png...
+2025-12-10 17:37:44,634 - app.scrapers.trail_scraper - INFO - Running OCR on Uniroyal-Rebate.png...
+2025-12-10 17:37:50,444 - app.scrapers.trail_scraper - INFO - [OK] Added promo: Uniroyal tire purchase - NEW
+2025-12-10 17:37:50,444 - app.scrapers.trail_scraper - INFO - Total unique promotions found: 6
+2025-12-10 17:37:50,444 - app.utils.extraction_flow - WARNING - Firecrawl extraction found 6 promotions, but none are valid
+2025-12-10 17:37:50,445 - app.utils.extraction_flow - INFO - Checking Trail Tire Auto Centres for promo section: https://trailtire.com/promotions/
+2025-12-10 17:37:50,451 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://trailtire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:37:52,771 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 88292 chars, 12 images
+2025-12-10 17:37:52,773 - app.utils.extraction_flow - INFO - Found promo section indicators in https://trailtire.com/promotions/
+2025-12-10 17:37:52,773 - app.utils.extraction_flow - INFO - Promo section exists but no valid promotions extracted, using AI Overview fallback
+2025-12-10 17:37:52,773 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Trail Tire Auto Centres auto service promotions discounts Edmonton Canada
+2025-12-10 17:37:52,835 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Trail Tire Auto Centres auto service promotions discounts
+2025-12-10 17:37:52,836 - app.extractors.serpapi.business_overview_extractor - INFO - Generated fallback promo from AI Overview for Trail Tire Auto Centres
+2025-12-10 17:37:52,836 - app.utils.extraction_flow - INFO - AI Overview fallback successful for Trail Tire Auto Centres
+2025-12-10 17:37:52,837 - app.scrapers.trail_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\trail_tire_auto_centres.json
+✅ Trail Tire Auto Centres: Found 1 promotion(s)
+
+📋 Processing: Integra Tire Auto Centre
+------------------------------------------------------------
+2025-12-10 17:37:52,837 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Integra Tire Auto Centre
+2025-12-10 17:37:52,838 - app.scrapers.integra_scraper - INFO - Processing promotions for Integra Tire Auto Centre
+2025-12-10 17:37:52,838 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Integra Tire Auto Centre 5035 99 St NW, Edmonton, AB T6E 4Y1, Canada Edmonton Canada
+2025-12-10 17:37:52,898 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Integra Tire Auto Centre 5035 99 St NW, Edmonton, AB T6E 4Y1, Canada
+2025-12-10 17:37:52,898 - app.utils.promo_builder - INFO - Found Google Reviews for Integra Tire Auto Centre: 4.7
+2025-12-10 17:37:52,899 - app.scrapers.integra_scraper - INFO - Fetching https://integratire.com/promotions/
+2025-12-10 17:37:52,903 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching https://integratire.com/promotions/ with Firecrawl (direct API)
+2025-12-10 17:37:54,744 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 29589 chars, 17 images
+2025-12-10 17:37:54,780 - app.extractors.html_parser - INFO - Found 16 images using selector 'img.single-rebate'
+2025-12-10 17:37:54,781 - app.scrapers.integra_scraper - INFO - Found 16 rebate images
+2025-12-10 17:37:54,781 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009788-ofn-continental.webp...
+2025-12-10 17:37:56,097 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009788-ofn-continental.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:37:56,377 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009788-ofn-continental.webp...
+2025-12-10 17:38:01,527 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Continental tire rebate - NEW
+2025-12-10 17:38:01,528 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009751-ofn-michelin.webp...
+2025-12-10 17:38:02,386 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009751-ofn-michelin.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:02,673 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009751-ofn-michelin.webp...
+2025-12-10 17:38:07,652 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Michelin tire rebate - NEW
+2025-12-10 17:38:07,653 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009725-ofn-bfgoodrich.webp...
+2025-12-10 17:38:08,537 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009725-ofn-bfgoodrich.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:08,841 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009725-ofn-bfgoodrich.webp...
+2025-12-10 17:38:13,552 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Bfgoodrich Tires - NEW
+2025-12-10 17:38:13,552 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009692-ofn-falken.webp...
+2025-12-10 17:38:14,434 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009692-ofn-falken.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:14,743 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009692-ofn-falken.webp...
+2025-12-10 17:38:19,878 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Falken tire rebate - NEW
+2025-12-10 17:38:19,878 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009679-ofn-firestone.webp...
+2025-12-10 17:38:20,753 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009679-ofn-firestone.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:21,028 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009679-ofn-firestone.webp...
+2025-12-10 17:38:25,585 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Firestone Tire purchase - NEW
+2025-12-10 17:38:25,585 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009652-ofn-general_tire.webp...
+2025-12-10 17:38:26,532 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009652-ofn-general_tire.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:26,948 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009652-ofn-general_tire.webp...
+2025-12-10 17:38:31,666 - app.scrapers.integra_scraper - INFO - [OK] Added promo: General tire rebate - NEW
+2025-12-10 17:38:31,667 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009632-ofn-goodyear.webp...
+2025-12-10 17:38:32,525 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009632-ofn-goodyear.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:32,798 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009632-ofn-goodyear.webp...
+2025-12-10 17:38:33,445 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Goodyear' from image URL: https://media.auto1cloud.com/uploads/st-1764009632-ofn-goodyear.webp
+2025-12-10 17:38:38,213 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Goodyear tire rebate - NEW
+2025-12-10 17:38:38,214 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009538-ofn-hankook.webp...
+2025-12-10 17:38:39,106 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009538-ofn-hankook.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:39,388 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009538-ofn-hankook.webp...
+2025-12-10 17:38:40,086 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Hankook' from image URL: https://media.auto1cloud.com/uploads/st-1764009538-ofn-hankook.webp
+2025-12-10 17:38:44,792 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Hankook tire rebate - NEW
+2025-12-10 17:38:44,792 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009522-ofn-hercules.webp...
+2025-12-10 17:38:45,665 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009522-ofn-hercules.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:45,939 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009522-ofn-hercules.webp...
+2025-12-10 17:38:46,449 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Hercules' from image URL: https://media.auto1cloud.com/uploads/st-1764009522-ofn-hercules.webp
+2025-12-10 17:38:51,622 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Hercules tires - NEW
+2025-12-10 17:38:51,623 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009497-ofn-kumho.webp...
+2025-12-10 17:38:52,473 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009497-ofn-kumho.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:52,767 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009497-ofn-kumho.webp...
+2025-12-10 17:38:58,006 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Kumho tire rebate - NEW
+2025-12-10 17:38:58,007 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009485-ofn-laufenn.webp...
+2025-12-10 17:38:58,879 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009485-ofn-laufenn.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:38:59,167 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009485-ofn-laufenn.webp...
+2025-12-10 17:38:59,785 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Laufenn' from image URL: https://media.auto1cloud.com/uploads/st-1764009485-ofn-laufenn.webp
+2025-12-10 17:39:04,136 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Laufenn tire rebate - NEW
+2025-12-10 17:39:04,136 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009459-ofn-nexen.webp...
+2025-12-10 17:39:05,020 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009459-ofn-nexen.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:39:05,309 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009459-ofn-nexen.webp...
+2025-12-10 17:39:06,238 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Nexen' from image URL: https://media.auto1cloud.com/uploads/st-1764009459-ofn-nexen.webp
+2025-12-10 17:39:11,608 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Nexen tire rebate - NEW
+2025-12-10 17:39:11,609 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009447-ofn-pirelli.webp...
+2025-12-10 17:39:12,404 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009447-ofn-pirelli.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:39:12,666 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009447-ofn-pirelli.webp...
+2025-12-10 17:39:13,054 - app.scrapers.integra_scraper - INFO - Extracted brand name 'Pirelli' from image URL: https://media.auto1cloud.com/uploads/st-1764009447-ofn-pirelli.webp
+2025-12-10 17:39:18,606 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Pirelli tire rebate - NEW
+2025-12-10 17:39:18,606 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009429-ofn-toyo.webp...
+2025-12-10 17:39:19,554 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009429-ofn-toyo.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:39:20,171 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009429-ofn-toyo.webp...
+2025-12-10 17:39:24,937 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Toyo TOYO TIRES - NEW
+2025-12-10 17:39:24,937 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009398-ofn-uniroyal.webp...
+2025-12-10 17:39:25,899 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009398-ofn-uniroyal.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:39:26,503 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009398-ofn-uniroyal.webp...
+2025-12-10 17:39:32,604 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Uniroyal tire rebate - NEW
+2025-12-10 17:39:32,604 - app.scrapers.integra_scraper - INFO - Downloading image: https://media.auto1cloud.com/uploads/st-1764009375-ofn-yokohoma.webp...
+2025-12-10 17:39:33,497 - app.extractors.images.image_downloader - WARNING - URL https://media.auto1cloud.com/uploads/st-1764009375-ofn-yokohoma.webp doesn't appear to be an image (content-type: )
+2025-12-10 17:39:33,795 - app.scrapers.integra_scraper - INFO - Running OCR on st-1764009375-ofn-yokohoma.webp...
+2025-12-10 17:39:39,096 - app.scrapers.integra_scraper - INFO - [OK] Added promo: Yokohama tire rebate - NEW
+2025-12-10 17:39:39,096 - app.scrapers.integra_scraper - INFO - Total unique promotions found: 16
+2025-12-10 17:39:39,097 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 16 valid promotions
+2025-12-10 17:39:39,099 - app.scrapers.integra_scraper - INFO - Saved 16 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\integra_tire_auto_centre.json
+✅ Integra Tire Auto Centre: Found 16 promotion(s)
+
+📋 Processing: Valvoline Express Care
+------------------------------------------------------------
+2025-12-10 17:39:39,100 - app.utils.extraction_flow - INFO - Attempting Firecrawl extraction for Valvoline Express Care
+2025-12-10 17:39:39,100 - app.scrapers.valvoline_scraper - INFO - Processing promotions for Valvoline Express Care
+2025-12-10 17:39:39,101 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Valvoline Express Care 9516 51 Ave NW, Edmonton, AB T6E 5A6, Canada Edmonton Canada
+2025-12-10 17:39:39,189 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Valvoline Express Care 9516 51 Ave NW, Edmonton, AB T6E 5A6, Canada
+2025-12-10 17:39:39,190 - app.utils.promo_builder - INFO - Found Google Reviews for Valvoline Express Care: 4.9
+2025-12-10 17:39:39,191 - app.scrapers.valvoline_scraper - INFO - Fetching http://valvolineedmonton.ca/ with Playwright to detect dynamic popups
+2025-12-10 17:39:39,191 - app.scrapers.valvoline_scraper - INFO - Fetching http://valvolineedmonton.ca/ with Firecrawl
+2025-12-10 17:39:39,204 - app.extractors.firecrawl.firecrawl_client - INFO - Fetching http://valvolineedmonton.ca/ with Firecrawl (direct API)
+2025-12-10 17:39:41,463 - app.extractors.firecrawl.firecrawl_client - INFO - Firecrawl successful: 71880 chars, 7 images
+2025-12-10 17:39:41,539 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-body
+2025-12-10 17:39:41,540 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-body
+2025-12-10 17:39:41,554 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-form
+2025-12-10 17:39:41,555 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: div.af-form
+2025-12-10 17:39:41,611 - app.scrapers.valvoline_scraper - INFO - Found AWeber popup using selector: img[src*='hostedimages']
+2025-12-10 17:39:41,626 - app.scrapers.valvoline_scraper - INFO - Found 5 AWeber popup(s)
+2025-12-10 17:39:41,626 - app.scrapers.valvoline_scraper - INFO - Extracted 0 images from popup
+2025-12-10 17:39:41,627 - app.scrapers.valvoline_scraper - INFO - No images found in popup
+2025-12-10 17:39:41,627 - app.scrapers.valvoline_scraper - INFO - Found image in popup: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:39:41,627 - app.scrapers.valvoline_scraper - INFO - Extracted 1 images from popup
+2025-12-10 17:39:41,627 - app.scrapers.valvoline_scraper - INFO - Processing image: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:39:42,869 - app.scrapers.valvoline_scraper - INFO - OCR text (first 200 chars): V
+EXPRESS CARE QUICKLUBE
+Valvoline
+9516 51 Ave NW, Edmonton, AB | 780.503.3093
+SAVE UP TO $100 ON YOUR VISIT
+Why Choose Valvoline?
+• Free Topup Fluids
+• Tire Pressure Check
+• Battery Inspection
+⚫ Air/
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - [OK] Added promo: oil change - UPDATED
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - Extracted 0 images from popup
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - No images found in popup
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - Found image in popup: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - Extracted 1 images from popup
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - Skipping duplicate image: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - Found image in popup: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:39:48,142 - app.scrapers.valvoline_scraper - INFO - Extracted 1 images from popup
+2025-12-10 17:39:48,143 - app.scrapers.valvoline_scraper - INFO - Skipping duplicate image: https://hostedimages-cdn.aweber-static.com/MjMwNTc2NA==/optimized/5e0cb2d1bf8b45888939db0a9e100847.p
+2025-12-10 17:39:48,143 - app.scrapers.valvoline_scraper - INFO - Total promotions found: 1
+2025-12-10 17:39:48,143 - app.utils.extraction_flow - INFO - Firecrawl extraction successful: Found 1 valid promotions
+2025-12-10 17:39:48,145 - app.scrapers.valvoline_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\valvoline_express_care.json
+✅ Valvoline Express Care: Found 1 promotion(s)
+
+📋 Processing: Mr. Lube
+------------------------------------------------------------
+2025-12-10 17:39:48,146 - app.utils.extraction_flow - INFO - MR LUBE detected: Using AI Overview as primary method (skipping Firecrawl)
+2025-12-10 17:39:48,146 - app.extractors.serpapi.serpapi_client - INFO - Fetching AI Overview for: Mr. Lube auto service promotions discounts Edmonton Canada
+2025-12-10 17:39:48,218 - app.extractors.serpapi.serpapi_client - INFO - Successfully fetched AI Overview for Mr. Lube auto service promotions discounts
+2025-12-10 17:39:48,219 - app.extractors.serpapi.business_overview_extractor - INFO - Generated fallback promo from AI Overview for Mr. Lube
+2025-12-10 17:39:48,221 - app.scrapers.mrlube_scraper - INFO - Saved 1 promotions to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\mr_lube.json
+✅ Mr. Lube: Found 1 promotion(s)
+
+============================================================
+📈 SCRAPING SUMMARY
+============================================================
+   Competitors processed: 10
+   Successful: 10
+   Total promotions: 57
+============================================================
+
+📝 STEP 2: Merging and Writing to Google Sheets
+============================================================
+2025-12-10 17:39:48,265 - app.utils.sheets_merger - INFO - Loaded 13 promotions from fountain_tire.json
+2025-12-10 17:39:48,312 - app.utils.sheets_merger - INFO - Loaded 7 promotions from good_news_auto.json
+2025-12-10 17:39:48,312 - app.utils.sheets_merger - INFO - Loaded 16 promotions from integra_tire_auto_centre.json
+2025-12-10 17:39:48,343 - app.utils.sheets_merger - INFO - Loaded 1 promotions from jiffy_lube.json
+2025-12-10 17:39:48,344 - app.utils.sheets_merger - INFO - Loaded 12 promotions from kal_tire.json
+2025-12-10 17:39:48,373 - app.utils.sheets_merger - INFO - Loaded 168 promotions from merged_promotions.json
+2025-12-10 17:39:48,408 - app.utils.sheets_merger - INFO - Loaded 4 promotions from midas.json
+2025-12-10 17:39:48,441 - app.utils.sheets_merger - INFO - Loaded 1 promotions from mr_lube.json
+2025-12-10 17:39:48,483 - app.utils.sheets_merger - INFO - Loaded 1 promotions from speedy_auto_service.json
+2025-12-10 17:39:48,528 - app.utils.sheets_merger - INFO - Loaded 1 promotions from trail_tire_auto_centres.json
+2025-12-10 17:39:48,561 - app.utils.sheets_merger - INFO - Loaded 1 promotions from valvoline_express_care.json
+2025-12-10 17:39:48,562 - app.utils.sheets_merger - INFO - Total promotions loaded: 225
+2025-12-10 17:39:48,627 - app.utils.sheets_merger - INFO - Deduplicated: 225 -> 177 promotions
+2025-12-10 17:39:52,918 - app.utils.sheets_writer - INFO - Wrote 177 rows to Google Sheets
+2025-12-10 17:39:54,944 - app.utils.sheets_writer - INFO - Applied dashboard formatting to sheet
+2025-12-10 17:39:54,967 - app.utils.sheets_merger - INFO - Saved merged data to C:\Users\nandi\Downloads\competitorproject-main\competitorproject-main\data\promotions\merged_promotions.json
+
+✅ SUCCESS! All promotions merged and written to Google Sheets
+   Check your Google Sheet for the updated dashboard.
+
+============================================================
+✨ Pipeline Complete!
+============================================================
+

@@ -11,7 +11,7 @@ from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.extractors.images.image_downloader import download_image, normalize_url
 from app.config.constants import PROMO_KEYWORDS, DATA_DIR
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback, get_google_reviews_for_competitor
 
 logger = setup_logger(__name__, "kal_scraper.log")
 
@@ -183,6 +183,9 @@ def process_kal_promotions(competitor: Dict) -> List[Dict]:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
 
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
+
     from playwright.sync_api import sync_playwright
 
     all_promos = []
@@ -243,20 +246,31 @@ def process_kal_promotions(competitor: Dict) -> List[Dict]:
 
             # Find tab buttons within the rebates section
             tabs_wrapper = page.query_selector(".rebates-tabs-nav-wrapper")
-            tab_names_to_click = ["Tires", "Wheels", "Services"]
+            tab_names_to_click = ["Tires", "Wheels", "Services", "All", "View All", "See All"]  # Add more variations
             tabs_to_process = []  # Will collect tabs to process
 
             if tabs_wrapper:
                 logger.info("Found tabs navigation, will click through each tab")
-                tab_buttons = tabs_wrapper.query_selector_all("a.content-custom-btn, button, [role='button']")
+                # Get ALL tab buttons, not just specific ones
+                tab_buttons = tabs_wrapper.query_selector_all("a, button, [role='button'], [role='tab'], .content-custom-btn")
 
+                # Extract all unique tab names
+                seen_tab_names = set()
                 for tab_btn in tab_buttons:
-                    tab_text = tab_btn.inner_text().strip()
-                    if tab_text in tab_names_to_click:
-                        tabs_to_process.append(tab_text)
+                    try:
+                        tab_text = tab_btn.inner_text().strip()
+                        # Accept any tab that looks like a category tab (not too long, not empty)
+                        if tab_text and len(tab_text) < 50 and tab_text not in seen_tab_names:
+                            seen_tab_names.add(tab_text)
+                            tabs_to_process.append(tab_text)
+                            logger.info(f"Found tab: {tab_text}")
+                    except Exception as e:
+                        logger.debug(f"Error extracting tab text: {e}")
+                        continue
 
                 # If no tabs found but tabs_wrapper exists, try default view
                 if not tabs_to_process:
+                    logger.info("No tabs extracted, trying default view")
                     tabs_to_process = ["default"]
             else:
                 logger.info("No tabs found, extracting from default view only")
@@ -267,9 +281,23 @@ def process_kal_promotions(competitor: Dict) -> List[Dict]:
                 if tab_label != "default":
                     logger.info(f"Clicking tab: {tab_label}")
                     try:
-                        # Find and click the tab
-                        tab_selector = f".rebates-tabs-nav-wrapper a:has-text('{tab_label}')"
-                        tab_element = page.query_selector(tab_selector)
+                        # Try multiple selectors to find the tab
+                        tab_element = None
+                        selectors = [
+                            f".rebates-tabs-nav-wrapper a:has-text('{tab_label}')",
+                            f".rebates-tabs-nav-wrapper button:has-text('{tab_label}')",
+                            f".rebates-tabs-nav-wrapper [role='tab']:has-text('{tab_label}')",
+                            f"a:has-text('{tab_label}')",
+                            f"button:has-text('{tab_label}')"
+                        ]
+
+                        for selector in selectors:
+                            try:
+                                tab_element = page.query_selector(selector)
+                                if tab_element:
+                                    break
+                            except:
+                                continue
 
                         if tab_element:
                             # Use JavaScript click to avoid navigation issues
@@ -277,11 +305,10 @@ def process_kal_promotions(competitor: Dict) -> List[Dict]:
                             page.wait_for_timeout(3000)  # Wait for content to load
                             logger.info(f"Successfully clicked tab '{tab_label}'")
                         else:
-                            logger.warning(f"Tab '{tab_label}' not found, skipping")
-                            continue
+                            logger.warning(f"Tab '{tab_label}' not found with any selector, trying to extract from current view")
+                            # Don't skip - try to extract from current view anyway
                     except Exception as e:
-                        logger.warning(f"Error clicking tab '{tab_label}': {e}")
-                        continue
+                        logger.warning(f"Error clicking tab '{tab_label}': {e}, continuing with current view")
 
                 # Extract cards from current view IMMEDIATELY (while DOM is valid)
                 cards, card_selector = extract_cards_from_current_view()
@@ -321,11 +348,15 @@ def process_kal_promotions(competitor: Dict) -> List[Dict]:
                             continue
 
                     # Skip if text is too short or doesn't contain promo keywords
-                    if not detect_promo_keywords(card_text, PROMO_KEYWORDS):
-                        # Check if it has discount value or brand
-                        if not extract_discount_value(card_text) and not extract_brand_name(card_text):
-                            logger.info(f"Card doesn't contain promo keywords or relevant data, skipping")
-                            continue
+                    is_promo = detect_promo_keywords(card_text, PROMO_KEYWORDS)
+                    has_discount = extract_discount_value(card_text)
+                    has_brand = extract_brand_name(card_text)
+                    # Also check for common promo words that might not be in PROMO_KEYWORDS
+                    has_promo_words = any(word in card_text.lower() for word in ["rebate", "save", "off", "special", "limited", "promo", "offer"])
+
+                    if not is_promo and not (has_discount or has_brand or has_promo_words):
+                        logger.info(f"Card doesn't contain promo keywords or relevant data, skipping")
+                        continue
 
                     # Extract basic details
                     discount_value = extract_discount_value(card_text)
@@ -397,12 +428,12 @@ def process_kal_promotions(competitor: Dict) -> List[Dict]:
                         offer_details=offer_details,
                         ad_title=promotion_title,
                         ad_text=card_text[:200],
-                        google_reviews=None,
+                        google_reviews=google_reviews,
                         existing_promo=existing_promo
                     )
 
                     all_promos.append(promo)
-                    logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+                    logger.info(f"[OK] Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
 
             browser.close()
 

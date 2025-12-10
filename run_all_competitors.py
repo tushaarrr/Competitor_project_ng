@@ -19,9 +19,18 @@ from app.scrapers.valvoline_scraper import scrape_valvoline
 from app.scrapers.mrlube_scraper import scrape_mrlube
 
 # Fix encoding for Windows console
+# Only wrap if not already wrapped to avoid I/O errors
 if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    try:
+        if not isinstance(sys.stdout, io.TextIOWrapper) or sys.stdout.encoding != 'utf-8':
+            if hasattr(sys.stdout, 'buffer'):
+                sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        if not isinstance(sys.stderr, io.TextIOWrapper) or sys.stderr.encoding != 'utf-8':
+            if hasattr(sys.stderr, 'buffer'):
+                sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except (AttributeError, ValueError, OSError):
+        # If wrapping fails, continue without it
+        pass
 
 logger = setup_logger(__name__)
 
@@ -45,10 +54,16 @@ def load_competitor(name: str) -> dict:
     competitor_file = Path(__file__).parent / "app" / "config" / "competitor_list.json"
     competitors = json.loads(competitor_file.read_text())
 
-    # Find competitor by name (case-insensitive partial match)
+    # More flexible matching
+    name_lower = name.lower().strip()
     for comp in competitors:
-        comp_name = comp.get("name", "").lower()
-        if name.lower() in comp_name or comp_name in name.lower():
+        comp_name = comp.get("name", "").lower().strip()
+        # Check if either name contains the other (with spaces removed for flexibility)
+        name_no_spaces = name_lower.replace(" ", "")
+        comp_no_spaces = comp_name.replace(" ", "")
+
+        if (name_lower in comp_name or comp_name in name_lower or
+            name_no_spaces in comp_no_spaces or comp_no_spaces in name_no_spaces):
             return comp
 
     return None

@@ -1,0 +1,6 @@
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "json" shadows an attribute in parent "BaseModel"; 
+  warnings.warn(
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "schema" shadows an attribute in parent "Format"; 
+  warnings.warn(
+C:\Users\nandi\AppData\Local\Programs\Python\Python310\lib\site-packages\pydantic\_internal\_fields.py:184: UserWarning: Field name "json" shadows an attribute in parent "Document"; 
+  warnings.warn(

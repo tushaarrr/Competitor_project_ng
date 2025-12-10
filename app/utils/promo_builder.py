@@ -146,3 +146,45 @@ def apply_ai_overview_fallback(promos: List[Dict], competitor: Dict) -> List[Dic
 
     return promos
 
+
+def get_google_reviews_for_competitor(competitor: Dict) -> Optional[float]:
+    """
+    Get Google Reviews rating for a competitor using SerpAPI.
+
+    Args:
+        competitor: Competitor data dict
+
+    Returns:
+        Google Reviews rating (float) or None if not found
+    """
+    try:
+        from app.extractors.serpapi.serpapi_client import get_ai_overview, extract_business_info_from_serpapi
+        from app.utils.logging_utils import setup_logger
+
+        logger = setup_logger(__name__)
+
+        business_name = competitor.get("name", "")
+        if not business_name:
+            return None
+
+        # Build search query
+        query = f"{business_name} {competitor.get('address', 'Edmonton')}"
+        location = competitor.get("address", "Edmonton, AB, Canada")
+
+        # Fetch AI Overview (this also gets business info)
+        overview_data = get_ai_overview(query, location)
+        if not overview_data:
+            return None
+
+        full_data = overview_data.get("full_data", {})
+        business_info = extract_business_info_from_serpapi(full_data)
+
+        google_reviews = business_info.get("google_reviews")
+        if google_reviews:
+            logger.info(f"Found Google Reviews for {business_name}: {google_reviews}")
+
+        return google_reviews
+    except Exception as e:
+        # Silently fail - don't break the scraper if Google Reviews fetch fails
+        return None
+

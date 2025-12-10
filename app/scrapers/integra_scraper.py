@@ -13,7 +13,7 @@ from app.extractors.ocr.ocr_processor import ocr_image, detect_promo_keywords
 from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.config.constants import PROMO_KEYWORDS, DATA_DIR
 from app.utils.logging_utils import setup_logger
-from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, apply_ai_overview_fallback, get_google_reviews_for_competitor
 
 logger = setup_logger(__name__, "integra_scraper.log")
 
@@ -96,6 +96,9 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
 
+    # Get Google Reviews once for this competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
+
     all_promos = []
     seen_image_urls = set()
     seen_titles = set()
@@ -168,13 +171,32 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
                     img_path.unlink()
                     continue
 
-            # Step 6: Check if it's promo-related
+            # Step 6: Extract rebate details from text FIRST
+            rebate_details = extract_rebate_details_from_text(ocr_text, alt_text)
+
+            # CRITICAL: Extract brand name from image URL/filename BEFORE promo check
+            # This ensures we can identify rebates even if OCR doesn't contain brand name
+            if not rebate_details.get("brand_name"):
+                # Check image URL/filename for brand names
+                image_url_lower = image_url.lower()
+                tire_brands = [
+                    "michelin", "bridgestone", "goodyear", "continental", "pirelli",
+                    "bfgoodrich", "toyo", "nitto", "hankook", "falken", "kumho",
+                    "yokohama", "dunlop", "firestone", "general", "cooper", "uniroyal",
+                    "hercules", "nexen", "laufenn", "yokohoma"  # Note: yokohoma is a typo in some URLs
+                ]
+                for brand in tire_brands:
+                    if brand in image_url_lower:
+                        rebate_details["brand_name"] = brand.title()
+                        logger.info(f"Extracted brand name '{brand.title()}' from image URL: {image_url[:80]}")
+                        break
+
+            # Step 7: Check if it's promo-related
             # For tire rebates, be more lenient - check if we have brand name, rebate amount, or keywords
             is_promo = detect_promo_keywords(ocr_text, PROMO_KEYWORDS)
-            rebate_details_check = extract_rebate_details_from_text(ocr_text, alt_text)
 
-            # Also consider it a promo if we found rebate amount or brand name
-            if not is_promo and not rebate_details_check.get("rebate_amount") and not rebate_details_check.get("brand_name"):
+            # Also consider it a promo if we found rebate amount or brand name (now includes URL-extracted brands)
+            if not is_promo and not rebate_details.get("rebate_amount") and not rebate_details.get("brand_name"):
                 # Last check: if alt text contains tire brand or rebate keywords
                 alt_lower = alt_text.lower()
                 has_tire_brand = any(brand in alt_lower for brand in ["tire", "bridgestone", "michelin", "goodyear", "bfgoodrich", "continental", "pirelli", "toyo", "falken", "hankook", "kumho", "yokohama", "dunlop", "firestone", "general", "cooper", "uniroyal", "nexen", "hercules"])
@@ -185,18 +207,21 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
                     img_path.unlink()
                     continue
 
-            # Step 7: Extract rebate details from text
-            rebate_details = extract_rebate_details_from_text(ocr_text, alt_text)
-
             # Step 8: Clean with LLM
             context = f"Integra Tire rebate promotion. Alt text: {alt_text}"
             cleaned_data = clean_promo_text_with_llm(ocr_text, context)
 
-            # Build promotion title
-            if cleaned_data and cleaned_data.get("service_name"):
+            # Build promotion title - ALWAYS include brand name if available to avoid deduplication
+            # This ensures each brand rebate (Bridgestone, Michelin, etc.) is treated as unique
+            if rebate_details.get("brand_name"):
+                # Brand name is available - prioritize it in title
+                if cleaned_data and cleaned_data.get("service_name"):
+                    # Combine brand with service name
+                    promotion_title = f"{rebate_details['brand_name']} {cleaned_data.get('service_name')}"
+                else:
+                    promotion_title = f"{rebate_details['brand_name']} Rebate"
+            elif cleaned_data and cleaned_data.get("service_name"):
                 promotion_title = cleaned_data.get("service_name")
-            elif rebate_details.get("brand_name"):
-                promotion_title = f"{rebate_details['brand_name']} Rebate"
             elif alt_text:
                 promotion_title = alt_text[:100]
             else:
@@ -204,19 +229,17 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
                 first_line = ocr_text.split("\n")[0].strip()[:100]
                 promotion_title = first_line if first_line else "Tire Rebate"
 
-            # Normalize title for deduplication
-            normalized_title = normalize_title(promotion_title)
-
-            # Skip if we've seen this title before
-            if normalized_title in seen_titles:
-                logger.info(f"Skipping duplicate title: {promotion_title}")
-                img_path.unlink()
-                continue
-            seen_titles.add(normalized_title)
+            # REMOVED: Title-based deduplication - we already check image URLs at line 138-142
+            # Each unique image URL will create a unique promotion
+            # No need for additional deduplication here since seen_image_urls already handles it
 
             # Use LLM cleaned data if available, otherwise use extracted details
             if cleaned_data:
-                service_name = cleaned_data.get("service_name", rebate_details.get("brand_name", "tires"))
+                # Always prioritize brand name in service_name to make each rebate unique
+                if rebate_details.get("brand_name"):
+                    service_name = f"{rebate_details['brand_name']} {cleaned_data.get('service_name', 'Tire Rebate')}"
+                else:
+                    service_name = cleaned_data.get("service_name", rebate_details.get("brand_name", "tires"))
                 promo_description = cleaned_data.get("promo_description", ocr_text[:500])
                 category = cleaned_data.get("category", "tires")
                 offer_details = cleaned_data.get("offer_details")
@@ -236,7 +259,11 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
                     else:
                         offer_details = ocr_text[:1000]
             else:
-                service_name = rebate_details.get("brand_name", "tires")
+                # If no LLM data, use brand name if available, otherwise generic
+                if rebate_details.get("brand_name"):
+                    service_name = f"{rebate_details['brand_name']} Tire Rebate"
+                else:
+                    service_name = "tires"
                 promo_description = ocr_text[:500]
                 category = "tires"
                 offer_parts = []
@@ -257,6 +284,18 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
             promo_key = f"{promo_url}::{service_name}"
             existing_promo = existing_promos.get(promo_key)
 
+            # Ensure ad_text is never empty (required for validation)
+            # Use alt_text if available, otherwise OCR text, otherwise fallback
+            ad_text_value = alt_text[:200] if alt_text and len(alt_text.strip()) > 0 else (ocr_text[:200] if ocr_text and len(ocr_text.strip()) > 0 else f"{service_name} rebate promotion")
+
+            # Ensure promo_description is never empty
+            if not promo_description or len(promo_description.strip()) == 0:
+                promo_description = f"{service_name} rebate offer" if rebate_details.get("brand_name") else "Tire rebate promotion"
+
+            # Ensure offer_details is never empty
+            if not offer_details or len(offer_details.strip()) == 0:
+                offer_details = ocr_text[:500] if ocr_text and len(ocr_text.strip()) > 0 else f"{service_name} rebate details available"
+
             # Build standardized promo object
             promo = build_standard_promo(
                 competitor=competitor,
@@ -266,13 +305,13 @@ def process_integra_promotions(competitor: Dict) -> List[Dict]:
                 category=category,
                 offer_details=offer_details,
                 ad_title=promotion_title,
-                ad_text=alt_text[:200],
-                google_reviews=None,
+                ad_text=ad_text_value,
+                google_reviews=google_reviews,
                 existing_promo=existing_promo
             )
 
             all_promos.append(promo)
-            logger.info(f"✓ Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
+            logger.info(f"[OK] Added promo: {promo.get('service_name', 'N/A')} - {promo.get('new_or_updated', 'NEW')}")
 
     logger.info(f"Total unique promotions found: {len(all_promos)}")
     return all_promos

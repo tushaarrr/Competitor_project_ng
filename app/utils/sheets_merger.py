@@ -25,8 +25,8 @@ def load_all_promotions() -> List[Dict]:
         logger.warning(f"Promotions directory not found: {PROMOTIONS_DIR}")
         return all_promos
 
-    # Find all JSON files in promotions directory
-    json_files = list(PROMOTIONS_DIR.glob("*.json"))
+    # Find all JSON files in promotions directory (EXCLUDE merged_promotions.json)
+    json_files = [f for f in PROMOTIONS_DIR.glob("*.json") if f.name != "merged_promotions.json"]
 
     for json_file in json_files:
         try:
@@ -46,7 +46,8 @@ def deduplicate_promotions(promos: List[Dict]) -> List[Dict]:
     """
     Deduplicate promotions across all competitors.
 
-    Uses title, discount value, and text similarity.
+    For Fountain Tire, uses specialized deduplication rules.
+    For other competitors, uses title, discount value, and text similarity.
 
     Args:
         promos: List of all promotions
@@ -56,10 +57,54 @@ def deduplicate_promotions(promos: List[Dict]) -> List[Dict]:
     """
     from fuzzywuzzy import fuzz
 
+    # Separate Fountain Tire from other competitors
+    fountain_promos = []
+    other_promos = []
+
+    for promo in promos:
+        business_name = promo.get("business_name", "").lower()
+        if "fountain" in business_name and "tire" in business_name:
+            fountain_promos.append(promo)
+        else:
+            other_promos.append(promo)
+
+    # For Fountain Tire, use the scraper's deduplication (already done in scraper)
+    # But we still need to deduplicate across different runs, so use Fountain Tire rules here too
     deduplicated = []
     seen = []
 
-    for promo in promos:
+    # Process Fountain Tire with specialized rules
+    if fountain_promos:
+        from app.scrapers.fountain_scraper import are_promos_duplicate, normalize_text_for_dedup
+
+        seen_keys = set()
+        for promo in fountain_promos:
+            is_duplicate = False
+
+            # Build composite key
+            service_clean = normalize_text_for_dedup(promo.get("service_name", ""))
+            desc_clean = normalize_text_for_dedup(promo.get("promo_description", ""))
+            offer_clean = normalize_text_for_dedup(promo.get("offer_details", ""))
+            composite_key = service_clean + desc_clean + offer_clean
+
+            # Check against seen Fountain Tire promos
+            for seen_promo in seen:
+                if are_promos_duplicate(promo, seen_promo):
+                    is_duplicate = True
+                    break
+
+            # Check composite key
+            if composite_key and composite_key in seen_keys:
+                is_duplicate = True
+
+            if not is_duplicate:
+                deduplicated.append(promo)
+                seen.append(promo)
+                if composite_key:
+                    seen_keys.add(composite_key)
+
+    # Process other competitors with standard deduplication
+    for promo in other_promos:
         is_duplicate = False
 
         # Create a signature for this promo
