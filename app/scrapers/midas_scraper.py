@@ -10,6 +10,7 @@ from app.extractors.firecrawl.firecrawl_client import fetch_with_firecrawl
 from app.extractors.ocr.llm_cleaner import clean_promo_text_with_llm
 from app.config.constants import DATA_DIR, PROMO_KEYWORDS
 from app.utils.logging_utils import setup_logger
+from app.utils.promo_builder import build_standard_promo, load_existing_promos, get_google_reviews_for_competitor
 
 logger = setup_logger(__name__, "midas_scraper.log")
 
@@ -317,10 +318,84 @@ def extract_promo_blocks(html: str, url: str = "") -> List[Dict]:
     elif "archive" in url.lower():
         logger.info("Extracting promotions from archive page...")
 
-        # Look for featured monthly offers or promo sections
-        # Find headings with promo content
+        # Method 1: Look for featured monthly offers - prioritize large prices ($79, $89, $499, $599)
+        # These typically appear in headings or large text, not fine print
+        large_price_pattern = re.compile(r'\$\s*([7-9]\d{2}|\d{2,3})\b')  # $79, $89, $499, $599, etc.
+
+        # Look for headings or large text elements containing large prices
+        for tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div', 'p']:
+            elements = soup.find_all(tag, string=large_price_pattern)
+            for elem in elements:
+                # Get parent container
+                container = elem.find_parent(['section', 'div', 'article'])
+                if not container:
+                    container = elem.find_parent()
+
+                if container:
+                    text = container.get_text(separator=" ", strip=True)
+
+                    # Must have large price AND promo keywords
+                    has_large_price = bool(large_price_pattern.search(text))
+                    has_promo_keywords = bool(re.search(
+                        r'oil\s+change|tire|brake|buy.*get|free|special|offer|rotation|synthetic|euro|limited|lifetime|rovelo|full\s+stop',
+                        text, re.IGNORECASE
+                    ))
+
+                    # Filter out fine print (mentions shop fee, disposal fee, tax, etc. without main promo)
+                    is_fine_print = bool(re.search(
+                        r'shop\s+fee|disposal\s+fee|plus\s+tax|void\s+where|not\s+valid|limited\s+time\s+offer',
+                        text, re.IGNORECASE
+                    )) and not bool(re.search(r'\$\s*([7-9]\d{2}|\d{2,3})\b', text))  # Has fine print but no large price
+
+                    is_too_long = len(text) > 3000
+                    is_too_short = len(text) < 50
+                    is_generic = any(keyword in text.lower() for keyword in [
+                        "we're in the business", "worry-free", "book online", "rating from reviews",
+                        "why us", "experienced technicians", "unbeatable service", "convenient locations"
+                    ])
+
+                    if has_large_price and has_promo_keywords and not is_fine_print and not is_too_long and not is_too_short and not is_generic:
+                        text_hash = hash(text[:400])
+                        if text_hash not in seen_texts:
+                            seen_texts.add(text_hash)
+                            promo_blocks.append({
+                                "text": text,
+                                "html": str(container)[:2000],
+                                "selector": "archive-large-price"
+                            })
+                            logger.info(f"Found archive promo (large price): {text[:80]}... ({len(text)} chars)")
+
+        # Method 1b: Look for "Buy 3 Get 1 Free" and "Free" offers (may not have large prices)
+        free_offers = soup.find_all(string=re.compile(r'buy\s+\d+\s+get\s+\d+\s+free|buy\s+\d+\s+tires?\s+get\s+\d+\s+free|free\s+tire|free\s+flat', re.IGNORECASE))
+        for free_text in free_offers:
+            container = free_text.find_parent(['section', 'div', 'article'])
+            if not container:
+                container = free_text.find_parent()
+
+            if container:
+                text = container.get_text(separator=" ", strip=True)
+                has_free_keyword = bool(re.search(r'buy.*get.*free|free\s+tire|free\s+flat|free\s+repair', text, re.IGNORECASE))
+                is_too_long = len(text) > 3000
+                is_too_short = len(text) < 50
+                is_generic = any(keyword in text.lower() for keyword in [
+                    "we're in the business", "worry-free", "book online", "rating from reviews"
+                ])
+
+                if has_free_keyword and not is_too_long and not is_too_short and not is_generic:
+                    text_hash = hash(text[:400])
+                    if text_hash not in seen_texts:
+                        seen_texts.add(text_hash)
+                        promo_blocks.append({
+                            "text": text,
+                            "html": str(container)[:2000],
+                            "selector": "archive-free-offer"
+                        })
+                        logger.info(f"Found archive promo (free offer): {text[:80]}... ({len(text)} chars)")
+
+        # Method 2: Look for specific promo headings and their containers
         promo_headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], string=re.compile(
-            r'oil\s+change|tire|brake|buy.*get|free|special|offer|\$\d+', re.IGNORECASE
+            r'oil\s+change|tire|brake|buy.*get|free|special|offer|full\s+stop|rovelo|full\s+synthetic|euro',
+            re.IGNORECASE
         ))
 
         for heading in promo_headings:
@@ -336,10 +411,19 @@ def extract_promo_blocks(html: str, url: str = "") -> List[Dict]:
 
                 # Must have price indicator or promo keyword
                 has_price = bool(re.search(r'\$\d+', text))
-                has_promo = bool(re.search(r'oil\s+change|tire|brake|free|special|offer|buy.*get', text, re.IGNORECASE))
+                has_promo = bool(re.search(
+                    r'oil\s+change|tire|brake|free|special|offer|buy.*get|rovelo|synthetic|euro|limited|lifetime',
+                    text, re.IGNORECASE
+                ))
 
-                if (has_price or has_promo) and 50 < len(text) < 3000:
-                    text_hash = hash(text[:300])
+                # Filter out generic text
+                is_generic = any(keyword in text.lower() for keyword in [
+                    "we're in the business", "worry-free", "book online", "rating from reviews",
+                    "why us", "experienced technicians", "unbeatable service"
+                ])
+
+                if (has_price or has_promo) and 50 < len(text) < 3000 and not is_generic:
+                    text_hash = hash(text[:400])
                     if text_hash not in seen_texts:
                         seen_texts.add(text_hash)
                         promo_blocks.append({
@@ -471,8 +555,31 @@ def extract_brand_name(text: str) -> Optional[str]:
 
 def are_promos_duplicate(promo1: Dict, promo2: Dict) -> bool:
     """Check if two promotions are duplicates - considers discount amount and brand."""
-    discount1 = promo1.get("discount_value", "")
-    discount2 = promo2.get("discount_value", "")
+    # Extract discount from offer_details if discount_value not available
+    discount1 = promo1.get("discount_value") or ""
+    discount2 = promo2.get("discount_value") or ""
+
+    # Try to extract discount from offer_details if not in discount_value
+    if not discount1:
+        offer1 = promo1.get("offer_details", "")
+        discount_match = re.search(r'\$(\d+(?:\.\d+)?)', offer1)
+        if discount_match:
+            discount1 = f"${discount_match.group(1)}"
+
+    if not discount2:
+        offer2 = promo2.get("offer_details", "")
+        discount_match = re.search(r'\$(\d+(?:\.\d+)?)', offer2)
+        if discount_match:
+            discount2 = f"${discount_match.group(1)}"
+
+    # Quick check: same page and same/similar title => treat as duplicate, keep first
+    page1 = promo1.get("page_url", "")
+    page2 = promo2.get("page_url", "")
+    title1_quick = (promo1.get("ad_title") or promo1.get("service_name", "")).lower()
+    title2_quick = (promo2.get("ad_title") or promo2.get("service_name", "")).lower()
+    if page1 == page2 and title1_quick and title2_quick:
+        if fuzz.ratio(title1_quick[:120], title2_quick[:120]) >= 90:
+            return True
 
     # Extract brand names from promo text/description
     promo1_text = (promo1.get("promo_description", "") + " " +
@@ -496,15 +603,15 @@ def are_promos_duplicate(promo1: Dict, promo2: Dict) -> bool:
     # If one has a brand and the other doesn't, they might be different
     if (brand1 and not brand2) or (brand2 and not brand1):
         # Check if the text is very similar (might be same rebate with/without brand mention)
-        title1 = promo1.get("promotion_title", "").lower()
-        title2 = promo2.get("promotion_title", "").lower()
+        title1 = (promo1.get("ad_title") or promo1.get("service_name", "")).lower()
+        title2 = (promo2.get("ad_title") or promo2.get("service_name", "")).lower()
         similarity = fuzz.ratio(title1[:200], title2[:200])
         if similarity < 95:  # Not very similar, likely different
             return False
 
     # Same discount AND same brand (or both no brand) - check if text is very similar
-    title1 = promo1.get("promotion_title", "").lower()
-    title2 = promo2.get("promotion_title", "").lower()
+    title1 = (promo1.get("ad_title") or promo1.get("service_name", "")).lower()
+    title2 = (promo2.get("ad_title") or promo2.get("service_name", "")).lower()
     desc1 = promo1.get("promo_description", "").lower()
     desc2 = promo2.get("promo_description", "").lower()
 
@@ -527,10 +634,17 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
     """Process Midas promotions using text-based HTML extraction."""
     logger.info(f"Processing promotions for {competitor.get('name')}")
 
+    # Get Google Reviews
+    google_reviews = get_google_reviews_for_competitor(competitor)
+
     promo_links = competitor.get("promo_links", [])
     if not promo_links:
         logger.warning(f"No promo_links found for {competitor.get('name')}")
         return []
+
+    # Load existing promos for comparison
+    output_file = PROMOTIONS_DIR / f"{competitor.get('name', 'midas').lower().replace(' ', '_')}.json"
+    existing_promos = load_existing_promos(output_file)
 
     all_promos = []
 
@@ -618,51 +732,40 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
                     promo_description = text[:500]
                     offer_details = text[:1000]
 
-                # Calculate confidence score
-                confidence = 0.7
-                if cleaned_data:
-                    confidence = 0.9
+                # Build offer_details with discount, code, expiry
+                offer_parts = []
                 if discount_value:
-                    confidence += 0.05
+                    offer_parts.append(f"Discount: {discount_value}")
                 if coupon_code:
-                    confidence += 0.05
+                    offer_parts.append(f"Code: {coupon_code}")
                 if expiry_date:
-                    confidence += 0.05
-                confidence = min(confidence, 1.0)
+                    offer_parts.append(f"Expires: {expiry_date}")
 
-                promo = {
-                    "website": competitor.get("domain", ""),
-                    "page_url": promo_url,
-                    "business_name": competitor.get("name", ""),
-                    "google_reviews": None,
-                    "service_name": final_service_name,
-                    "promo_description": promo_description,
-                    "category": service_category,
-                    "contact": competitor.get("address", ""),
-                    "location": competitor.get("address", ""),
-                    "offer_details": offer_details,
-                    "ad_title": promotion_title,
-                    "ad_text": text[:500],
-                    "new_or_updated": "new",
-                    "date_scraped": datetime.now().isoformat(),
-                    "discount_value": discount_value,
-                    "coupon_code": coupon_code,
-                    "expiry_date": expiry_date,
-                    "promotion_title": promotion_title,
-                    "image_url": None,
-                    "service_category": service_category,
-                    "source": "midas_html",
-                    "confidence": {
-                        "overall": confidence,
-                        "fields": {
-                            "promotion_title": 0.8 if cleaned_data else 0.6,
-                            "discount_value": 0.9 if discount_value else 0.0,
-                            "coupon_code": 0.9 if coupon_code else 0.0,
-                            "expiry_date": 0.8 if expiry_date else 0.0,
-                            "service_category": 0.8
-                        }
-                    }
-                }
+                if offer_parts:
+                    final_offer_details = ". ".join(offer_parts) + ". " + (offer_details or text[:500])
+                else:
+                    final_offer_details = offer_details or text[:1000]
+
+                # Ensure ad_text is never empty
+                ad_text_final = text[:500] if text else f"{final_service_name} promotion"
+
+                # Find existing promo for comparison
+                promo_key = f"{promo_url}::{final_service_name}"
+                existing_promo = existing_promos.get(promo_key)
+
+                # Build standardized promo object
+                promo = build_standard_promo(
+                    competitor=competitor,
+                    promo_url=promo_url,
+                    service_name=final_service_name,
+                    promo_description=promo_description,
+                    category=service_category,
+                    offer_details=final_offer_details,
+                    ad_title=promotion_title,
+                    ad_text=ad_text_final,
+                    google_reviews=google_reviews,
+                    existing_promo=existing_promo
+                )
 
                 all_promos.append(promo)
                 logger.info(f"[OK] Added promo: {promotion_title[:50]} - {discount_value or 'N/A'}")
@@ -678,7 +781,9 @@ def process_midas_promotions(competitor: Dict) -> List[Dict]:
         is_duplicate = False
         for existing in deduplicated:
             if are_promos_duplicate(promo, existing):
-                logger.info(f"Removed duplicate: {promo.get('promotion_title')[:50]} (similar to {existing.get('promotion_title')[:50]})")
+                promo_title = promo.get('ad_title') or promo.get('service_name', 'N/A')
+                existing_title = existing.get('ad_title') or existing.get('service_name', 'N/A')
+                logger.info(f"Removed duplicate: {promo_title[:50]} (similar to {existing_title[:50]})")
                 is_duplicate = True
                 break
         if not is_duplicate:

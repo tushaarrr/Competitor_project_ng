@@ -703,6 +703,12 @@ def process_goodnews_promotions(competitor: Dict) -> List[Dict]:
                 else:
                     offer_details = chunk[:1000]
 
+            # Ensure required fields are never empty
+            if not promo_description or not promo_description.strip():
+                promo_description = chunk[:500] or "Auto service promotion"
+            if not offer_details or not offer_details.strip():
+                offer_details = chunk[:1000] or "Auto service offer"
+
             # Load existing promos for comparison
             output_file = PROMOTIONS_DIR / f"{competitor.get('name', 'goodnews').lower().replace(' ', '_')}.json"
             existing_promos = load_existing_promos(output_file)

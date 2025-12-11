@@ -105,7 +105,6 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
 
     all_promos = []
     seen_image_urls = set()
-    seen_titles = set()
     seen_ocr_hashes = set()
     seen_image_hashes = set()
 
@@ -282,16 +281,6 @@ def process_trail_promotions(competitor: Dict) -> List[Dict]:
                 # Extract first meaningful line from OCR
                 lines = [l.strip() for l in ocr_text.split("\n") if l.strip() and len(l.strip()) > 5]
                 promotion_title = lines[0][:100] if lines else "Tire Promotion"
-
-            # Normalize title for deduplication
-            normalized_title = normalize_title(promotion_title)
-
-            # Skip if we've seen this title before
-            if normalized_title in seen_titles:
-                logger.info(f"Skipping duplicate title: {promotion_title}")
-                img_path.unlink()
-                continue
-            seen_titles.add(normalized_title)
 
             # Step 11: Build structured promo dict
             if cleaned_data:

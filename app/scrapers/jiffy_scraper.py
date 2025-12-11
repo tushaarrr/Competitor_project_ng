@@ -453,90 +453,22 @@ def process_jiffy_promotions(competitor: Dict) -> List[Dict]:
 
     # Step 4: Deduplicate using complex rules
     logger.info(f"Found {len(all_promos)} promotions before deduplication")
+    # Light dedup: merge Pennzoil synthetic variants into one
+    merged_promos: List[Dict] = []
+    pennzoil_group: List[Dict] = []
 
-    # Group 1: By discount_value + coupon_code
-    groups_by_discount_code = {}
     for promo in all_promos:
-        key = (promo.get("discount_value") or "none", promo.get("coupon_code") or "none")
-        if key not in groups_by_discount_code:
-            groups_by_discount_code[key] = []
-        groups_by_discount_code[key].append(promo)
-
-    # Select best promo from each discount+code group
-    deduplicated_by_discount_code = []
-    for key, group in groups_by_discount_code.items():
-        if len(group) == 1:
-            deduplicated_by_discount_code.append(group[0])
+        title = (promo.get("ad_title") or promo.get("service_name") or "").lower()
+        if "pennzoil" in title and "oil" in title:
+            pennzoil_group.append(promo)
         else:
-            # Select best promo (most complete info)
-            best = max(group, key=lambda p: (
-                len(p.get("offer_details", "")),
-                len(p.get("promotion_title", "")),
-                bool(p.get("coupon_code")),
-                bool(p.get("expiry_date"))
-            ))
-            deduplicated_by_discount_code.append(best)
-            logger.info(f"Grouped {len(group)} promos by discount+code, kept best")
+            merged_promos.append(promo)
 
-    # Group 2: By normalized title (if no discount/code)
-    groups_by_title = {}
-    for promo in deduplicated_by_discount_code:
-        if not promo.get("discount_value") and not promo.get("coupon_code"):
-            norm_title = promo.get("normalized_title", "")
-            # Skip if normalized title is too short (likely not a real promo)
-            if norm_title and len(norm_title.split()) >= 3:
-                if norm_title not in groups_by_title:
-                    groups_by_title[norm_title] = []
-                groups_by_title[norm_title].append(promo)
-
-    # Select best promo from each title group
-    final_promos = []
-    title_grouped_indices = set()
-
-    for norm_title, group in groups_by_title.items():
-        if len(group) > 1:
-            best = max(group, key=lambda p: (
-                len(p.get("offer_details", "")),
-                len(p.get("promotion_title", "")),
-                bool(p.get("expiry_date"))
-            ))
-            final_promos.append(best)
-            # Mark these for removal from deduplicated list
-            for p in group:
-                if p != best:
-                    title_grouped_indices.add(id(p))
-            logger.info(f"Grouped {len(group)} promos by normalized title, kept best")
-        else:
-            final_promos.append(group[0])
-
-    # Add promos that weren't grouped by title
-    for promo in deduplicated_by_discount_code:
-        if (promo.get("discount_value") or promo.get("coupon_code")) or id(promo) not in title_grouped_indices:
-            if promo not in final_promos:
-                final_promos.append(promo)
-
-    # Final pass: Merge promos with same code but different discounts, and similar titles (60%+ overlap)
-    merged_promos = []
-    processed_indices = set()
-
-    for i, promo1 in enumerate(final_promos):
-        if i in processed_indices:
-            continue
-
-        merged = promo1.copy()
-        processed_indices.add(i)
-
-        # Look for similar promos to merge
-        for j, promo2 in enumerate(final_promos[i+1:], start=i+1):
-            if j in processed_indices:
-                continue
-
-            if are_promos_similar(merged, promo2):
-                merged = merge_promos(merged, promo2)
-                processed_indices.add(j)
-                logger.info(f"Merged similar promos: {merged.get('promotion_title')[:50]} with {promo2.get('promotion_title')[:50]}")
-
-        merged_promos.append(merged)
+    if pennzoil_group:
+        # Choose best info among Pennzoil promos
+        best = max(pennzoil_group, key=lambda p: len(p.get("offer_details", "")))
+        merged_promos.append(best)
+        logger.info(f"Merged {len(pennzoil_group)} Pennzoil oil-change promos, kept best")
 
     logger.info(f"Total unique promotions found: {len(merged_promos)}")
     return merged_promos

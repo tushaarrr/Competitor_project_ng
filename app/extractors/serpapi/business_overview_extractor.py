@@ -39,9 +39,25 @@ def extract_promo_from_ai_overview(competitor: Dict) -> Optional[Dict]:
     ai_overview_text = overview_data.get("ai_overview", "")
     full_data = overview_data.get("full_data", {})
 
-    if not ai_overview_text:
-        logger.warning(f"AI Overview text is empty for {business_name}")
-        return None
+    # If AI Overview text is empty or looks like JSON/dict, try to extract from full_data
+    if not ai_overview_text or ai_overview_text.startswith("{") or ai_overview_text.startswith("'"):
+        # Try to extract from organic results or knowledge graph
+        organic_results = full_data.get("organic_results", [])
+        if organic_results:
+            snippets = [r.get("snippet", "") for r in organic_results[:3] if r.get("snippet")]
+            if snippets:
+                ai_overview_text = " ".join(snippets)
+
+        # If still empty, try knowledge graph
+        if not ai_overview_text:
+            knowledge_graph = full_data.get("knowledge_graph", {})
+            if knowledge_graph:
+                ai_overview_text = knowledge_graph.get("description", "") or knowledge_graph.get("about", {}).get("text", "") if isinstance(knowledge_graph.get("about"), dict) else ""
+
+    # If still no text, use a fallback
+    if not ai_overview_text or ai_overview_text.startswith("{") or ai_overview_text.startswith("'"):
+        logger.warning(f"AI Overview text is empty or invalid for {business_name}, using fallback")
+        ai_overview_text = f"{business_name} is a professional automotive service provider offering oil changes, tire services, and maintenance."
 
     # Extract business info
     business_info = extract_business_info_from_serpapi(full_data)
@@ -53,7 +69,7 @@ def extract_promo_from_ai_overview(competitor: Dict) -> Optional[Dict]:
         "coupon", "rebate", "save", "free", "% off", "$ off"
     ])
 
-    # Build promo_description
+    # Build promo_description - ensure it's clean text
     if has_discounts:
         # Extract discount-related sentences
         sentences = ai_overview_text.split(". ")
@@ -64,9 +80,23 @@ def extract_promo_from_ai_overview(competitor: Dict) -> Optional[Dict]:
         if discount_sentences:
             promo_description = ". ".join(discount_sentences[:3])  # First 3 discount-related sentences
         else:
-            promo_description = ai_overview_text[:500]
+            promo_description = ai_overview_text[:500] if ai_overview_text else f"{business_name} offers professional automotive services."
     else:
-        promo_description = "No active discounts found; highlighting key service benefits."
+        # Try to extract meaningful service description from overview
+        if ai_overview_text and len(ai_overview_text) > 50:
+            # Use first meaningful sentence from overview
+            sentences = ai_overview_text.split(". ")
+            meaningful_sentences = [s.strip() for s in sentences if len(s.strip()) > 20]
+            if meaningful_sentences:
+                promo_description = meaningful_sentences[0][:500]
+            else:
+                promo_description = f"{business_name} offers professional automotive services including oil changes, tire services, and maintenance."
+        else:
+            promo_description = f"{business_name} offers professional automotive services including oil changes, tire services, and maintenance."
+
+    # Clean promo_description - remove any JSON-like structures
+    if promo_description.startswith("{") or promo_description.startswith("'"):
+        promo_description = f"{business_name} offers professional automotive services including oil changes, tire services, and maintenance."
 
     # Extract service_name from overview
     service_keywords = ["oil change", "brake", "tire", "battery", "inspection", "service"]
@@ -89,15 +119,24 @@ def extract_promo_from_ai_overview(competitor: Dict) -> Optional[Dict]:
         if service_sentences:
             offer_details = ". ".join(service_sentences[:5])  # First 5 service-related sentences
         else:
-            offer_details = ai_overview_text[:1000]
+            offer_details = ai_overview_text[:1000] if ai_overview_text else "Professional automotive services including oil changes, tire services, and maintenance."
 
     # Ensure offer_details is a string, not dict or other type
     if not isinstance(offer_details, str):
         offer_details = str(offer_details)[:1000]
 
-    # Build ad_title and ad_text
+    # Clean offer_details - remove any JSON-like structures
+    if offer_details.startswith("{") or offer_details.startswith("'"):
+        # If it looks like JSON/dict, use a fallback
+        offer_details = "Professional automotive services including oil changes, tire services, and maintenance."
+
+    # Build ad_title and ad_text - ensure they're clean text
     ad_title = f"{business_name} Services"
-    ad_text = ai_overview_text[:500]
+    ad_text = ai_overview_text[:500] if ai_overview_text and isinstance(ai_overview_text, str) else f"{business_name} offers professional automotive services including oil changes, tire services, and maintenance."
+
+    # Clean ad_text - remove any JSON-like structures
+    if ad_text.startswith("{") or ad_text.startswith("'"):
+        ad_text = f"{business_name} offers professional automotive services including oil changes, tire services, and maintenance."
 
     # Use business info from SerpAPI or fallback to competitor data
     final_business_name = business_info.get("business_name") or business_name
