@@ -5,6 +5,9 @@ import io
 from pathlib import Path
 from app.utils.logging_utils import setup_logger
 from app.utils.sheets_merger import merge_and_write_to_sheets
+from app.extractors.serpapi.ads_extractor import extract_ads_for_all_competitors
+from app.utils.sheets_writer import write_ads_to_sheets
+from app.config.constants import GOOGLE_SHEETS_ID
 
 # Import all scrapers
 from app.scrapers.goodnews_scraper import scrape_goodnews
@@ -147,6 +150,31 @@ def main():
     else:
         print("\n❌ FAILED to write to Google Sheets")
         print("   Check logs for details.")
+
+    # Step 3: Extract and write Google Ads
+    print("\n📢 STEP 3: Extracting Google Ads")
+    print("=" * 60)
+
+    # Load all competitors
+    competitor_file = Path(__file__).parent / "app" / "config" / "competitor_list.json"
+    all_competitors = json.loads(competitor_file.read_text())
+
+    print(f"   Extracting ads for {len(all_competitors)} competitors...")
+    all_ads = extract_ads_for_all_competitors(all_competitors, limit=2)
+
+    if all_ads:
+        print(f"   Found {len(all_ads)} promotional ads")
+
+        # Write ads to Google Sheets
+        ads_success = write_ads_to_sheets(GOOGLE_SHEETS_ID, all_ads, sheet_name="Advertisements")
+
+        if ads_success:
+            print(f"\n✅ SUCCESS! {len(all_ads)} ads written to 'Advertisements' tab")
+        else:
+            print("\n❌ FAILED to write ads to Google Sheets")
+            print("   Check logs for details.")
+    else:
+        print("\n⚠️  No promotional ads found for any competitor")
 
     print("\n" + "=" * 60)
     print("✨ Pipeline Complete!")

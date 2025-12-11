@@ -62,6 +62,12 @@ def extract_promo_from_ai_overview(competitor: Dict) -> Optional[Dict]:
     # Extract business info
     business_info = extract_business_info_from_serpapi(full_data)
 
+    # Explicitly fetch Google Reviews using the utility function
+    from app.utils.promo_builder import get_google_reviews_for_competitor
+    google_reviews = get_google_reviews_for_competitor(competitor)
+    if google_reviews:
+        business_info["google_reviews"] = google_reviews
+
     # Determine if discounts are mentioned
     overview_lower = ai_overview_text.lower()
     has_discounts = any(keyword in overview_lower for keyword in [
